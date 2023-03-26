@@ -12,12 +12,6 @@ const Home = () => {
             <View className="flex-1">
                 <View className="bg-black rounded-3xl h-[180px] w-[136px]"></View>
             </View>
-            <TouchableOpacity>
-                <Text>Criar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Text>Em Alta</Text>
-            </TouchableOpacity>
         </SafeAreaView>
     )
 }

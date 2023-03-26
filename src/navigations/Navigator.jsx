@@ -11,10 +11,7 @@ const Stack = createStackNavigator();
 function Navigator() {
     return (
         <TailwindProvider>
-            <Stack.Navigator
-                screenOptions={{
-                    
-                }}>
+            <Stack.Navigator>
                 <Stack.Screen
                     name='BottomTab'
                     component={BottomTab}

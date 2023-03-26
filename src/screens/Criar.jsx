@@ -3,7 +3,7 @@ import React from 'react'
 
 const Criar = () => {
   return (
-    <View>
+    <View className="flex-1 bg-white">
       <Text>Criar</Text>
     </View>
   )
