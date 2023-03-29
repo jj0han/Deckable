@@ -15,6 +15,15 @@ function Navigator() {
             <Stack.Navigator screenOptions={{
                 ...TransitionPresets.SlideFromRightIOS,
                 animationEnabled: true,
+                headerShadowVisible: false,
+                headerBackTitle: "Back",
+                headerTitleStyle: {
+                    fontWeight: '900',
+                    color: 'white',
+                },
+                headerStyle: {
+                    backgroundColor: '#292929',
+                }
             }}>
                 <Stack.Screen
                     name='BottomTab'
