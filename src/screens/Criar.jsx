@@ -4,7 +4,7 @@ import React from 'react'
 const Criar = () => {
   return (
     <View className="flex-1 bg-white">
-      <Text>Criar</Text>
+      <Text className="text-black">Criar</Text>
     </View>
   )
 }

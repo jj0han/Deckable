@@ -4,7 +4,7 @@ import React from 'react'
 const EmAlta = () => {
   return (
     <View className="flex-1 bg-white">
-      <Text>EmAlta</Text>
+      <Text className="text-black">EmAlta</Text>
     </View>
   )
 }

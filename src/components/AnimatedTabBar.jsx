@@ -33,6 +33,7 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
 
     return (
         <View className="bg-[#292929] absolute bottom-[10px] left-2 right-2 rounded-[50px] h-[70px]">
+            {console.log(xOffSet)}
             <AnimatedSvg
                 xmlns="http://www.w3.org/2000/svg"
                 width={129}
@@ -51,7 +52,7 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
                         const active = index === activeIndex
                         const { options } = descriptors[route.key]
                         return (
-                            <TabBarComponent key={route.key} name={routes[index].name} options={options} active={active} onPress={() => navigation.navigate(route.name)} onLayout={(e) => handleLayout(e, index)} />
+                            <TabBarComponent key={route.key} name={route.name} options={options} active={active} onPress={() => navigation.navigate(route.name)} onLayout={(e) => handleLayout(e, index)} />
                         )
                     })
                 }

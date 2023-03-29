@@ -5,15 +5,42 @@ import EmAlta from '../screens/EmAlta'
 import Home from '../screens/Home'
 import AnimatedTabBar from '../components/AnimatedTabBar'
 import { Svg, Path } from 'react-native-svg'
+import { Pressable } from 'react-native'
 
 const Tab = createBottomTabNavigator()
 
 export default function BottomTab() {
   return (
     <Tab.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        headerTitleStyle: {
+          fontSize: 20,
+          fontWeight: "bold",
+          padding: 10
+        },
+      }}
       tabBar={(props) => <AnimatedTabBar {...props} />}
     >
       <Tab.Screen name="Home" component={Home} options={{
+        headerRightContainerStyle: {
+          marginRight: 20,
+        },
+        headerRight: () => (
+          <Pressable>
+            <Svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={30}
+              height={30}
+              fill="none"
+            >
+              <Path
+                fill="#292929"
+                d="M2 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm16 16a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V18a2 2 0 0 0-2-2H18zM0 18a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V18zM18 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H18z"
+              />
+            </Svg>
+          </Pressable>
+        ),
         tabBarIcon: ({ ref }) => <Svg
           ref={ref}
           xmlns="http://www.w3.org/2000/svg"
@@ -28,6 +55,7 @@ export default function BottomTab() {
         </Svg>,
       }} />
       <Tab.Screen name="Criar" component={Criar} options={{
+        headerTitleAlign: "center",
         tabBarIcon: ({ ref }) => <Svg
           ref={ref}
           xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +70,7 @@ export default function BottomTab() {
         </Svg>,
       }} />
       <Tab.Screen name="Em Alta" component={EmAlta} options={{
+        headerTitleAlign: "center",
         tabBarIcon: ({ ref }) => <Svg
           ref={ref}
           xmlns="http://www.w3.org/2000/svg"
