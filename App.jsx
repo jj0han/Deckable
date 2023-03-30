@@ -1,12 +1,15 @@
-import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
-import Navigator from './src/navigations/Navigator.jsx'
+import { TailwindProvider } from 'tailwindcss-react-native'
+import { AuthProvider } from './src/context/AuthContext'
+import AppNav from './src/navigations/AppNav'
 
 const App = () => {
     return (
-        <NavigationContainer>
-            <Navigator />
-        </NavigationContainer>
+        <AuthProvider>
+            <TailwindProvider>
+                <AppNav />
+            </TailwindProvider>
+        </AuthProvider>
     )
 }
 

@@ -1,11 +1,11 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Svg, Path } from 'react-native-svg'
+import { Pressable } from 'react-native'
 import Criar from '../screens/Criar'
 import EmAlta from '../screens/EmAlta'
 import Home from '../screens/Home'
 import AnimatedTabBar from '../components/AnimatedTabBar'
-import { Svg, Path } from 'react-native-svg'
-import { Pressable } from 'react-native'
 
 const Tab = createBottomTabNavigator()
 
@@ -24,7 +24,7 @@ export default function BottomTab() {
     >
       <Tab.Screen name="Home" component={Home} options={{
         headerRightContainerStyle: {
-          marginRight: 20,
+          marginRight: 25,
         },
         headerRight: () => (
           <Pressable>
