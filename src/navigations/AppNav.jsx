@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import AppStack from './AppStack'
 import AuthStack from './AuthStack'
 import { AuthContext } from '../context/AuthContext'
-import { View, Text, Image, Pressable, ActivityIndicator } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 
 const AppNav = () => {
     const { isLoading, userToken } = useContext(AuthContext)

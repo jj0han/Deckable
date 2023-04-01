@@ -1,11 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import Form from '../components/Form'
 
 const Cadastrar = () => {
   return (
-    <View>
-      <Text>Cadastrar</Text>
-    </View>
+    <Form type='signup'/>
   )
 }
 

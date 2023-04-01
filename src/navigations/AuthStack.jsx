@@ -13,6 +13,14 @@ const AuthStack = () => {
             screenOptions={{
                 ...TransitionPresets.SlideFromRightIOS,
                 animationEnabled: true,
+                headerShadowVisible: false,
+                headerTransparent: true,
+                gestureEnabled: true,
+                headerTintColor: '#fff',
+                headerStyle: {
+                    backgroundColor: '#292929',
+                },
+                title: false,
             }}>
             <Stack.Screen name='OnBoarding' component={OnBoarding} options={{
                 headerShown: false,

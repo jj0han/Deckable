@@ -9,9 +9,12 @@ const Stack = createStackNavigator();
 function AppStack() {
     return (
         <Stack.Navigator screenOptions={{
-            ...TransitionPresets.SlideFromRightIOS,
+            ...TransitionPresets.ModalPresentationIOS,
             animationEnabled: true,
+            gestureEnabled: true,
+            headerTransparent: false,
             headerShadowVisible: false,
+            headerTintColor: '#fff',
             headerTitleStyle: {
                 fontWeight: '900',
                 color: 'white',

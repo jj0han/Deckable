@@ -1,9 +1,7 @@
-import { View, Text, SafeAreaView, TextInput, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Svg, Path } from 'react-native-svg'
-import LinearGradient
-    from 'react-native-linear-gradient'
 import DeckComponent from '../components/DeckComponent'
 
 const Home = ({ navigation }) => {
@@ -30,8 +28,8 @@ const Home = ({ navigation }) => {
 
     return (
         <SafeAreaView className="bg-white flex-1 px-6 pb-[90px]">
-            <TextInput className="bg-[#F7F7F7] border-[#D7D7D7] border-[1px] my-3 px-4 rounded-full w-full" placeholder='Pesquisar...' placeholderTextColor={"#000"} />
-            <View className="bg-black my-3 px-4 rounded-3xl w-full">
+            <TextInput className="bg-[#F7F7F7] text-black border-[#D7D7D7] border-[1px] my-3 px-4 rounded-full w-full" placeholder='Pesquisar...' placeholderTextColor={"#000"} />
+            <View className="bg-[#292929] my-3 px-4 rounded-3xl w-full">
                 <Text className="font-black my-4 text-xl text-white">Revisar Hoje</Text>
                 <Text className="mb-4 text-white text-base">Você tem 1 revisão marcada para hoje!</Text>
             </View>
