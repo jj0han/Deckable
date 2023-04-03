@@ -1,8 +1,8 @@
-import { View, Text, Button, TouchableOpacity, SafeAreaView,  } from 'react-native'
+import { View, Text, SafeAreaView,  } from 'react-native'
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
-import FormInputs from './FormInputs'
-import FormButton from './FormButton'
+import FormInputs from '../components/FormInputs'
+import FormButton from '../components/FormButton'
 
 const Form = ({ type = "login" }) => {
     const { login, signup } = useContext(AuthContext)

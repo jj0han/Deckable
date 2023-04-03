@@ -13,16 +13,6 @@ export default function BottomTab() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShadowVisible: false,
-        headerTitleStyle: {
-          fontSize: 20,
-          fontWeight: "bold",
-          padding: 10
-        },
-      }}
-      tabBar={(props) => <AnimatedTabBar {...props} />}
-    >
-      <Tab.Screen name="Home" component={Home} options={{
         headerRightContainerStyle: {
           marginRight: 25,
         },
@@ -41,6 +31,16 @@ export default function BottomTab() {
             </Svg>
           </Pressable>
         ),
+        headerShadowVisible: false,
+        headerTitleStyle: {
+          fontSize: 20,
+          fontWeight: "bold",
+          padding: 10
+        },
+      }}
+      tabBar={(props) => <AnimatedTabBar {...props} />}
+    >
+      <Tab.Screen name="Home" component={Home} options={{
         tabBarIcon: ({ ref }) => <Svg
           ref={ref}
           xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,10 @@ export default function BottomTab() {
         </Svg>,
       }} />
       <Tab.Screen name="Criar" component={Criar} options={{
-        headerTitleAlign: "center",
+        headerTintColor: "#fff",
+        headerStyle: {
+          backgroundColor: '#292929',
+        },
         tabBarIcon: ({ ref }) => <Svg
           ref={ref}
           xmlns="http://www.w3.org/2000/svg"
