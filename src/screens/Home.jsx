@@ -1,7 +1,6 @@
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, TextInput } from 'react-native'
 import React, { useEffect } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Svg, Path } from 'react-native-svg'
 import DeckComponent from '../components/DeckComponent'
 import useHeaderRight from '../hooks/useHeaderRight'
 

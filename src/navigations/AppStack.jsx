@@ -3,13 +3,14 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import { View, Text, Image, Pressable } from 'react-native'
 import Configuracoes from '../screens/Configuracoes'
 import BottomTab from './BottomTabNavigator'
+import CriarCarta from '../screens/CriarCarta'
 
 const Stack = createStackNavigator();
 
 function AppStack() {
     return (
         <Stack.Navigator screenOptions={{
-            ...TransitionPresets.ModalPresentationIOS,
+            ...TransitionPresets.SlideFromRightIOS,
             animationEnabled: true,
             gestureEnabled: true,
             headerTransparent: false,
@@ -32,6 +33,14 @@ function AppStack() {
             <Stack.Screen
                 name='Configurações'
                 component={Configuracoes}
+                options={{
+                    headerTitleAlign: 'center',
+                    ...TransitionPresets.ModalPresentationIOS,
+                }}
+            />
+            <Stack.Screen
+                name='Criar Carta'
+                component={CriarCarta}
                 options={{
                     headerTitleAlign: 'center',
                 }}
