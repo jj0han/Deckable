@@ -1,4 +1,4 @@
-import { Text, Pressable, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -12,7 +12,7 @@ const LargeButton = ({ navigation, screen, title, border = false }) => {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0.85, y: 0.85 }}
             />
-            {border ? <View className="absolute bg-[#292929] w-[221px] h-[35px] rounded-md right-[5px] top-[7px]"></View> : ""}
+            {border ? <View className="absolute bg-[#292929] w-[95%] h-[35px] rounded-md right-[2.5%] top-[7px]"></View> : null}
         </TouchableOpacity>
     )
 }

@@ -1,7 +1,7 @@
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
-import Cadastrar from '../screens/Cadastrar'
-import Entrar from '../screens/Entrar'
+import SignUp from '../screens/SignUp'
+import LogIn from '../screens/LogIn'
 import OnBoarding from '../screens/OnBoarding'
 
 const Stack = createStackNavigator()
@@ -25,8 +25,8 @@ const AuthStack = () => {
             <Stack.Screen name='OnBoarding' component={OnBoarding} options={{
                 headerShown: false,
             }} />
-            <Stack.Screen name='Entrar' component={Entrar} />
-            <Stack.Screen name='Cadastrar' component={Cadastrar} />
+            <Stack.Screen name='Entrar' component={LogIn} />
+            <Stack.Screen name='Cadastrar' component={SignUp} />
         </Stack.Navigator>
     )
 }

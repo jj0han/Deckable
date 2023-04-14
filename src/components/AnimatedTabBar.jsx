@@ -32,7 +32,7 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
     })
 
     return (
-        <View className="bg-[#292929] absolute bottom-[10px] left-[24px] right-[24px] rounded-[50px] h-[70px]">
+        <View className="bg-[#292929] absolute bottom-[10px] left-[24px] right-[24px] rounded-3xl h-[70px]">
             {console.log(xOffSet)}
             <AnimatedSvg
                 xmlns="http://www.w3.org/2000/svg"

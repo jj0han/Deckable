@@ -2,14 +2,14 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Svg, Path } from 'react-native-svg'
 import { Pressable } from 'react-native'
-import Criar from '../screens/Criar'
-import EmAlta from '../screens/EmAlta'
+import Create from '../screens/Create'
+import Trending from '../screens/Trending'
 import Home from '../screens/Home'
 import AnimatedTabBar from '../components/AnimatedTabBar'
 
 const Tab = createBottomTabNavigator()
 
-export default function BottomTab() {
+export default function BottomTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -54,7 +54,7 @@ export default function BottomTab() {
           />
         </Svg>,
       }} />
-      <Tab.Screen name="Criar" component={Criar} options={{
+      <Tab.Screen name="Criar" component={Create} options={{
         headerTintColor: "#fff",
         headerStyle: {
           backgroundColor: '#292929',
@@ -72,7 +72,7 @@ export default function BottomTab() {
           />
         </Svg>,
       }} />
-      <Tab.Screen name="Em Alta" component={EmAlta} options={{
+      <Tab.Screen name="Em Alta" component={Trending} options={{
         headerTitleAlign: "center",
         tabBarIcon: ({ ref }) => <Svg
           ref={ref}

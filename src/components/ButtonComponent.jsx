@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 
-const FormButton = ({ title, action }) => {
+const ButtonComponent = ({ title, action }) => {
     return (
         <TouchableOpacity onPress={() => action()} className="w-[70%] max-w-[232px] h-12">
             <Text className="text-white text-xl font-bold text-center absolute z-10 left-0 right-0 top-2">{title}</Text>
@@ -16,4 +16,4 @@ const FormButton = ({ title, action }) => {
     )
 }
 
-export default FormButton
+export default ButtonComponent

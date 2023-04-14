@@ -1,9 +1,8 @@
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
-import { View, Text, Image, Pressable } from 'react-native'
-import Configuracoes from '../screens/Configuracoes'
-import BottomTab from './BottomTabNavigator'
-import CriarCarta from '../screens/CriarCarta'
+import Settings from '../screens/Settings'
+import BottomTabNavigator from './BottomTabNavigator'
+import CreateCard from '../screens/CreateCard'
 
 const Stack = createStackNavigator();
 
@@ -25,14 +24,14 @@ function AppStack() {
             },
         }}>
             <Stack.Screen
-                name='BottomTab'
-                component={BottomTab}
+                name='BottomTabNavigator'
+                component={BottomTabNavigator}
                 options={{
                     headerShown: false,
                 }} />
             <Stack.Screen
                 name='Configurações'
-                component={Configuracoes}
+                component={Settings}
                 options={{
                     headerTitleAlign: 'center',
                     ...TransitionPresets.ModalPresentationIOS,
@@ -40,7 +39,7 @@ function AppStack() {
             />
             <Stack.Screen
                 name='Criar Carta'
-                component={CriarCarta}
+                component={CreateCard}
                 options={{
                     headerTitleAlign: 'center',
                 }}

@@ -2,10 +2,10 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import Form from '../layouts/Form'
 
-const Cadastrar = () => {
+const SignUp = () => {
   return (
     <Form type='signup'/>
   )
 }
 
-export default Cadastrar
+export default SignUp

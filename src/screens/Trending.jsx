@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import React from 'react'
 import useHeaderRight from '../hooks/useHeaderRight'
 
-const EmAlta = ({ navigation }) => {
+const Trending = ({ navigation }) => {
 
   useHeaderRight(navigation, "#292929")
 
@@ -13,4 +13,4 @@ const EmAlta = ({ navigation }) => {
   )
 }
 
-export default EmAlta
+export default Trending

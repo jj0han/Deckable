@@ -1,15 +1,16 @@
-import { View, Text, SafeAreaView,  } from 'react-native'
+import { View, Text } from 'react-native'
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import FormInputs from '../components/FormInputs'
-import FormButton from '../components/FormButton'
+import ButtonComponent from '../components/ButtonComponent'
+import FormBackgroungLayout from './FormBackgroungLayout'
 
 const Form = ({ type = "login" }) => {
     const { login, signup } = useContext(AuthContext)
 
     return (
-        <SafeAreaView className="flex-1 justify-end items-center bg-[#292929]">
-            <View className="items-center mb-16">
+        <FormBackgroungLayout>
+            <View className="items-center top-[-15%]">
                 <Text className="text-white text-5xl font-bold">Deckable</Text>
                 <Text className="text-white text-xl font-extralight">Seu app de revisões</Text>
             </View>
@@ -19,9 +20,9 @@ const Form = ({ type = "login" }) => {
                     <Text className="text-[#666666] text-base font-semibold">Faça ser cadastro para continuar</Text>
                 </View>
                 <FormInputs type={type} />
-                <FormButton title={type === "signup" ? "Cadastrar" : "Entrar"} action={type === "signup" ? signup : login} />
+                <ButtonComponent title={type === "signup" ? "Cadastrar" : "Entrar"} action={type === "signup" ? signup : login} />
             </View>
-        </SafeAreaView>
+        </FormBackgroungLayout>
     )
 }
 
