@@ -14,7 +14,9 @@ const DeckComponent = ({ title, borderColor = "#ffffff" }) => {
             </View>
             <View className="absolute right-0 bottom-0">
                 <CardGradient borderColor={borderColor} />
-                <Text className="absolute text-white text-xl font-bold text-center left-0 right-0 top-[30%] bottom-[40%] px-2">{title}</Text>
+                <View className="absolute h-full w-full p-4 justify-center items-center">
+                    <Text className="text-white text-xl font-bold text-center">{title}</Text>
+                </View>
             </View>
         </View>
     )

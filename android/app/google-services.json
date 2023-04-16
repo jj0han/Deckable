@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "548941474089",
+    "project_id": "deckable-app",
+    "storage_bucket": "deckable-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548941474089:android:a7cb23e0c6b9ff22af6f38",
+        "android_client_info": {
+          "package_name": "com.deckable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548941474089-ncmbcqr970qe3isklr62unpu3vhe27j8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANAr_cWsKiERnD3mnA4dyKKhHQUjGnWds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548941474089-ncmbcqr970qe3isklr62unpu3vhe27j8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

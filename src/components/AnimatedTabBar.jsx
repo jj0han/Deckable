@@ -7,7 +7,6 @@ import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-n
 const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 
 const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, descriptors }) => {
-
     const reducer = (state, action) => {
         return [...state, { x: action.x, index: action.index }]
     }

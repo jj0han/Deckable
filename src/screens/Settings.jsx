@@ -1,21 +1,24 @@
-import { View, Text, Image, Pressable,TouchableOpacity } from 'react-native'
+import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { Path, Svg } from 'react-native-svg'
+import FormLayout from '../layouts/FormLayout'
+import FormBackgroungLayout from '../layouts/FormBackgroungLayout'
 
 const Settings = () => {
-  const { logout } = useContext(AuthContext)
+  const { logout, user } = useContext(AuthContext)
 
   return (
-    <View className="flex-1 items-center bg-[#292929]">
-      <View className="grow-[2]"></View>
-      <View className="bg-white w-full rounded-t-[25px] grow-[1] items-center">
-        <View className="items-center top-[-28%] absolute">
+    <FormBackgroungLayout>
+      <View className="items-center justify-center gap-y-5 grow">
+        <View className="items-center">
           <Text className="text-[20px] text-white">Usuário #1</Text>
-          <Text className="text-[16px] text-white mb-6">usuario@gmail.com</Text>
-          <Image source={require('../assets/images/land.jpg')} className="w-[150px] h-[150px] rounded-full" />
+          <Text className="text-[16px] font-light text-white">{user.email}</Text>
         </View>
-        <View className="gap-10 py-[25%]">
+        <Image source={require('../assets/images/land.jpg')} className="w-[150px] h-[150px] rounded-full" />
+      </View>
+      <FormLayout>
+        <View className="gap-10 ml-[15%]">
           <TouchableOpacity className="flex flex-row items-center">
             <Svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,8 +75,8 @@ const Settings = () => {
             <Text className="text-red-500 text-base ml-2">Sair da conta</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </View>
+      </FormLayout>
+    </FormBackgroungLayout>
   )
 }
 

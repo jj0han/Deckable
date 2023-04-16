@@ -9,7 +9,7 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
         inputAndroid: {
             width: "100%",
             fontSize: 16,
-            color: white ? "#ffffff" : "#666666",
+            color: white ? "#c7c7cd" : "#666666",
             fontWeight: "bold",
         },
     })
@@ -29,6 +29,7 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={placeholder}
+
                 Icon={() => {
                     return <Chevron size={1.5} color="gray" />;
                 }}

@@ -8,22 +8,25 @@ import ButtonComponent from '../components/ButtonComponent'
 
 const CreateCard = () => {
   const [valor, setValor] = useState("")
-  const placeholder = {
-    label: "Selecione...",
-    value: null,
+  const placeholderTipo = { label: "Pergunta e Resposta", value: "QA" }
+  const placeholderDeck = { label: "Selecione...", value: null }
+  const items = {
+    tipos: [
+      
+      { label: "Multipla Escolha", value: "MC" },
+    ],
+    Deck: [
+      { label: "Público", value: "public" }
+    ]
   }
-  const items = [
-    { label: "Público", value: "public" },
-    { label: "Privado", value: "private" },
-  ]
 
   return (
     <FormBackgroungLayout>
       <View className="grow justify-center w-full flex-row p-5">
         <CardGradient borderColor='#292929' />
         <View className="grow p-3">
-          <PickerSelectComponent items={items} setValue={setValor} placeholder={placeholder} label={"Tipo"} white={true} />
-          <PickerSelectComponent items={items} setValue={setValor} placeholder={placeholder} label={"Deck"} white={true} />
+          <PickerSelectComponent items={items.tipos} setValue={setValor} placeholder={placeholderTipo} label={"Tipo"} white={true} />
+          <PickerSelectComponent items={items.Deck} setValue={setValor} placeholder={placeholderDeck} label={"Deck"} white={true} />
         </View>
       </View>
       <FormLayout>
