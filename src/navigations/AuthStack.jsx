@@ -1,8 +1,6 @@
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import React from 'react'
-import SignUp from '../screens/SignUp'
-import LogIn from '../screens/LogIn'
-import OnBoarding from '../screens/OnBoarding'
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
+import { OnBoarding, LogIn, SignUp } from '../screens/authScreens'
 
 const Stack = createStackNavigator()
 

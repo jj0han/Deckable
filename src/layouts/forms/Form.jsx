@@ -1,13 +1,14 @@
-import { View, Text, TextInput } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { AuthContext } from '../context/AuthContext'
-import FormButtonComponent from '../components/FormButtonComponent'
+import { View, Text } from 'react-native'
+import { AuthContext } from '../../context/AuthContext'
+import { FormButtonComponent } from '../../components/buttons'
+import TextInputComponent from '../../components/TextInputComponent'
 import FormBackgroungLayout from './FormBackgroungLayout'
 import FormLayout from './FormLayout'
-import TextInputComponent from '../components/TextInputComponent'
 
 const Form = ({ type = "login" }) => {
     const { login, signup, loginMessages } = useContext(AuthContext)
+    const [userName, setUserName] = useState("")
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [userConfirmPassword, setUserConfirmPassword] = useState("")
@@ -26,15 +27,28 @@ const Form = ({ type = "login" }) => {
                 {loginMessages !== "" ? <Text className="text-red-600">{loginMessages}</Text> : null}
                 <View className="items-center">
                     <View className="items-center w-full py-10 gap-5">
+                        {type === "signup" ?
+                            <View className="w-full">
+                                <TextInputComponent placeholder={"Username"} value={userName} setHandleText={setUserName} />
+                            </View>
+                            :
+                            <Text className="hidden"></Text>
+                        }
                         <View className="w-full">
                             <TextInputComponent placeholder={"Email"} value={userEmail} setHandleText={setUserEmail} />
                         </View>
                         <View className="w-full">
                             <TextInputComponent placeholder={"Password"} value={userPassword} setHandleText={setUserPassword} password={true} />
                         </View>
-                        {type === "signup" ? <View className="w-full"><TextInputComponent placeholder={"Confirm Password"} value={userConfirmPassword} setHandleText={setUserConfirmPassword} password={true} /></View> : <Text></Text>}
+                        {type === "signup" ?
+                            <View className="w-full">
+                                <TextInputComponent placeholder={"Confirm Password"} value={userConfirmPassword} setHandleText={setUserConfirmPassword} password={true} />
+                            </View>
+                            :
+                            <Text className="hidden"></Text>
+                        }
                     </View>
-                    <FormButtonComponent type={type} title={type === "signup" ? "Cadastrar" : "Entrar"} action={type === "signup" ? signup : login} email={userEmail} password={userPassword} confirmPassword={userConfirmPassword} />
+                    <FormButtonComponent type={type} title={type === "signup" ? "Cadastrar" : "Entrar"} action={type === "signup" ? signup : login} userName={userName.trim()} email={userEmail} password={userPassword.trim()} confirmPassword={userConfirmPassword.trim()} />
                 </View>
             </FormLayout>
         </FormBackgroungLayout>

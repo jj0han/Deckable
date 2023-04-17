@@ -1,5 +1,5 @@
-import { TextInput } from 'react-native'
 import React from 'react'
+import { TextInput } from 'react-native'
 
 const TextInputComponent = ({ value, placeholder, setHandleText, password = false }) => {
   return (

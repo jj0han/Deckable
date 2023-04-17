@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loginMessages, setLoginMessages] = useState("")
 
-    const login = async (email, password) => {
+    const login = async (email, password, ...params) => {
         try {
             if (email && password !== "") {
                 await auth().signInWithEmailAndPassword(email, password)
@@ -21,10 +21,13 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const signup = async (email, password) => {
+    const signup = async (email, password, userName) => {
         try {
-            if (email && password !== "") {
-                await auth().createUserWithEmailAndPassword(email, password)
+            if (email && password && userName !== "") {
+                const userCredential = await auth().createUserWithEmailAndPassword(email, password)
+                await userCredential.user.updateProfile({
+                    displayName: userName
+                })
             } else {
                 setLoginMessages("Preencha os campos")
             }

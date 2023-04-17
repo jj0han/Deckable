@@ -1,11 +1,11 @@
 import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Svg, Path } from 'react-native-svg'
 import { Pressable } from 'react-native'
+import { Svg, Path } from 'react-native-svg'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Create from '../screens/Create'
 import Trending from '../screens/Trending'
 import Home from '../screens/Home'
-import AnimatedTabBar from '../components/AnimatedTabBar'
+import { AnimatedTabBar } from '../components/tabBar'
 
 const Tab = createBottomTabNavigator()
 

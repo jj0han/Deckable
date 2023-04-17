@@ -1,5 +1,5 @@
-import { Text, Pressable } from 'react-native'
 import React, { useRef, useEffect } from 'react'
+import { Text, Pressable } from 'react-native'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import LinearGradient from 'react-native-linear-gradient'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 
-const CardGradient = ({ borderColor = "" }) => {
+const CardGradientComponent = ({ borderColor = "" }) => {
     return (
         <LinearGradient
             colors={['#4F6597', '#6E5DAD', '#D442EF']}
@@ -15,4 +15,4 @@ const CardGradient = ({ borderColor = "" }) => {
     )
 }
 
-export default CardGradient
+export default CardGradientComponent

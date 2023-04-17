@@ -1,6 +1,5 @@
-import { View, Text } from 'react-native'
 import React from 'react'
-import Form from '../layouts/Form'
+import { Form } from '../../layouts/forms'
 
 const SignUp = () => {
   return (

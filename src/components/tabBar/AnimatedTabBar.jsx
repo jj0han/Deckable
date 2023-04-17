@@ -1,8 +1,8 @@
-import { View, StyleSheet } from 'react-native'
 import React, { useReducer } from 'react'
+import { View, StyleSheet } from 'react-native'
 import { Svg, Path } from 'react-native-svg'
-import TabBarComponent from './TabBarComponent'
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
+import TabBarComponent from './TabBarComponent'
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 

@@ -1,7 +1,7 @@
-import { View, Text, SafeAreaView, Pressable } from 'react-native'
 import React from 'react'
+import { View, Text, SafeAreaView } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import LargeButton from '../components/LargeButton'
+import { ButtonNavComponent } from '../../components/buttons'
 
 const OnBoarding = ({ navigation }) => {
     return (
@@ -39,9 +39,9 @@ const OnBoarding = ({ navigation }) => {
                     />
                 </View>
             </View>
-            <View className="w-[231px]">
-                <LargeButton navigation={navigation} screen={"Entrar"} title={"Entrar"} />
-                <LargeButton navigation={navigation} screen={"Cadastrar"} title={"Cadastrar"} border={true} />
+            <View className="w-[231px] items-center">
+                <ButtonNavComponent navigation={navigation} screen={"Entrar"} title={"Entrar"} fullWidth={true} />
+                <ButtonNavComponent navigation={navigation} screen={"Cadastrar"} title={"Cadastrar"} border={true} fullWidth={true} />
             </View>
         </SafeAreaView>
     )

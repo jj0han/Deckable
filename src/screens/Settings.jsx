@@ -1,9 +1,8 @@
-import { View, Text, Image, Pressable, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { Path, Svg } from 'react-native-svg'
-import FormLayout from '../layouts/FormLayout'
-import FormBackgroungLayout from '../layouts/FormBackgroungLayout'
+import { AuthContext } from '../context/AuthContext'
+import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
 
 const Settings = () => {
   const { logout, user } = useContext(AuthContext)
@@ -12,14 +11,14 @@ const Settings = () => {
     <FormBackgroungLayout>
       <View className="items-center justify-center gap-y-5 grow">
         <View className="items-center">
-          <Text className="text-[20px] text-white">Usuário #1</Text>
+          <Text className="text-[20px] text-white">{user.displayName}</Text>
           <Text className="text-[16px] font-light text-white">{user.email}</Text>
         </View>
         <Image source={require('../assets/images/land.jpg')} className="w-[150px] h-[150px] rounded-full" />
       </View>
       <FormLayout>
-        <View className="gap-10 ml-[15%]">
-          <TouchableOpacity className="flex flex-row items-center">
+        <View className="gap-y-10">
+          <TouchableOpacity className="flex flex-row items-center gap-x-10 p-5">
             <Svg
               xmlns="http://www.w3.org/2000/svg"
               width={16}
@@ -31,9 +30,9 @@ const Settings = () => {
                 d="M12.578.583a.788.788 0 0 0-.56.232l-1.351 1.352 3.166 3.166 1.352-1.351a.79.79 0 0 0 0-1.12L13.137.815a.788.788 0 0 0-.56-.232zM9.479 3.354.375 12.458v3.167h3.167l9.104-9.104-3.167-3.167z"
               />
             </Svg>
-            <Text className="text-black text-base ml-3">Alterar nome de usuário</Text>
+            <Text className="text-black text-base">Alterar nome de usuário</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex flex-row items-center">
+          <TouchableOpacity className="flex flex-row items-center gap-x-10 p-5">
             <Svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -48,7 +47,7 @@ const Settings = () => {
             </Svg>
             <Text className="text-black text-base ml-2">Alterar foto de usuário</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex flex-row items-center">
+          <TouchableOpacity className="flex flex-row items-center gap-x-10 p-5">
             <Svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}
@@ -59,7 +58,7 @@ const Settings = () => {
             </Svg>
             <Text className="text-black text-base ml-2">Alternar Tema do Aplicativo</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => logout()} className="flex flex-row items-center" >
+          <TouchableOpacity onPress={() => logout()} className="flex flex-row items-center gap-x-10 p-5" >
             <Svg
               xmlns="http://www.w3.org/2000/svg"
               width={20}

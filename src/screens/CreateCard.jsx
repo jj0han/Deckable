@@ -1,10 +1,9 @@
-import { View } from 'react-native'
 import React, { useState } from 'react'
-import FormBackgroungLayout from '../layouts/FormBackgroungLayout'
-import FormLayout from '../layouts/FormLayout'
-import CardGradient from '../layouts/CardGradient'
+import { View } from 'react-native'
+import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
+import CardGradient from '../components/CardGradientComponent'
 import PickerSelectComponent from '../components/PickerSelectComponent'
-import ButtonComponent from '../components/ButtonComponent'
+import { ButtonComponent } from '../components/buttons'
 
 const CreateCard = () => {
   const [valor, setValor] = useState("")
