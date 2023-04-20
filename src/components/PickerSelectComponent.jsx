@@ -1,9 +1,9 @@
+import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import RNPickerSelect from "react-native-picker-select"
 import { Chevron } from 'react-native-shapes'
-import React from 'react'
 
-const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label = "Label", white = false }) => {
+const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label = "Label", white = false, disabled = false }) => {
 
     const pickerSelectStyles = StyleSheet.create({
         inputAndroid: {
@@ -16,7 +16,7 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
 
     return (
         <>
-            <Text className="font-bold text-base" style={{color: white ? "#ffffff" : "#000000"}}>{label}</Text>
+            <Text className="font-bold text-base ml-[2px]" style={{color: white ? "#ffffff" : "#000000"}}>{label}</Text>
             <RNPickerSelect
                 onValueChange={(value) => setValue(value)}
                 items={items}
@@ -29,7 +29,7 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={placeholder}
-
+                disabled={disabled}
                 Icon={() => {
                     return <Chevron size={1.5} color="gray" />;
                 }}
@@ -37,7 +37,5 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
         </>
     )
 }
-
-
 
 export default PickerSelectComponent

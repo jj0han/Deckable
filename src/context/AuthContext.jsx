@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import auth from '@react-native-firebase/auth'
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { Alert } from 'react-native'
 
 export const AuthContext = createContext()
@@ -8,6 +9,30 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [user, setUser] = useState(null)
     const [loginMessages, setLoginMessages] = useState("")
+
+    GoogleSignin.configure({
+        webClientId: '548941474089-lcffm40ou7ripufhf4v6pp6j753s8tk3.apps.googleusercontent.com',
+    })
+
+    const signInWithGoogle = async () => {
+        try {
+            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+            const { idToken } = await GoogleSignin.signIn({ prompt: 'select_account' })
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken)
+            auth().signInWithCredential(googleCredential)
+        } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                console.log("user cancelled the login flow")
+              } else if (error.code === statusCodes.IN_PROGRESS) {
+                console.log("operation (e.g. sign in) is in progress already")
+              } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                console.log("play services not available or outdated")
+              } else {
+                console.log(error)
+              }
+            setLoginMessages("Serviço não disponível.")
+        }
+    }
 
     const login = async (email, password, ...params) => {
         try {
@@ -46,6 +71,8 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await auth().signOut()
+            await GoogleSignin.revokeAccess()
+            await GoogleSignin.signOut()
         } catch (e) {
             Alert.alert('Something went wrong', 'Please try again later', [
                 {
@@ -59,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages }}>
+        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages, signInWithGoogle }}>
             {children}
         </AuthContext.Provider>
     )

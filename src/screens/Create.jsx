@@ -10,13 +10,21 @@ import TextInputComponent from '../components/TextInputComponent'
 const Create = ({ navigation }) => {
   const [deckTitle, setDeckTitle] = useState("")
   const [valor, setValor] = useState("")
-  const placeholder = {
+  const visibilityPlaceholder = {
     label: "Selecione...",
     value: null,
   }
-  const items = [
-    { label: "Público", value: "public" },
-    { label: "Privado", value: "private" },
+  const typePlaceholder = {
+    label: "Selecione...",
+    value: null,
+  }
+  const visibilityItems = [
+    { label: "Todos", value: "public" },
+    { label: "Somente eu", value: "private" },
+  ]
+  const typeItems = [
+    { label: "Genérico", value: "generic" },
+    { label: "Idiomas", value: "languages" },
   ]
 
   useHeaderRight(navigation, "#ffffff")
@@ -30,7 +38,10 @@ const Create = ({ navigation }) => {
         <View className="w-full mb-5">
           <TextInputComponent value={deckTitle} setHandleText={setDeckTitle} placeholder={"Digite um nome"} />
           <View className="w-full px-4 mt-4">
-            <PickerSelectComponent items={items} setValue={setValor} placeholder={placeholder} label={"Visibilidade"} />
+            <PickerSelectComponent items={visibilityItems} setValue={setValor} placeholder={visibilityPlaceholder} label={"Quem vai poder ver meu Deck?"} />
+          </View>
+          <View className="w-full px-4 mt-4">
+            <PickerSelectComponent items={typeItems} setValue={setValor} placeholder={typePlaceholder} label={"Meu Deck vai ser sobre..."} />
           </View>
         </View>
         <View className="w-full items-center">
