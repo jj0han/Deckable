@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient'
 const FormButtonComponent = ({ type, title, action, email, password, confirmPassword, userName }) => {
 
     return (
-        <TouchableOpacity onPress={() => action(email, password, userName)} className="w-[70%] h-12">
+        <TouchableOpacity onPress={action} className="w-[70%] h-12">
             <Text className="text-white text-xl font-bold text-center absolute z-10 left-0 right-0 top-2">{title}</Text>
             <LinearGradient
                 colors={['#4F6597', '#6E5DAD', '#D442EF']}

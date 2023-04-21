@@ -4,12 +4,10 @@ import RNPickerSelect from "react-native-picker-select"
 import { Chevron } from 'react-native-shapes'
 
 const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label = "Label", white = false, disabled = false }) => {
-
     const pickerSelectStyles = StyleSheet.create({
         inputAndroid: {
             width: "100%",
             fontSize: 16,
-            color: white ? "#c7c7cd" : "#666666",
             fontWeight: "bold",
         },
     })
@@ -26,9 +24,13 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
                         top: 20,
                         right: 12,
                     },
+                    viewContainer: {
+                        
+                    }
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={placeholder}
+                placeholderTextColor="red"
                 disabled={disabled}
                 Icon={() => {
                     return <Chevron size={1.5} color="gray" />;

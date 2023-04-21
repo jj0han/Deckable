@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Svg, Path } from 'react-native-svg'
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
@@ -27,7 +27,6 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
         return {
             transform: [{ translateX: withTiming(xOffSet.value, { duration: 250 }) }],
         }
-
     })
 
     return (

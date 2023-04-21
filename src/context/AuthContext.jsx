@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
               } else {
                 console.log(error)
               }
-            setLoginMessages("Serviço não disponível.")
+            setLoginMessages("Serviço não disponível, verifique sua conexão")
         }
     }
 
@@ -71,8 +71,10 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await auth().signOut()
-            await GoogleSignin.revokeAccess()
-            await GoogleSignin.signOut()
+            if(await GoogleSignin.isSignedIn()) {
+                await GoogleSignin.revokeAccess()
+                await GoogleSignin.signOut()
+            }
         } catch (e) {
             Alert.alert('Something went wrong', 'Please try again later', [
                 {

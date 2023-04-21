@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { View, Text, Image, TouchableOpacity, Button } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import auth from '@react-native-firebase/auth'
 import { Path, Svg } from 'react-native-svg'
 import Dialog from "react-native-dialog"
 import { AuthContext } from '../context/AuthContext'
 import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
+import { ChangeUserNameDialog, ConfirmDialog } from '../components/dialogs'
 
 const Settings = () => {
   const { logout, user } = useContext(AuthContext)
   const date = new Date(user.metadata.creationTime)
   const [visible, setVisible] = useState(false)
+  const [showLogOut, setShowLogOut] = useState(false)
   const [showError, setShowError] = useState(false)
   const [userName, setUserName] = useState(auth().currentUser.displayName)
   const [newUserName, setNewUserName] = useState("")
@@ -22,31 +24,34 @@ const Settings = () => {
 
   const handleCancel = () => {
     setVisible(false)
+    setShowLogOut(false)
   }
 
-  const handleChangeUserName = (newUserName) => {
-    if (newUserName.trim() !== "") {
-      auth().currentUser.updateProfile({
-        displayName: newUserName.trim(),
-      })
-      setVisible(false)
-      setShowError(false)
-      setUserName(newUserName.trim())
-      setNewUserName("")
-    } else {
-      setShowError(true)
-    }
+  const logOutDialogue = () => {
+    setShowLogOut(true)
   }
 
   return (
     <>
-      <Dialog.Container visible={visible} onBackdropPress={handleCancel} headerStyle={{ alignItems: "center" }} contentStyle={{ borderRadius: 25, backgroundColor: "#292929" }} footerStyle={{ justifyContent: "space-around" }} >
-        <Dialog.Title><Text className="font-semibold">Alterar nome de Usuário</Text></Dialog.Title>
-        <Dialog.Input onChange={(e) => setNewUserName(e.nativeEvent.text)} value={newUserName} placeholder='' wrapperStyle={{ paddingHorizontal: 10, }} />
-        {showError && <Dialog.Description><Text className="font-medium text-red-500">Digite um nome válido!</Text></Dialog.Description>}
-        <Dialog.Button label="Cancelar" onPress={handleCancel} bold={true} color={"#6E5DAD"} />
-        <Dialog.Button label="Salvar" onPress={() => handleChangeUserName(newUserName)} bold={true} color={"#6E5DAD"} />
-      </Dialog.Container>
+      <ChangeUserNameDialog
+        title={'Alterar nome de Usuário'}
+        visible={visible}
+        setVisible={setVisible}
+        showError={showError}
+        setShowError={setShowError}
+        handleCancel={handleCancel}
+        errorMessage={'Digite um nome válido!'}
+        newUserName={newUserName}
+        setNewUserName={setNewUserName}
+        setUserName={setUserName}
+      />
+
+      <ConfirmDialog
+        title={'Deseja mesmo sair?'}
+        visible={showLogOut}
+        handleCancel={handleCancel}
+        action={logout}
+      />
 
       <FormBackgroungLayout>
         <View className="items-center justify-center gap-y-5 grow">
@@ -99,7 +104,7 @@ const Settings = () => {
               </Svg>
               <Text className="text-black text-base ml-2">Alternar Tema do Aplicativo</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => logout()} className="flex flex-row items-center gap-x-10 p-5" >
+            <TouchableOpacity onPress={() => logOutDialogue()} className="flex flex-row items-center gap-x-10 p-5" >
               <Svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={20}

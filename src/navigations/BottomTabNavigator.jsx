@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Pressable } from 'react-native'
 import { Svg, Path } from 'react-native-svg'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
