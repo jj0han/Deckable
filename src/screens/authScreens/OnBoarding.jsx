@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, SafeAreaView } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { ButtonNavComponent } from '../../components/buttons'
+import { ButtonNavComponent } from '../../components'
 
 const OnBoarding = ({ navigation }) => {
     return (

@@ -1,11 +1,32 @@
 import { View, Text, SafeAreaView, TextInput, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
-import DeckComponent from '../components/DeckComponent'
+import React, { useEffect, useState } from 'react'
 import useHeaderRight from '../hooks/useHeaderRight'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
+import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
+import { DeckComponent } from '../components'
+import { useIsFocused } from '@react-navigation/native'
 
 const Home = ({ navigation }) => {
-
+    // const { readUserData } = useContext(AuthContext)
+    const [userDecks, setUserDecks] = useState([{}])
+    const isFocused = useIsFocused()
     useHeaderRight(navigation, "#292929")
+
+    useEffect(() => {
+        if(isFocused) {
+            firestore().collection('decks').where("uid", "==", auth().currentUser.uid).orderBy("createdAt").get().then((data) => {
+                setUserDecks(data.docs.map((deck) => {
+                    return deck.data()
+                }))
+            })
+        }
+    }, [isFocused])
+
+    console.log(userDecks)
+
+    const render = userDecks.map((deck) => <DeckComponent key={deck.id} title={deck.name} navigate={navigation.navigate} params={deck} screen={"Ver Deck"} />)
 
     return (
         <SafeAreaView className="bg-white flex-1 px-6 pb-[90px]">
@@ -15,15 +36,8 @@ const Home = ({ navigation }) => {
                 <Text className="mb-4 text-white text-base">Você tem 1 revisão marcada para hoje!</Text>
             </View>
             <ScrollView>
-                <View className="flex-wrap flex-row justify-around">
-                    <DeckComponent title={"Deck Genérico"} />
-                    <DeckComponent title={"Deck Genérico"} />
-                    <DeckComponent title={"Deck Genérico"} />
-                    <DeckComponent title={"Deck Genérico"} />
-                    <DeckComponent title={"Deck Genérico"} />
-                    <DeckComponent title={"Deck Genérico"} />
-                    <DeckComponent title={"Deck Genérico"} />
-                    <DeckComponent title={"Deck Genérico"} />
+                <View className="flex-wrap flex-row justify-start">
+                    {render}
                 </View>
             </ScrollView>
         </SafeAreaView>

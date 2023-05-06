@@ -5,7 +5,7 @@ import { Path, Svg } from 'react-native-svg'
 import Dialog from "react-native-dialog"
 import { AuthContext } from '../context/AuthContext'
 import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
-import { ChangeUserNameDialog, ConfirmDialog } from '../components/dialogs'
+import { ChangeUserNameDialog, ConfirmDialog } from '../components'
 
 const Settings = () => {
   const { logout, user } = useContext(AuthContext)

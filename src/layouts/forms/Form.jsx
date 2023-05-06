@@ -2,11 +2,9 @@ import React, { useContext, useState } from 'react'
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
 import { useFormik } from 'formik'
-import { FormButtonComponent } from '../../components/buttons'
 import { Google } from '../../assets/images/svgs'
-import { FormikInputComponent } from '../../components/inputs'
-import FormBackgroungLayout from './FormBackgroungLayout'
-import FormLayout from './FormLayout'
+import { FormBackgroungLayout, FormLayout } from '../forms'
+import { FormButtonComponent, FormikInputComponent } from '../../components'
 
 const Form = ({ type = "login" }) => {
     const { login, signup, loginMessages, signInWithGoogle } = useContext(AuthContext)

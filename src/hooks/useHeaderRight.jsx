@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
-import { Path, Svg } from 'react-native-svg';
+import { TouchableOpacity } from 'react-native'
+import { Path, Svg } from 'react-native-svg'
 
 const useHeaderRight = (navigation, color = "#292929") => {
     useEffect(() => {
@@ -21,7 +21,7 @@ const useHeaderRight = (navigation, color = "#292929") => {
                 </TouchableOpacity>
             ),
         });
-    }, [navigation]);
+    }, [navigation])
 }
 
 export default useHeaderRight

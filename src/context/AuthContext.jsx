@@ -1,7 +1,9 @@
 import React, { createContext, useState } from 'react'
-import auth from '@react-native-firebase/auth'
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 import { Alert } from 'react-native'
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
+import uuid from 'react-native-uuid'
 
 export const AuthContext = createContext()
 
@@ -23,13 +25,13 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 console.log("user cancelled the login flow")
-              } else if (error.code === statusCodes.IN_PROGRESS) {
+            } else if (error.code === statusCodes.IN_PROGRESS) {
                 console.log("operation (e.g. sign in) is in progress already")
-              } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 console.log("play services not available or outdated")
-              } else {
+            } else {
                 console.log(error)
-              }
+            }
             setLoginMessages("Serviço não disponível, verifique sua conexão")
         }
     }
@@ -71,7 +73,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await auth().signOut()
-            if(await GoogleSignin.isSignedIn()) {
+            if (await GoogleSignin.isSignedIn()) {
                 await GoogleSignin.revokeAccess()
                 await GoogleSignin.signOut()
             }
@@ -87,8 +89,59 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const readUserData = async () => await firestore().collection('decks').get()
+
+    const addUserDeck = async (name, visibility, type) => {
+        const generatedID = uuid.v4()
+        await firestore()
+            .collection('decks')
+            .doc(generatedID)
+            .set(
+                {
+                    id: generatedID,
+                    uid: auth().currentUser.uid,
+                    name: name,
+                    visibility: visibility,
+                    type: type,
+                    createdAt: Date.now(),
+                    cards: [],
+                }
+            )
+            .then(() => {
+                console.log('User added!')
+            })
+    }
+
+    const addQACard = async (question, answer, type, deckID) => {
+        await firestore()
+            .collection('decks')
+            .doc(`${deckID}/deck/cards`)
+            .add({
+                card: {
+                    id: uuid.v4(),
+                    uid: auth().currentUser.uid,
+                    visibility: visibility,
+                    type: type,
+                    createdAt: Date.now(),
+                }
+            })
+            .then(() => {
+                console.log('User added!')
+            })
+    }
+
+    const removeUserDeck = async (id) => {
+        await firestore()
+            .collection('decks')
+            .doc(id)
+            .delete()
+            .then(() => {
+                console.log('User added!')
+            })
+    }
+
     return (
-        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages, signInWithGoogle }}>
+        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages, signInWithGoogle, readUserData, addUserDeck, removeUserDeck }}>
             {children}
         </AuthContext.Provider>
     )

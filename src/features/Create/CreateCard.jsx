@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, SafeAreaView } from 'react-native'
-import { TabActions } from '@react-navigation/native';
-import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
-import CardGradient from '../components/CardGradientComponent'
-import { ButtonComponent } from '../components/buttons'
-import QAComponent from '../components/cardTypes/QAComponent'
-import { PickerSelectComponent } from '../components/inputs';
+import { View, SafeAreaView } from 'react-native'
+import { TabActions } from '@react-navigation/native'
+import { FormBackgroungLayout, FormLayout } from '../../layouts/forms'
+import { BasicComponent, ButtonComponent, CardGradientComponent, PickerSelectComponent, QAComponent } from '../../components'
 
 const CreateCard = ({ navigation }) => {
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
-  const [type, setType] = useState("QA")
-  const typePlaceholder = { label: "Pergunta e Resposta", value: "QA" }
+  const [type, setType] = useState("BSC")
+  const typePlaceholder = { label: "Básico", value: "BSC" }
   const items = {
     types: [
-      { label: "Multipla Escolha", value: "MC" },
+      { label: "Pergunta e Resposta", value: "QA" },
     ],
   }
 
@@ -26,14 +23,14 @@ const CreateCard = ({ navigation }) => {
   return (
     <FormBackgroungLayout>
       <View className="justify-center w-full flex-row p-5">
-        <CardGradient borderColor='#292929' />
+        <CardGradientComponent borderColor='#292929' />
         <View className="grow p-3">
           <PickerSelectComponent items={items.types} setValue={setType} placeholder={typePlaceholder} label={"Tipo do Card"} white={true} />
         </View>
       </View>
       <FormLayout grow={1} >
         <SafeAreaView style={{ flex: 1 }} behavior='height'>
-          {type === "QA" ? <QAComponent question={question} setQuestion={setQuestion} answer={answer} setAnswer={setAnswer} /> : <Text></Text>}
+          {type === "QA" ? <QAComponent question={question} setQuestion={setQuestion} answer={answer} setAnswer={setAnswer} /> : <BasicComponent question={question} setQuestion={setQuestion} />}
           <View className="w-full items-center">
             <ButtonComponent title={"Adicionar carta"} />
           </View>

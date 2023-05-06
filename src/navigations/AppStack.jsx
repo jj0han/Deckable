@@ -1,8 +1,9 @@
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
-import Settings from '../screens/Settings'
-import BottomTabNavigator from './BottomTabNavigator'
-import CreateCard from '../screens/CreateCard'
+import { BottomTabNavigator } from '../navigations';
+import { Settings } from '../screens';
+import { CreateCard } from '../features';
+import ViewDeck from '../features/Home/ViewDeck';
 
 const Stack = createStackNavigator();
 
@@ -15,12 +16,19 @@ function AppStack() {
             headerTransparent: false,
             headerShadowVisible: false,
             headerTintColor: '#fff',
+            headerStyle: {
+                backgroundColor: '#292929', 
+            },
             headerTitleStyle: {
                 fontWeight: '900',
                 color: 'white',
             },
-            headerStyle: {
-                backgroundColor: '#292929',
+            headerTitleAlign: "center",
+            headerTitleContainerStyle: {
+                marginLeft: 40
+            },
+            headerRightContainerStyle: {
+                marginRight: 25,
             },
         }}>
             <Stack.Screen
@@ -33,16 +41,16 @@ function AppStack() {
                 name='Configurações'
                 component={Settings}
                 options={{
-                    headerTitleAlign: 'center',
                     ...TransitionPresets.ModalPresentationIOS,
                 }}
             />
             <Stack.Screen
                 name='Criar Carta'
                 component={CreateCard}
-                options={{
-                    headerTitleAlign: 'center',
-                }}
+            />
+            <Stack.Screen
+                name='Ver Deck'
+                component={ViewDeck}
             />
         </Stack.Navigator>
     )

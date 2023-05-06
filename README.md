@@ -10,3 +10,6 @@ Utilizando a Técnica de Revisão Espaçada, o Deckable permite que o usuário c
 <img src="./src/assets/images/home.jpeg" alt="" height="400px">
 <img src="./src/assets/images/create.jpeg" alt="" height="400px">
 <img src="./src/assets/images/settings.jpg" alt="" height="400px">
+
+![name]()
+<video src="./assets/videos/auth.gif" controls="controls" style="max-width: 730px;"></video>

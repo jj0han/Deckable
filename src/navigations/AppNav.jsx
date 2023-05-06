@@ -3,8 +3,7 @@ import auth from '@react-native-firebase/auth'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthContext } from '../context/AuthContext'
 import { View, ActivityIndicator } from 'react-native'
-import AppStack from './AppStack'
-import AuthStack from './AuthStack'
+import { AppStack, AuthStack } from '../navigations'
 
 const AppNav = () => {
     const { user, setUser, isLoading, setIsLoading } = useContext(AuthContext)

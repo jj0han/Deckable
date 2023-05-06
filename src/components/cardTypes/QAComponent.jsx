@@ -1,6 +1,6 @@
-import { View, Text } from 'react-native'
 import React from 'react'
-import { TextInputComponent } from '../inputs'
+import { View, Text } from 'react-native'
+import { TextInputComponent } from '../../components'
 
 
 const QAComponent = ({ question, setQuestion, answer, setAnswer }) => {

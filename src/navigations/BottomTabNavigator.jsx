@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Pressable } from 'react-native'
 import { Svg, Path } from 'react-native-svg'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Create from '../screens/Create'
-import Trending from '../screens/Trending'
-import Home from '../screens/Home'
-import { AnimatedTabBar } from '../components/tabBar'
+import { Create, Home, Trending } from '../screens'
+import { AnimatedTabBar } from '../components'
 
 const Tab = createBottomTabNavigator()
 
