@@ -1,10 +1,10 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, ScrollView } from 'react-native'
 
 const FormBackgroungLayout = ({ children }) => {
     return (
-        <SafeAreaView className="bg-[#292929] flex-1">
-            {children}
+        <SafeAreaView className="flex-1 bg-[#292929] min-h-screen">
+            <ScrollView>{children}</ScrollView>
         </SafeAreaView>
     )
 }

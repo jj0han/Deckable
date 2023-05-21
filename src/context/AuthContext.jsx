@@ -1,9 +1,8 @@
 import React, { createContext, useState } from 'react'
 import { Alert } from 'react-native'
 import auth from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
-import uuid from 'react-native-uuid'
+import { addCard, addUserDeck, readUserData, removeUserDeck } from '../services/firestore'
 
 export const AuthContext = createContext()
 
@@ -88,60 +87,10 @@ export const AuthProvider = ({ children }) => {
             ]);
         }
     }
-
-    const readUserData = async () => await firestore().collection('decks').get()
-
-    const addUserDeck = async (name, visibility, type) => {
-        const generatedID = uuid.v4()
-        await firestore()
-            .collection('decks')
-            .doc(generatedID)
-            .set(
-                {
-                    id: generatedID,
-                    uid: auth().currentUser.uid,
-                    name: name,
-                    visibility: visibility,
-                    type: type,
-                    createdAt: Date.now(),
-                    cards: [],
-                }
-            )
-            .then(() => {
-                console.log('User added!')
-            })
-    }
-
-    const addQACard = async (question, answer, type, deckID) => {
-        await firestore()
-            .collection('decks')
-            .doc(`${deckID}/deck/cards`)
-            .add({
-                card: {
-                    id: uuid.v4(),
-                    uid: auth().currentUser.uid,
-                    visibility: visibility,
-                    type: type,
-                    createdAt: Date.now(),
-                }
-            })
-            .then(() => {
-                console.log('User added!')
-            })
-    }
-
-    const removeUserDeck = async (id) => {
-        await firestore()
-            .collection('decks')
-            .doc(id)
-            .delete()
-            .then(() => {
-                console.log('User added!')
-            })
-    }
+    
 
     return (
-        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages, signInWithGoogle, readUserData, addUserDeck, removeUserDeck }}>
+        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages, signInWithGoogle, readUserData, addUserDeck, removeUserDeck, addCard }}>
             {children}
         </AuthContext.Provider>
     )

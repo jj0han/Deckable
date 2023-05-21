@@ -3,8 +3,10 @@ import { View, SafeAreaView } from 'react-native'
 import { TabActions } from '@react-navigation/native'
 import { FormBackgroungLayout, FormLayout } from '../../layouts/forms'
 import { BasicComponent, ButtonComponent, CardGradientComponent, PickerSelectComponent, QAComponent } from '../../components'
+import { AuthContext } from '../../context/AuthContext'
 
-const CreateCard = ({ navigation }) => {
+const CreateCard = ({ route, navigation }) => {
+  const { deckID } = route.params
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
   const [type, setType] = useState("BSC")
@@ -32,7 +34,7 @@ const CreateCard = ({ navigation }) => {
         <SafeAreaView style={{ flex: 1 }} behavior='height'>
           {type === "QA" ? <QAComponent question={question} setQuestion={setQuestion} answer={answer} setAnswer={setAnswer} /> : <BasicComponent question={question} setQuestion={setQuestion} />}
           <View className="w-full items-center">
-            <ButtonComponent title={"Adicionar carta"} />
+            <ButtonComponent deckID={deckID} type={type} answer={answer} question={question} title={"Adicionar carta"} />
           </View>
         </SafeAreaView>
       </FormLayout>

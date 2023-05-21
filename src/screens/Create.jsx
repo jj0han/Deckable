@@ -5,12 +5,14 @@ import useHeaderRight from '../hooks/useHeaderRight'
 import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
 import { AuthContext } from '../context/AuthContext'
 import { DeckComponent, FormButtonComponent, FormikInputComponent, PickerSelectComponent } from '../components'
+import uuid from 'react-native-uuid'
+import { WHITE } from '../constants/colors/layoutColors'
 
 const Create = ({ navigation }) => {
   const { addUserDeck } = useContext(AuthContext)
   const visibilityPlaceholder = { label: "Todos", value: "public" }
   const typePlaceholder = { label: "Genérico", value: "gn" }
-  
+
   const [visibilityOptions, setVisibilityOptions] = useState(visibilityPlaceholder.value)
   const [typeOptions, setTypeOptions] = useState(typePlaceholder.value)
 
@@ -25,13 +27,16 @@ const Create = ({ navigation }) => {
   ]
 
   const formik = useFormik({
-    enableReinitialize: true,
     initialValues: {
       name: '',
     },
     onSubmit: (values) => {
-      addUserDeck(values.name.trim(), visibilityOptions, typeOptions)
-      navigation.navigate('Criar Carta')
+      const generatedID = uuid.v4()
+      // storeData(values.name.trim(), generatedID, visibilityOptions, typeOptions)
+      addUserDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
+      navigation.navigate('Criar Carta', {
+        deckID: generatedID,
+      })
     },
     validate: (values) => {
       const errors = {}
@@ -44,7 +49,7 @@ const Create = ({ navigation }) => {
     },
   })
 
-  useHeaderRight(navigation, "#ffffff")
+  useHeaderRight(navigation, WHITE)
 
   return (
     <FormBackgroungLayout>

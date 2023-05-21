@@ -59,54 +59,52 @@ const Form = ({ type = "login" }) => {
 
     return (
         <FormBackgroungLayout>
-            <View className="items-center justify-center grow">
+            <View className="items-center justify-center py-10">
                 <Text className="text-white text-5xl font-bold">Deckable</Text>
                 <Text className="text-white text-xl font-extralight">Seu app de revisões</Text>
             </View>
             <FormLayout>
-                <ScrollView>
-                    <View className="w-full">
-                        <Text className="text-black text-3xl font-semibold tracking-widest">{type === "signup" ? "Cadastrar" : "Entrar"}</Text>
-                        <Text className="text-[#666666] text-base font-semibold">Faça ser cadastro para continuar</Text>
-                    </View>
-                    {loginMessages !== "" ? <Text className="text-red-600">{loginMessages}</Text> : null}
-                    <View className="items-center">
-                        <View className="items-center w-full py-10 gap-y-5">
-                            {type === "signup" ?
-                                <View className="w-full">
-                                    <FormikInputComponent name={'name'} placeholder={'Nome de Usuário'} formik={formik} formikValue={formik.values.name} formikErrors={formik.errors.name} />
-                                </View>
-                                :
-                                <Text className="hidden"></Text>
-                            }
+                <View className="w-full">
+                    <Text className="text-black text-3xl font-semibold tracking-widest">{type === "signup" ? "Cadastrar" : "Entrar"}</Text>
+                    <Text className="text-[#666666] text-base font-semibold">Faça ser cadastro para continuar</Text>
+                </View>
+                {loginMessages !== "" ? <Text className="text-red-600">{loginMessages}</Text> : null}
+                <View className="items-center">
+                    <View className="items-center w-full py-10 gap-y-5">
+                        {type === "signup" ?
                             <View className="w-full">
-                                <FormikInputComponent name={'email'} placeholder={'Email'} formik={formik} formikValue={formik.values.email} formikErrors={formik.errors.email} />
+                                <FormikInputComponent name={'name'} placeholder={'Nome de Usuário'} formik={formik} formikValue={formik.values.name} formikErrors={formik.errors.name} />
                             </View>
+                            :
+                            <Text className="hidden"></Text>
+                        }
+                        <View className="w-full">
+                            <FormikInputComponent name={'email'} placeholder={'Email'} formik={formik} formikValue={formik.values.email} formikErrors={formik.errors.email} />
+                        </View>
+                        <View className="w-full">
+                            <FormikInputComponent name={'password'} placeholder={'Senha'} formik={formik} formikValue={formik.values.password} formikErrors={formik.errors.password} secureTextEntry={true} />
+                        </View>
+                        {type === "signup" ?
                             <View className="w-full">
-                                <FormikInputComponent name={'password'} placeholder={'Senha'} formik={formik} formikValue={formik.values.password} formikErrors={formik.errors.password} secureTextEntry={true} />
+                                <FormikInputComponent name={'confirmPassword'} placeholder={'Confirmar Senha'} formik={formik} formikValue={formik.values.confirmPassword} formikErrors={formik.errors.confirmPassword} secureTextEntry={true} />
                             </View>
-                            {type === "signup" ?
-                                <View className="w-full">
-                                    <FormikInputComponent name={'confirmPassword'} placeholder={'Confirmar Senha'} formik={formik} formikValue={formik.values.confirmPassword} formikErrors={formik.errors.confirmPassword} secureTextEntry={true} />
-                                </View>
-                                :
-                                <Text className="hidden"></Text>
-                            }
-                        </View>
-                        <FormButtonComponent title={type === "signup" ? 'Cadastrar' : 'Entrar'} action={formik.handleSubmit} />
-                        <View className="w-full items-center">
-                            <View className="w-full flex-row justify-center items-center my-5" >
-                                <View className="border-b border-[#d7d7d7] grow" />
-                                <Text className="text-base text-center text-[#666666] font-semibold mx-2">Ou</Text>
-                                <View className="border-b border-[#d7d7d7] grow" />
-                            </View>
-                            <TouchableOpacity onPress={() => signInWithGoogle()} className="bg-[#F7F7F7] border-[#D7D7D7] border-[1px] px-4 rounded-lg w-full h-12 flex-row justify-center items-center">
-                                <Google />
-                                <Text className="text-[#8a8a8a] font-semibold ml-5">Continuar com Google</Text>
-                            </TouchableOpacity>
-                        </View>
+                            :
+                            <Text className="hidden"></Text>
+                        }
                     </View>
-                </ScrollView>
+                    <FormButtonComponent title={type === "signup" ? 'Cadastrar' : 'Entrar'} action={formik.handleSubmit} />
+                    <View className="w-full items-center">
+                        <View className="w-full flex-row justify-center items-center my-5" >
+                            <View className="border-b border-[#d7d7d7] grow" />
+                            <Text className="text-base text-center text-[#666666] font-semibold mx-2">Ou</Text>
+                            <View className="border-b border-[#d7d7d7] grow" />
+                        </View>
+                        <TouchableOpacity onPress={() => signInWithGoogle()} className="bg-[#F7F7F7] border-[#D7D7D7] border-[1px] px-4 rounded-lg w-full h-12 flex-row justify-center items-center">
+                            <Google />
+                            <Text className="text-[#8a8a8a] font-semibold ml-5">Continuar com Google</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </FormLayout>
         </FormBackgroungLayout>
     )

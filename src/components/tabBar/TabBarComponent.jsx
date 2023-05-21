@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { Text, Pressable } from 'react-native'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import LinearGradient from 'react-native-linear-gradient'
+import { DARK_BLUE, PINK, PURPLE } from '../../constants/colors/gradientColors'
 
 const TabBarComponent = ({ active, options, onLayout, onPress, name }) => {
     const ref = useRef(null)
@@ -36,7 +37,7 @@ const TabBarComponent = ({ active, options, onLayout, onPress, name }) => {
             </Animated.View>
             <Animated.View style={[animatedComponentCircleStyles]}>
                 <LinearGradient
-                    colors={['#4F6597', '#6E5DAD', '#D442EF']}
+                    colors={[DARK_BLUE, PURPLE, PINK]}
                     className="w-[59px] h-[59px] rounded-full"
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0.85, y: 0.85 }} />

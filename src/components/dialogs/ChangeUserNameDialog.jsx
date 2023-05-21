@@ -3,7 +3,7 @@ import { Text } from 'react-native'
 import auth from '@react-native-firebase/auth'
 import Dialog from "react-native-dialog"
 
-const ChangeUserNameDialog = ({ visible, setVisible, handleCancel, title, errorMessage, newUserName, setNewUserName, setUserName, showError, setShowError }) => {
+const ChangeUserNameDialog = ({ visible, setVisible, handleCancel, title, errorMessage, useName, newUserName, setNewUserName, setUserName, showError, setShowError }) => {
 
     const handleChangeUserName = (newUserName) => {
         if (newUserName.trim() !== "") {
@@ -20,12 +20,12 @@ const ChangeUserNameDialog = ({ visible, setVisible, handleCancel, title, errorM
     }
 
     return (
-        <Dialog.Container visible={visible} onBackdropPress={handleCancel} headerStyle={{ alignItems: "center" }} contentStyle={{ borderRadius: 25, backgroundColor: "#292929" }} footerStyle={{ justifyContent: "space-around" }} >
-            <Dialog.Title><Text className="font-semibold">{title}</Text></Dialog.Title>
-            <Dialog.Input onChange={(e) => setNewUserName(e.nativeEvent.text)} value={newUserName} placeholder='' wrapperStyle={{ paddingHorizontal: 10, }} />
+        <Dialog.Container visible={visible} onBackdropPress={handleCancel} headerStyle={{ alignItems: "center" }} contentStyle={{ borderRadius: 15, backgroundColor: "#292929" }} footerStyle={{ justifyContent: "space-around" }} >
+            <Dialog.Title><Text className="text-white font-semibold">{title}</Text></Dialog.Title>
+            <Dialog.Input onChange={(e) => setNewUserName(e.nativeEvent.text)} style={{color: "white", fontWeight: "700"}} value={newUserName} placeholder={useName} textAlign='center' wrapperStyle={{ paddingHorizontal: 10, }} />
             {showError && <Dialog.Description><Text className="font-medium text-red-500">{errorMessage}</Text></Dialog.Description>}
-            <Dialog.Button label="Cancelar" onPress={handleCancel} bold={true} color={"#6E5DAD"} />
-            <Dialog.Button label="Salvar" onPress={() => handleChangeUserName(newUserName)} bold={true} color={"#6E5DAD"} />
+            <Dialog.Button label="Cancelar"  onPress={handleCancel} bold={true} color={"#6E5DAD"} />
+            <Dialog.Button label="Salvar" style={{backgroundColor: "#6E5DAD", borderRadius: 7,}} onPress={() => handleChangeUserName(newUserName)} bold={true} color={"#FFFFFF"} />
         </Dialog.Container>
     )
 }

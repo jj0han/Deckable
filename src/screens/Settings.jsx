@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import auth from '@react-native-firebase/auth'
 import { Path, Svg } from 'react-native-svg'
-import Dialog from "react-native-dialog"
 import { AuthContext } from '../context/AuthContext'
 import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
 import { ChangeUserNameDialog, ConfirmDialog } from '../components'
@@ -41,6 +40,7 @@ const Settings = () => {
         setShowError={setShowError}
         handleCancel={handleCancel}
         errorMessage={'Digite um nome válido!'}
+        useName={userName}
         newUserName={newUserName}
         setNewUserName={setNewUserName}
         setUserName={setUserName}
@@ -54,13 +54,13 @@ const Settings = () => {
       />
 
       <FormBackgroungLayout>
-        <View className="items-center justify-center gap-y-5 grow">
+        <View className="items-center justify-center gap-y-5 py-5 grow">
           <View className="items-center">
             <Text className="text-[20px] text-white">{userName}</Text>
             <Text className="text-[16px] font-light text-white">{user.email}</Text>
           </View>
           <Image source={user.photoURL !== null ? { uri: user.photoURL } : require('../assets/images/land.jpg')} className="w-[150px] h-[150px] rounded-full" />
-          {date && <Text>Entrou em: {date.toLocaleDateString('pt-BR')}</Text>}
+          {date && <Text className="text-white">Entrou em: {date.toLocaleDateString('pt-BR')}</Text>}
         </View>
         <FormLayout>
           <View className="gap-y-10">
