@@ -59,7 +59,7 @@ const Form = ({ type = "login" }) => {
 
     return (
         <FormBackgroungLayout>
-            <View className="items-center justify-center py-10">
+            <View className="items-center justify-center py-16">
                 <Text className="text-white text-5xl font-bold">Deckable</Text>
                 <Text className="text-white text-xl font-extralight">Seu app de revisões</Text>
             </View>

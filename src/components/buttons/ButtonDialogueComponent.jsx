@@ -3,12 +3,12 @@ import ConfirmDialog from '../dialogs/ConfirmDialog'
 import { View, TouchableOpacity, Text } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
-function ButtonDialogueComponent({ title, navigation, useRemove = false, removeUserDeck, id, screen, border = false, fullWidth = false, time = 0 }) {
+function ButtonDialogueComponent({ title, navigation, useRemove = false, removeUserDeck, id, uid, screen, border = false, fullWidth = false, time = 0 }) {
 
     const navigate = () => {
         if (useRemove) {
             console.log("removed")
-            removeUserDeck(id)
+            removeUserDeck(id, uid)
             setVisible(false)
         }
         setTimeout(() => { navigation.navigate(screen) }, time)

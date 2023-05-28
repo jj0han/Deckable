@@ -15,6 +15,7 @@ const addUserDeck = async (name, generatedID, visibility, type) => {
                 name: name,
                 visibility: visibility,
                 type: type,
+                createdBy: auth().currentUser.displayName,
                 createdAt: Date.now(),
                 cards: [],
             }
@@ -46,7 +47,8 @@ const addCard = async (question, answer, type, deckID) => {
         })
 }
 
-const removeUserDeck = async (id) => {
+const removeUserDeck = async (id, uid) => {
+    if(uid != auth().currentUser.uid) return
     await firestore()
         .collection('decks')
         .doc(id)
