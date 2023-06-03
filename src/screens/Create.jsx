@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { View } from 'react-native'
 import { useFormik } from 'formik'
 import useHeaderRight from '../hooks/useHeaderRight'
-import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
+import { FormBackgroundLayout, FormLayout } from '../layouts/forms'
 import { AuthContext } from '../context/AuthContext'
 import { DeckComponent, FormButtonComponent, FormikInputComponent, PickerSelectComponent } from '../components'
 import uuid from 'react-native-uuid'
@@ -52,8 +52,8 @@ const Create = ({ navigation }) => {
   useHeaderRight(navigation, WHITE)
 
   return (
-    <FormBackgroungLayout>
-      <View className="grow justify-center items-center">
+    <FormBackgroundLayout>
+      <View className="grow justify-center items-center py-5">
         <DeckComponent viewOnly={true} title={formik.values.name ? formik.values.name.trim() : "Nome do seu Deck"} borderColor='#292929' />
       </View>
       <FormLayout>
@@ -72,7 +72,7 @@ const Create = ({ navigation }) => {
         {/* Espaçamento */}
         <View className="h-[100px]" />
       </FormLayout>
-    </FormBackgroungLayout>
+    </FormBackgroundLayout>
   )
 }
 

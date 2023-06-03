@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
 import { useFormik } from 'formik'
 import { Google } from '../../assets/images/svgs'
-import { FormBackgroungLayout, FormLayout } from '../forms'
+import { FormBackgroundLayout, FormLayout } from '../forms'
 import { FormButtonComponent, FormikInputComponent } from '../../components'
 
 const Form = ({ type = "login" }) => {
@@ -58,7 +58,7 @@ const Form = ({ type = "login" }) => {
     })
 
     return (
-        <FormBackgroungLayout>
+        <FormBackgroundLayout>
             <View className="items-center justify-center py-16">
                 <Text className="text-white text-5xl font-bold">Deckable</Text>
                 <Text className="text-white text-xl font-extralight">Seu app de revisões</Text>
@@ -106,7 +106,7 @@ const Form = ({ type = "login" }) => {
                     </View>
                 </View>
             </FormLayout>
-        </FormBackgroungLayout>
+        </FormBackgroundLayout>
     )
 }
 

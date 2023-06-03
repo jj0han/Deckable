@@ -25,3 +25,4 @@ export { default as TabBarComponent } from './tabBar/TabBarComponent'
 //others
 export { default as CardGradientComponent } from './CardGradientComponent'
 export { default as DeckComponent } from './DeckComponent'
+export { default as EditCardComponent } from './EditCardComponent'

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { View, SafeAreaView } from 'react-native'
 import { TabActions } from '@react-navigation/native'
-import { FormBackgroungLayout, FormLayout } from '../../layouts/forms'
+import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
 import { BasicComponent, ButtonComponent, CardGradientComponent, PickerSelectComponent, QAComponent } from '../../components'
-import { AuthContext } from '../../context/AuthContext'
 
 const CreateCard = ({ route, navigation }) => {
   const { deckID } = route.params
@@ -23,7 +22,7 @@ const CreateCard = ({ route, navigation }) => {
   }, [])
 
   return (
-    <FormBackgroungLayout>
+    <FormBackgroundLayout>
       <View className="justify-center w-full flex-row p-5">
         <CardGradientComponent borderColor='#292929' />
         <View className="grow p-3">
@@ -38,7 +37,7 @@ const CreateCard = ({ route, navigation }) => {
           </View>
         </SafeAreaView>
       </FormLayout>
-    </FormBackgroungLayout>
+    </FormBackgroundLayout>
   )
 }
 

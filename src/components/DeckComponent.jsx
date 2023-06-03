@@ -1,8 +1,9 @@
 import React from 'react'
-import { View, Text, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import CardGradientComponent from './CardGradientComponent'
+import { WHITE } from '../constants/colors/layoutColors'
 
-const DeckComponent = ({ title, navigate, params = {}, viewOnly = false, screen, borderColor = "#ffffff" }) => {
+const DeckComponent = ({ title, navigate, params = {}, viewOnly = false, screen, borderColor = WHITE }) => {
     return (
         <TouchableOpacity onPress={() => {!viewOnly && navigate(screen, params)}} className="relative w-[155px] h-[200px] mx-auto my-1">
             <View className="absolute left-0 top-0">

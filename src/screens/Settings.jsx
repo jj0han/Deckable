@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import auth from '@react-native-firebase/auth'
 import { Path, Svg } from 'react-native-svg'
 import { AuthContext } from '../context/AuthContext'
-import { FormBackgroungLayout, FormLayout } from '../layouts/forms'
+import { FormBackgroundLayout, FormLayout } from '../layouts/forms'
 import { ChangeUserNameDialog, ConfirmDialog } from '../components'
 
 const Settings = () => {
@@ -53,7 +53,7 @@ const Settings = () => {
         action={logout}
       />
 
-      <FormBackgroungLayout>
+      <FormBackgroundLayout>
         <View className="items-center justify-center gap-y-5 py-5 grow">
           <View className="items-center">
             <Text className="text-[20px] text-white">{userName}</Text>
@@ -121,7 +121,7 @@ const Settings = () => {
             </TouchableOpacity>
           </View>
         </FormLayout>
-      </FormBackgroungLayout>
+      </FormBackgroundLayout>
     </>
   )
 }

@@ -2,12 +2,9 @@ import React, { useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
-const ButtonNavComponent = ({ title, navigation, useRemove = false, removeUserDeck, id, screen, border = false, fullWidth = false, time = 0 }) => {
-    const navigate = (id) => {
-        if (useRemove) {
-            removeUserDeck(id)
-        }
-        setTimeout(() => { navigation.navigate(screen) }, time)
+const ButtonNavComponent = ({ title, navigation, screen, params = {}, border = false, fullWidth = false, time = 0 }) => {
+    const navigate = () => {
+        setTimeout(() => { navigation.navigate(screen, params) }, time)
     }
 
     return (
