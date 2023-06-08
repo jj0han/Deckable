@@ -1,4 +1,4 @@
 // LAYOUT COLORS
-export const DARK_GRAY = "#292929"
-export const WHITE = "#ffffff"
-export const BLACK = "#000000"
+export const LAYOUT_DARK_GRAY = "#292929"
+export const LAYOUT_WHITE = "#ffffff"
+export const LAYOUT_BLACK = "#000000"

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from '../../layouts/forms'
+import { Form } from '../../components'
 
 const SignUp = () => {
   return (

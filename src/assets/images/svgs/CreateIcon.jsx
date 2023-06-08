@@ -1,10 +1,10 @@
 
 import React from 'react'
 import { View } from 'react-native'
-import { Circle, Defs, Path, Stop, Svg } from 'react-native-svg'
+import { Path, Svg } from 'react-native-svg'
 import { DARK_BLUE, PINK, PURPLE } from '../../../constants/colors/gradientColors'
 import LinearGradient from 'react-native-linear-gradient'
-import { WHITE } from '../../../constants/colors/layoutColors'
+import { LAYOUT_WHITE } from '../../../constants/colors/layoutColors'
 
 export default function CreateIcon() {
     return (
@@ -22,7 +22,7 @@ export default function CreateIcon() {
                 fill="none"
             >
                 <Path
-                    fill={WHITE}
+                    fill={LAYOUT_WHITE}
                     d="M18 6C11.36 6 6 11.36 6 18s5.36 12 12 12 12-5.36 12-12S24.64 6 18 6zm-1.2 6h2.4v4.8H24v2.4h-4.8V24h-2.4v-4.8H12v-2.4h4.8V12z"
                 >
                 </Path>

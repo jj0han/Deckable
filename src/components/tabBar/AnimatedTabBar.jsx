@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import { Svg, Path } from 'react-native-svg'
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
 import TabBarComponent from './TabBarComponent'
-import { DARK_GRAY, WHITE } from '../../constants/colors/layoutColors'
+import { LAYOUT_DARK_GRAY, LAYOUT_WHITE } from '../../constants/colors/layoutColors'
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 
@@ -31,17 +31,17 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
     })
 
     return (
-        <View style={{backgroundColor: DARK_GRAY,}} className="absolute bottom-[10px] left-[24px] right-[24px] rounded-3xl h-[70px]">
+        <View style={{backgroundColor: LAYOUT_DARK_GRAY,}} className="absolute bottom-[10px] left-[24px] right-[24px] rounded-3xl h-[70px]">
             {console.log(xOffSet)}
             <AnimatedSvg
                 xmlns="http://www.w3.org/2000/svg"
                 width={129}
                 height={65}
-                fill={WHITE}
+                fill={LAYOUT_WHITE}
                 style={[styles.activeBackground, animatedStyles]}
             >
                 <Path
-                    fill={WHITE}
+                    fill={LAYOUT_WHITE}
                     d="M32 0h65v32.5C97 50.45 82.45 65 64.5 65S32 50.45 32 32.5V0zM32 32V0H0c17.673 0 32 14.327 32 32zm65 0V0h32c-17.673 0-32 14.327-32 32z"
                 />
             </AnimatedSvg>

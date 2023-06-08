@@ -30,13 +30,14 @@ const Create = ({ navigation }) => {
     initialValues: {
       name: '',
     },
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const generatedID = uuid.v4()
       // storeData(values.name.trim(), generatedID, visibilityOptions, typeOptions)
       addUserDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
       navigation.navigate('Criar Carta', {
         deckID: generatedID,
       })
+      resetForm()
     },
     validate: (values) => {
       const errors = {}

@@ -71,7 +71,6 @@ export default function BottomTabNavigator() {
         </Svg>,
       }} />
       <Tab.Screen name="Em Alta" component={Trending} options={{
-        headerTitleAlign: "center",
         tabBarIcon: ({ ref }) => <Svg
           ref={ref}
           xmlns="http://www.w3.org/2000/svg"

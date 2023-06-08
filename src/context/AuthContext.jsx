@@ -28,10 +28,11 @@ export const AuthProvider = ({ children }) => {
                 console.log("operation (e.g. sign in) is in progress already")
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                 console.log("play services not available or outdated")
+                setLoginMessages("Google Play Services Indisponível ou Desatualizado")
             } else {
                 console.log(error)
+                setLoginMessages("")
             }
-            setLoginMessages("Serviço não disponível, verifique sua conexão")
         }
     }
 
@@ -39,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         try {
             if (email && password !== "") {
                 await auth().signInWithEmailAndPassword(email, password)
+                setLoginMessages("")
             } else {
                 setLoginMessages("Preencha os campos")
             }
@@ -54,13 +56,14 @@ export const AuthProvider = ({ children }) => {
                 await userCredential.user.updateProfile({
                     displayName: userName
                 })
+                setLoginMessages("")
             } else {
                 setLoginMessages("Preencha os campos")
             }
         } catch (e) {
-            Alert.alert('Something went wrong', 'Please try again later', [
+            Alert.alert('Algo deu Errado', 'Por Favor, Tente novamente mais tarde', [
                 {
-                    text: 'Cancel',
+                    text: 'Cancelar',
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
@@ -77,9 +80,9 @@ export const AuthProvider = ({ children }) => {
                 await GoogleSignin.signOut()
             }
         } catch (e) {
-            Alert.alert('Something went wrong', 'Please try again later', [
+            Alert.alert('Algo deu Errado', 'Por Favor, Tente novamente mais tarde', [
                 {
-                    text: 'Cancel',
+                    text: 'Cancelar',
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },

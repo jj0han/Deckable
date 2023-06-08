@@ -13,6 +13,9 @@ export { default as QAComponent } from './cardTypes/QAComponent'
 export { default as ChangeUserNameDialog } from './dialogs/ChangeUserNameDialog'
 export { default as ConfirmDialog } from './dialogs/ConfirmDialog'
 
+//forms
+export { default as Form } from './forms/Form'
+
 //inputs
 export { default as FormikInputComponent } from './inputs/FormikInputComponent'
 export { default as PickerSelectComponent } from './inputs/PickerSelectComponent'

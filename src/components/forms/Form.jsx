@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
-import { AuthContext } from '../../context/AuthContext'
+import React, { useContext } from 'react'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { useFormik } from 'formik'
+import { AuthContext } from '../../context/AuthContext'
+import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
+import FormikInputComponent from '../inputs/FormikInputComponent'
+import FormButtonComponent from '../buttons/FormButtonComponent'
 import { Google } from '../../assets/images/svgs'
-import { FormBackgroundLayout, FormLayout } from '../forms'
-import { FormButtonComponent, FormikInputComponent } from '../../components'
 
 const Form = ({ type = "login" }) => {
     const { login, signup, loginMessages, signInWithGoogle } = useContext(AuthContext)
@@ -23,6 +24,8 @@ const Form = ({ type = "login" }) => {
                 login(values.email, values.password)
             }
         },
+        validateOnChange: false,
+        validateOnBlur: false,
         validate: (values) => {
             const errors = {}
             if (type === 'signup') {
@@ -40,6 +43,8 @@ const Form = ({ type = "login" }) => {
                     errors.confirmPassword = 'Digite uma senha';
                 } else if (!/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/.test(values.confirmPassword)) {
                     errors.confirmPassword = 'A senha deve ter de 6 a 20 caracteres'
+                } else if (values.confirmPassword != values.password) {
+                    errors.confirmPassword = "As senhas não coincidem"
                 }
 
             } else {
