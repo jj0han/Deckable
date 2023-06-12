@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { View } from 'react-native'
 import { useFormik } from 'formik'
+import uuid from 'react-native-uuid'
 import useHeaderRight from '../hooks/useHeaderRight'
 import { FormBackgroundLayout, FormLayout } from '../layouts/forms'
 import { AuthContext } from '../context/AuthContext'
 import { DeckComponent, FormButtonComponent, FormikInputComponent, PickerSelectComponent } from '../components'
-import uuid from 'react-native-uuid'
 import { WHITE } from '../constants/colors/layoutColors'
 
 const Create = ({ navigation }) => {

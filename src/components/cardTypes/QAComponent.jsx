@@ -1,18 +1,19 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { TextInputComponent } from '../../components'
+import { FormikInputComponent } from '../../components'
 
 
-const QAComponent = ({ question, setQuestion, answer, setAnswer }) => {
+const QAComponent = ({ formik }) => {
+
   return (
     <View className="gap-y-5 mb-10">
       <View>
         <Text className="text-black text-base font-semibold mb-3">PERGUNTA</Text>
-        <TextInputComponent placeholder={"Digite sua pergunta aqui..."} multiline={true} value={question} setHandleText={setQuestion} />
+        <FormikInputComponent placeholder={"Digite sua pergunta aqui..."} name={"question"} formik={formik} formikValue={formik.values.name} formikErrors={formik.errors.name} />
       </View>
       <View>
         <Text className="text-black text-base font-semibold mb-3">RESPOSTA</Text>
-        <TextInputComponent placeholder={"Digite sua resposta aqui..."} multiline={true} value={answer} setHandleText={setAnswer} />
+        <FormikInputComponent placeholder={"Digite sua resposta aqui..."} name={"answer"} formik={formik} formikValue={formik.values.name} formikErrors={formik.errors.name} />
       </View>
     </View>
   )
