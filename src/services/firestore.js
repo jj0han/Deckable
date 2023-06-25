@@ -54,7 +54,7 @@ const removeUserDeck = async (id, uid) => {
         .doc(id)
         .delete()
         .then(() => {
-            console.log('User added!')
+            console.log('removeUserDeck!')
         })
 }
 

@@ -21,7 +21,7 @@ export default function EditCards({ route, navigation }) {
                 <View className="h-full flex-1 justify-center items-center"><CreateIcon/></View>
             </View>
             <FormLayout>
-                <View className="flex-1 flex-row">
+                <View className="flex-1 flex-row flex-wrap">
                     {render}
                 </View>
             </FormLayout>

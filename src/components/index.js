@@ -15,6 +15,9 @@ export { default as ConfirmDialog } from './dialogs/ConfirmDialog'
 
 //forms
 export { default as Form } from './forms/Form'
+export { default as FormikFormField } from './forms/FormikFormField'
+export { default as FormikForm } from './forms/FormikForm'
+export { default as FormikButton } from './forms/FormikButton'
 
 //inputs
 export { default as FormikInputComponent } from './inputs/FormikInputComponent'
@@ -29,3 +32,4 @@ export { default as TabBarComponent } from './tabBar/TabBarComponent'
 export { default as CardGradientComponent } from './CardGradientComponent'
 export { default as DeckComponent } from './DeckComponent'
 export { default as EditCardComponent } from './EditCardComponent'
+export { default as DeckFormikComponent } from './DeckFormikComponent'

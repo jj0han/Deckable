@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { View } from 'react-native'
-import { useFormik } from 'formik'
+import { Field } from 'formik'
 import uuid from 'react-native-uuid'
 import useHeaderRight from '../hooks/useHeaderRight'
 import { FormBackgroundLayout, FormLayout } from '../layouts/forms'
 import { AuthContext } from '../context/AuthContext'
-import { DeckComponent, FormButtonComponent, FormikInputComponent, PickerSelectComponent } from '../components'
+import { DeckFormikComponent, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../components'
 import { WHITE } from '../constants/colors/layoutColors'
+import * as Yup from 'yup'
 
 const Create = ({ navigation }) => {
   const { addUserDeck } = useContext(AuthContext)
@@ -26,53 +27,51 @@ const Create = ({ navigation }) => {
     { label: "Ciências Humanas", value: "hc" },
   ]
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-    },
-    onSubmit: (values, { resetForm }) => {
-      const generatedID = uuid.v4()
-      // storeData(values.name.trim(), generatedID, visibilityOptions, typeOptions)
-      addUserDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
-      navigation.navigate('Criar Carta', {
-        deckID: generatedID,
-      })
-      resetForm()
-    },
-    validate: (values) => {
-      const errors = {}
-      if (!values.name) {
-        errors.name = 'Digite um nome para o Deck'
-      } else if (!/^[a-zA-Z0-9À-ÿ\s!@#$%^&*()_+{}|:?><~?><~,./]{1,40}$/.test(values.name)) {
-        errors.name = 'O nome deve ter no máximo 40 caracteres'
-      }
-      return errors
-    },
-  })
-
   useHeaderRight(navigation, WHITE)
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .matches(/^[a-zA-Z0-9À-ÿ\s!@#$%^&*()_+{}|:?><~?><~,./]{1,40}$/, "O nome deve ter no máximo 40 caracteres")
+      .required("Digite um nome para o Deck")
+      .label("name"),
+  })
 
   return (
     <FormBackgroundLayout>
-      <View className="grow justify-center items-center py-5">
-        <DeckComponent viewOnly={true} title={formik.values.name ? formik.values.name.trim() : "Nome do seu Deck"} borderColor='#292929' />
-      </View>
-      <FormLayout>
-        <View className="w-full mb-5">
-          <FormikInputComponent formik={formik} name={'name'} placeholder={'Digite um nome'} formikValue={formik.values.name} formikErrors={formik.errors.name} />
-          <View className="w-full px-4 mt-4">
-            <PickerSelectComponent items={visibilityItems} setValue={setVisibilityOptions} placeholder={visibilityPlaceholder} label={"Quem vai poder ver meu Deck?"} />
-          </View>
-          <View className="w-full px-4 mt-4">
-            <PickerSelectComponent items={typeItems} setValue={setTypeOptions} placeholder={typePlaceholder} label={"Meu Deck vai ser sobre..."} />
-          </View>
+      <FormikForm
+        initialValues={{
+          name: ""
+        }}
+        onSubmit={
+          (values, { resetForm }) => {
+            const generatedID = uuid.v4()
+            addUserDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
+            navigation.navigate('Criar Carta', {
+              deckID: generatedID,
+            })
+            resetForm()
+          }
+        }
+        validationSchema={validationSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
+      >
+        <View className="grow justify-center items-center py-5">
+          <DeckFormikComponent placeholder={'Digite um nome'} borderColor='#292929' />
         </View>
-        <View className="w-full items-center">
-          <FormButtonComponent title={"Criar Deck"} action={formik.handleSubmit} />
-        </View>
-        {/* Espaçamento */}
-        <View className="h-[100px]" />
-      </FormLayout>
+        <FormLayout>
+          <View className="w-full mb-5">
+            <Field component={FormikFormField} name={'name'} placeholder={'Digite um nome'} />
+            <View className="w-full px-4 mt-4">
+              <PickerSelectComponent items={visibilityItems} setValue={setVisibilityOptions} placeholder={visibilityPlaceholder} label={"Quem vai poder ver meu Deck?"} />
+            </View>
+            <View className="w-full px-4 mt-4">
+              <PickerSelectComponent items={typeItems} setValue={setTypeOptions} placeholder={typePlaceholder} label={"Meu Deck vai ser sobre..."} />
+            </View>
+            <FormikButton title={"Criar Deck"} />
+          </View>
+        </FormLayout>
+      </FormikForm>
     </FormBackgroundLayout>
   )
 }

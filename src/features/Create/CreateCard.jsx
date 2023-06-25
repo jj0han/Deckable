@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, SafeAreaView, Alert } from 'react-native'
+import { View, Alert } from 'react-native'
 import { TabActions } from '@react-navigation/native'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
-import { BasicComponent, CardGradientComponent, FormButtonComponent, PickerSelectComponent, QAComponent } from '../../components'
-import { useFormik } from 'formik'
+import { CardGradientComponent, FormikButton, FormikForm, FormikFormField, PickerSelectComponent, QAComponent } from '../../components'
+import { Field } from 'formik'
 import { AuthContext } from '../../context/AuthContext'
+import * as Yup from 'yup'
 
 const CreateCard = ({ route, navigation }) => {
   const { deckID } = route.params
@@ -22,34 +23,13 @@ const CreateCard = ({ route, navigation }) => {
     navigation.dispatch(TabActions.jumpTo('Home'));
   }, [])
 
-  const formik = useFormik({
-    initialValues: {
-      question: '',
-      answer: '',
-    },
-    onSubmit: (values, { resetForm }) => {
-      addCard(values.question, values.answer, type, deckID)
-      resetForm()
-      Alert.alert("Card Added")
-    },
-    validateOnChange: false,
-    validateOnBlur: false,
-    validate: (values) => {
-      const errors = {}
-      if (type === "QA") {
-        if (!values.question) {
-          errors.question = 'Digite um nome para o Deck'
-        }
-        if (!values.answer) {
-          errors.answer = 'Digite um nome para o Deck'
-        }
-      } else {
-        if (!values.question) {
-          errors.question = 'Digite um nome para o Deck'
-        }
-      }
-      return errors
-    },
+  const validationSchema = Yup.object().shape({
+    question: Yup.string()
+      .required("Digite uma pergunta")
+      .label("question"),
+    answer: Yup.string()
+      .required("Digite uma resposta")
+      .label("answer"),
   })
 
   return (
@@ -60,13 +40,28 @@ const CreateCard = ({ route, navigation }) => {
           <PickerSelectComponent items={items.types} setValue={setType} placeholder={typePlaceholder} label={"Tipo do Card"} white={true} />
         </View>
       </View>
-      <FormLayout grow={1} >
-        <SafeAreaView style={{ flex: 1 }} behavior='height'>
-          {type === "QA" ? <QAComponent formik={formik} /> : <BasicComponent formik={formik} />}
-          <View className="w-full items-center">
-            <FormButtonComponent title={"Adicionar carta"} action={formik.handleSubmit} />
-          </View>
-        </SafeAreaView>
+      <FormLayout>
+        <FormikForm
+          initialValues={{
+            question: '',
+            answer: '',
+          }}
+          validationSchema={validationSchema}
+          validateOnBlur={false}
+          validateOnChange={false}
+          onSubmit={
+            (values, { resetForm }) => {
+              console.log(values)
+              addCard(values.question, values.answer, type, deckID)
+              resetForm()
+              Alert.alert("Card Added")
+            }
+          }
+        >
+          <Field component={FormikFormField} name={'question'} placeholder={'Digite sua pergunta'} />
+          <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} />
+          <FormikButton title={'Adicionar carta'} />
+        </FormikForm>
       </FormLayout>
     </FormBackgroundLayout>
   )
