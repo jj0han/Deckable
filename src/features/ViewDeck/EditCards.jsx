@@ -30,13 +30,13 @@ export default function EditCards({ route, navigation }) {
                 .doc(id)
                 .get()
                 .then((data) => { setUserCards(data.data().cards) })
-                .finally(() => {setLoading(false)})
+                .finally(() => { setLoading(false) })
         }
     }, [isFocused])
 
     const render = userCards.map((card) => {
-        console.log(card)
-        return <EditCardComponent key={card.id} deckID={id} navigation={navigation} title={card.content ? card.content.question : "" } createdAt={card.createdAt} />
+        // console.log(card)
+        return <EditCardComponent key={card.id} deckID={id} navigation={navigation} title={card.content ? card.content.question : ""} createdAt={card.createdAt} />
     })
 
     return (

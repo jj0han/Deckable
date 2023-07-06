@@ -23,13 +23,19 @@ const CreateCard = ({ route, navigation }) => {
     navigation.dispatch(TabActions.jumpTo('Home'));
   }, [])
 
-  const validationSchema = Yup.object().shape({
+  const validationQASchema = Yup.object().shape({
     question: Yup.string()
       .required("Digite uma pergunta")
       .label("question"),
     answer: Yup.string()
       .required("Digite uma resposta")
       .label("answer"),
+  })
+
+  const validationBasicSchema = Yup.object().shape({
+    question: Yup.string()
+      .required("Digite uma pergunta")
+      .label("question"),
   })
 
   return (
@@ -46,7 +52,7 @@ const CreateCard = ({ route, navigation }) => {
             question: '',
             answer: '',
           }}
-          validationSchema={validationSchema}
+          validationSchema={type == "QA" ? validationQASchema : validationBasicSchema}
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={
@@ -59,7 +65,7 @@ const CreateCard = ({ route, navigation }) => {
           }
         >
           <Field component={FormikFormField} name={'question'} placeholder={'Digite sua pergunta'} />
-          <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} />
+          {type == "QA" && <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} />}
           <FormikButton title={'Adicionar carta'} />
         </FormikForm>
       </FormLayout>

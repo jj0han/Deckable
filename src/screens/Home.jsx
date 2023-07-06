@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
 
     useEffect(() => {
         if (isFocused) {
-            firestore().collection('decks').where("uid", "==", auth().currentUser.uid).orderBy("createdAt").get().then((data) => {
+            firestore().collection('decks').where("uid", "==", auth().currentUser.uid).orderBy("createdAt", "desc").get().then((data) => {
                 setUserDecks(data.docs.map((deck) => {
                     return deck.data()
                 }))

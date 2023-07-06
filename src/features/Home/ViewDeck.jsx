@@ -52,15 +52,15 @@ const ViewDeck = ({ route, navigation }) => {
                     hideArrows={true}
                     markedDates={{
                         [selected]: { marked: true },
-                        '2023-05-31': { selected:true, selectedColor: "#292929" },
-                        '2023-06-01': { selected:true, selectedColor: "#292929" },
-                        '2023-06-02': { selected:true, selectedColor: "#292929" },
-                        '2023-06-03': { selected:true, selectedColor: "#292929" },
-                        '2023-06-04': { selected:true, selectedColor: "#292929" },
+                        '2023-05-31': { selected: true, selectedColor: "#292929" },
+                        '2023-06-01': { selected: true, selectedColor: "#292929" },
+                        '2023-06-02': { selected: true, selectedColor: "#292929" },
+                        '2023-06-03': { selected: true, selectedColor: "#292929" },
+                        '2023-06-04': { selected: true, selectedColor: "#292929" },
                     }}
                 />
                 <View className="justify-center items-center">
-                    <ButtonNavComponent title={"Revisar"} />
+                    <ButtonNavComponent title={"Revisar"} navigation={navigation} screen={"Swipe Teste"} params={{ name, id, uid, createdBy, createdAt, cards }} />
                 </View>
             </FormLayout>
         </FormBackgroundLayout>

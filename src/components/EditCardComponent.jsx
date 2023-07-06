@@ -7,9 +7,7 @@ const EditCardComponent = ({ title, deckID, createdAt, borderColor = "", navigat
 
     const date = new Date(createdAt)
     const handlePress = () => {
-        navigation.navigate('Criar Carta', {
-            deckID: deckID,
-        })
+        navigation.navigate('')
     }
 
     return (

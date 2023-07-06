@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import { DARK_BLUE, PINK, PURPLE } from '../../constants/colors/gradientColors'
 
 const ButtonNavComponent = ({ title, navigation, screen, params = {}, border = false, fullWidth = false, time = 0 }) => {
     const navigate = () => {
@@ -11,7 +12,7 @@ const ButtonNavComponent = ({ title, navigation, screen, params = {}, border = f
         <TouchableOpacity onPress={() => navigate()} style={{ width: fullWidth ? "100%" : "70%" }} className="mb-4 h-12">
             <Text className="text-white text-xl font-bold text-center absolute z-10 left-0 right-0 top-2">{title}</Text>
             <LinearGradient
-                colors={['#4F6597', '#6E5DAD', '#D442EF']}
+                colors={[DARK_BLUE, PURPLE, PINK]}
                 className="w-full h-full rounded-lg"
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0.85, y: 0.85 }}

@@ -1,11 +1,15 @@
 import React, { useContext } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
-import { useFormik } from 'formik'
+import { View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { Field, useFormik } from 'formik'
 import { AuthContext } from '../../context/AuthContext'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
 import FormikInputComponent from '../inputs/FormikInputComponent'
 import FormButtonComponent from '../buttons/FormButtonComponent'
 import { Google } from '../../assets/images/svgs'
+import * as Yup from 'yup'
+import FormikForm from './FormikForm'
+import FormikButton from './FormikButton'
+import FormikFormField from './FormikFormField'
 
 const Form = ({ type = "login" }) => {
     const { login, signup, loginMessages, signInWithGoogle } = useContext(AuthContext)
@@ -62,6 +66,32 @@ const Form = ({ type = "login" }) => {
         },
     })
 
+    const LoginValidationSchema = Yup.object().shape({
+        email: Yup.string()
+            .required("Digite seu email")
+            .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email inválido")
+            .label("email"),
+        password: Yup.string()
+            .required("Digite sua senha")
+            .matches(/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/, 'A senha deve ter de 6 a 20 caracteres')
+            .label("password"),
+    })
+
+    const signupValidationSchema = Yup.object().shape({
+        name: Yup.string()
+            .required('Digite um nome')
+            .label('name'),
+        email: Yup.string()
+            .required("Digite seu email")
+            .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email inválido")
+            .label("email"),
+        password: Yup.string()
+            .required("Digite sua senha")
+            .matches(/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/, 'A senha deve ter de 6 a 20 caracteres')
+            .label("password"),
+        confirmPassword: Yup.string().required('As senhas não coincidem')
+    })
+
     return (
         <FormBackgroundLayout>
             <View className="items-center justify-center py-16">
@@ -69,35 +99,38 @@ const Form = ({ type = "login" }) => {
                 <Text className="text-white text-xl font-extralight">Seu app de revisões</Text>
             </View>
             <FormLayout>
-                <View className="w-full">
-                    <Text className="text-black text-3xl font-semibold tracking-widest">{type === "signup" ? "Cadastrar" : "Entrar"}</Text>
-                    <Text className="text-[#666666] text-base font-semibold">Faça ser cadastro para continuar</Text>
-                </View>
-                {loginMessages !== "" ? <Text className="text-red-600">{loginMessages}</Text> : null}
-                <View className="items-center">
-                    <View className="items-center w-full py-10 gap-y-5">
-                        {type === "signup" ?
-                            <View className="w-full">
-                                <FormikInputComponent name={'name'} placeholder={'Nome de Usuário'} formik={formik} formikValue={formik.values.name} formikErrors={formik.errors.name} />
-                            </View>
-                            :
-                            <Text className="hidden"></Text>
+                <FormikForm
+                    initialValues={{
+                        name: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                    }}
+                    onSubmit={
+                        (values, { resetForm }) => {
+                            console.log(values)
+                            if (type === "signup") {
+                                signup(values.email, values.password, values.name)
+                            } else {
+                                login(values.email, values.password)
+                            }
+                            resetForm()
                         }
-                        <View className="w-full">
-                            <FormikInputComponent name={'email'} placeholder={'Email'} formik={formik} formikValue={formik.values.email} formikErrors={formik.errors.email} />
-                        </View>
-                        <View className="w-full">
-                            <FormikInputComponent name={'password'} placeholder={'Senha'} formik={formik} formikValue={formik.values.password} formikErrors={formik.errors.password} secureTextEntry={true} />
-                        </View>
-                        {type === "signup" ?
-                            <View className="w-full">
-                                <FormikInputComponent name={'confirmPassword'} placeholder={'Confirmar Senha'} formik={formik} formikValue={formik.values.confirmPassword} formikErrors={formik.errors.confirmPassword} secureTextEntry={true} />
-                            </View>
-                            :
-                            <Text className="hidden"></Text>
-                        }
+                    }
+                    validationSchema={type === 'signup' ? signupValidationSchema : LoginValidationSchema}
+                    validateOnChange={false}
+                    validateOnBlur={false}
+                >
+                    <View className="w-full">
+                        <Text className="text-black text-3xl font-semibold tracking-widest">{type === "signup" ? "Cadastrar" : "Entrar"}</Text>
+                        <Text className="text-[#666666] text-base font-semibold">Faça seu cadastro para continuar</Text>
                     </View>
-                    <FormButtonComponent title={type === "signup" ? 'Cadastrar' : 'Entrar'} action={formik.handleSubmit} />
+                    {loginMessages !== "" ? <Text className="text-red-600">{loginMessages}</Text> : null}
+                    {type === 'signup' && <Field component={FormikFormField} name={'name'} placeholder={'Nome de usuário'} />}
+                    <Field component={FormikFormField} name={'email'} placeholder={'E-mail'} />
+                    <Field component={FormikFormField} name={'password'} placeholder={'Senha'} secureTextEntry />
+                    {type === 'signup' && <Field component={FormikFormField} name={'confirmPassword'} placeholder={'Confirmar Senha'} secureTextEntry />}
+                    <FormikButton title={'Entrar'} />
                     <View className="w-full items-center">
                         <View className="w-full flex-row justify-center items-center my-5" >
                             <View className="border-b border-[#d7d7d7] grow" />
@@ -109,7 +142,7 @@ const Form = ({ type = "login" }) => {
                             <Text className="text-[#8a8a8a] font-semibold ml-5">Continuar com Google</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </FormikForm>
             </FormLayout>
         </FormBackgroundLayout>
     )
