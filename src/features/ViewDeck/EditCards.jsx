@@ -12,13 +12,14 @@ import { PURPLE } from '../../constants/colors/gradientColors'
 export default function EditCards({ route, navigation }) {
     const [userCards, setUserCards] = useState([{}])
     const [loading, setLoading] = useState(true)
-    const { id } = route.params ?? {}
+    const { name, id, uid, createdBy, createdAt, cards } = route.params ?? {}
     const isFocused = useIsFocused()
     useHeaderRight(navigation, WHITE)
 
     const handlePress = () => {
         navigation.navigate('Criar Carta', {
             deckID: id,
+            cards,
         })
     }
 

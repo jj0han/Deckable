@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { View, Text } from 'react-native'
 import { Calendar, } from 'react-native-calendars';
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
@@ -6,12 +6,16 @@ import useHeaderRight from '../../hooks/useHeaderRight'
 import { ButtonDialogueComponent, ButtonNavComponent, DeckComponent } from '../../components'
 import { AuthContext } from '../../context/AuthContext'
 import { WHITE } from '../../constants/colors/layoutColors';
+import firestore from '@react-native-firebase/firestore'
+import { useIsFocused } from '@react-navigation/native';
 
 const ViewDeck = ({ route, navigation }) => {
     useHeaderRight(navigation, WHITE)
-    const { name, id, uid, createdBy, createdAt, cards } = route.params
+    const { name, id, uid, createdBy, createdAt } = route.params
     const { removeUserDeck } = useContext(AuthContext)
     const [selected, setSelected] = useState('');
+    const [cards, setCards] = useState([{}])
+    const isFocused = useIsFocused()
 
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -23,11 +27,15 @@ const ViewDeck = ({ route, navigation }) => {
 
     const formatDate = `${yyyy}-${mm}-${dd}`
 
-    // useEffect(() => {
-    //     navigation.setOptions({
-    //         title: name
-    //     })
-    // }, [navigation])
+    useEffect(() => {
+        if (isFocused) {
+            firestore()
+                .collection('decks')
+                .doc(id)
+                .get()
+                .then((data) => { setCards(data.data().cards) })
+        }
+    }, [isFocused])
 
     return (
         <FormBackgroundLayout>
