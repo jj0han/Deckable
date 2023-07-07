@@ -27,7 +27,7 @@ const Create = ({ navigation }) => {
     { label: "Ciências Humanas", value: "hc" },
   ]
 
-  useHeaderRight(navigation, WHITE)
+  useHeaderRight(navigation, "#FFF")
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -68,7 +68,7 @@ const Create = ({ navigation }) => {
             <View className="w-full px-4 mt-4">
               <PickerSelectComponent items={typeItems} setValue={setTypeOptions} placeholder={typePlaceholder} label={"Meu Deck vai ser sobre..."} />
             </View>
-            <FormikButton title={"Criar Deck"} />
+            <FormikButton title={"Criar Deck"} EnableGlow={true} />
           </View>
         </FormLayout>
       </FormikForm>

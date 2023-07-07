@@ -23,6 +23,7 @@ export { default as FormikButton } from './forms/FormikButton'
 export { default as FormikInputComponent } from './inputs/FormikInputComponent'
 export { default as PickerSelectComponent } from './inputs/PickerSelectComponent'
 export { default as TextInputComponent } from './inputs/TextInputComponent'
+export { default as SearchInput } from './inputs/SearchInput'
 
 //tabBar
 export { default as AnimatedTabBar } from './tabBar/AnimatedTabBar'

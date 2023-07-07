@@ -1,10 +1,8 @@
 import React, { useContext } from 'react'
-import { View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { Field, useFormik } from 'formik'
 import { AuthContext } from '../../context/AuthContext'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
-import FormikInputComponent from '../inputs/FormikInputComponent'
-import FormButtonComponent from '../buttons/FormButtonComponent'
 import { Google } from '../../assets/images/svgs'
 import * as Yup from 'yup'
 import FormikForm from './FormikForm'
@@ -130,7 +128,7 @@ const Form = ({ type = "login" }) => {
                     <Field component={FormikFormField} name={'email'} placeholder={'E-mail'} />
                     <Field component={FormikFormField} name={'password'} placeholder={'Senha'} secureTextEntry />
                     {type === 'signup' && <Field component={FormikFormField} name={'confirmPassword'} placeholder={'Confirmar Senha'} secureTextEntry />}
-                    <FormikButton title={'Entrar'} />
+                    <FormikButton title={'Entrar'} EnableGlow={true} />
                     <View className="w-full items-center">
                         <View className="w-full flex-row justify-center items-center my-5" >
                             <View className="border-b border-[#d7d7d7] grow" />

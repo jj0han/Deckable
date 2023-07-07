@@ -22,7 +22,7 @@ const EditCardComponent = ({ title, deckID, createdAt, borderColor = "", navigat
                 end={{ x: 0.85, y: 0.85 }}
             />
             <View className="absolute w-full h-full p-4 justify-between items-center">
-                <Text className="text-white text-base font-bold text-center break-words">
+                <Text style={{ fontSize: title.length <= 10 ? 30 : 16 }} className="text-white font-bold text-center break-words">
                     {title.length > 60 ? `${title.slice(0, 60)}...` : title}
                 </Text>
                 <Text className="text-white text-base font-bold text-center break-words">{date.toLocaleDateString('pt-BR')}</Text>

@@ -10,7 +10,7 @@ import firestore from '@react-native-firebase/firestore'
 import { useIsFocused } from '@react-navigation/native';
 
 const ViewDeck = ({ route, navigation }) => {
-    useHeaderRight(navigation, WHITE)
+    useHeaderRight(navigation, "#FFF")
     const { name, id, uid, createdBy, createdAt } = route.params
     const { removeUserDeck } = useContext(AuthContext)
     const [selected, setSelected] = useState('');
@@ -43,7 +43,7 @@ const ViewDeck = ({ route, navigation }) => {
                 <DeckComponent viewOnly={true} title={name} borderColor='#292929' />
                 <View className="grow px-5">
                     <Text className="text-white text-base font-bold">Por: {createdBy}</Text>
-                    <ButtonNavComponent fullWidth={true} title={"Editar Cartas"} navigation={navigation} screen={"Editar Cartas"} params={{ name, id, uid, createdBy, createdAt, cards }} />
+                    <ButtonNavComponent fullWidth={true} title={"Cartas"} navigation={navigation} screen={"Editar Cartas"} params={{ name, id, uid, createdBy, createdAt, cards }} />
                     <ButtonNavComponent fullWidth={true} title={"Editar Deck"} />
                     <ButtonDialogueComponent time={300} id={id} useRemove={true} removeUserDeck={removeUserDeck} uid={uid} screen={"Home"} navigation={navigation} fullWidth={true} title={"Excluir Deck"} />
                 </View>
@@ -68,7 +68,7 @@ const ViewDeck = ({ route, navigation }) => {
                     }}
                 />
                 <View className="justify-center items-center">
-                    <ButtonNavComponent title={"Revisar"} navigation={navigation} screen={"Swipe Teste"} params={{ name, id, uid, createdBy, createdAt, cards }} />
+                    <ButtonNavComponent title={cards.length === 0 ? "Adicione Cartas" : "Revisar"} EnableGlow={true} navigation={navigation} screen={cards.length === 0 ? "Editar Cartas" : "Swipe Teste"} params={{ name, id, uid, createdBy, createdAt, cards }} />
                 </View>
             </FormLayout>
         </FormBackgroundLayout>

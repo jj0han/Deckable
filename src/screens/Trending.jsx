@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import firestore from '@react-native-firebase/firestore'
 import useHeaderRight from '../hooks/useHeaderRight'
-import { DeckComponent } from '../components'
+import { DeckComponent, SearchInput } from '../components'
 
 const Trending = ({ navigation }) => {
 
@@ -25,8 +25,8 @@ const Trending = ({ navigation }) => {
 
   return (
     <SafeAreaView className="bg-white flex-1 px-6 pb-[90px]">
-      <TextInput className="bg-[#F7F7F7] text-black border-[#D7D7D7] border-[1px] my-3 px-4 rounded-full w-full" placeholder='Pesquisar...' placeholderTextColor={"#000"} />
       <ScrollView>
+      <SearchInput placeholder={"Pesquisar..."} />
         <View className="flex-wrap flex-row">
           {render}
         </View>

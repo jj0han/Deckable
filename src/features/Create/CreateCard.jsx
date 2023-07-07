@@ -66,7 +66,7 @@ const CreateCard = ({ route, navigation }) => {
         >
           <Field component={FormikFormField} name={'question'} placeholder={'Digite sua pergunta'} />
           {type == "QA" && <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} />}
-          <FormikButton title={'Adicionar carta'} />
+          <FormikButton title={'Adicionar carta'} EnableGlow={true} />
         </FormikForm>
       </FormLayout>
     </FormBackgroundLayout>
