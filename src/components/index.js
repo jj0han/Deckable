@@ -34,3 +34,6 @@ export { default as CardGradientComponent } from './CardGradientComponent'
 export { default as DeckComponent } from './DeckComponent'
 export { default as EditCardComponent } from './EditCardComponent'
 export { default as DeckFormikComponent } from './DeckFormikComponent'
+
+// __tests__
+export { default as CardGradientSwipe } from './CardGradientSwipe'

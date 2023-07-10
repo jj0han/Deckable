@@ -9,7 +9,7 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
             width: "100%",
             fontSize: 16,
             fontWeight: "bold",
-            marginRight: 30
+            marginRight: labelAtTop ? 0 : 30
         },
     })
 
@@ -24,9 +24,6 @@ const PickerSelectComponent = ({ setValue, items, placeholder = "Select", label 
                     iconContainer: {
                         top: 20,
                         right: 12,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
                     },
                     viewContainer: {
                     }

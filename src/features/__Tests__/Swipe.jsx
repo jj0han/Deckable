@@ -76,7 +76,7 @@ const Swipe = ({ route, navigation }) => {
                                     end={{ x: 0, y: 0.85 }}
                                 />
                                 <View className="absolute w-full h-full p-4 justify-between items-center">
-                                    <Text style={{ fontSize: card.content.question.length <= 20 ? 40 : 15 }} className="text-white font-bold text-center break-words m-auto">{card.content.answer}</Text>
+                                    <Text style={{ fontSize: card.content.answer.length <= 20 ? 40 : 15 }} className="text-white font-bold text-center break-words m-auto">{card.content.answer}</Text>
                                 </View>
                             </View>
                         </FlipCard>

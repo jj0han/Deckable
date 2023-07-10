@@ -31,13 +31,10 @@ const Create = ({ navigation, route }) => {
 
   useHeaderRight(navigation, "#FFF")
 
-  console.log(visibility, type)
-
   useEffect(() => {
     visibility && setVisibilityOptions(visibility)
     type && setTypeOptions(type)
 
-    console.log(typeOptions)
   }, [])
 
   const validationSchema = Yup.object().shape({

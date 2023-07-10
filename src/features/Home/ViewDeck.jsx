@@ -40,7 +40,7 @@ const ViewDeck = ({ route, navigation }) => {
                 .then((data) => {
                     setDeckData(data.data())
                     setCards(data.data().cards)
-                    console.log(cards)
+                    // console.log(cards)
                 })
                 .finally(() => {
                     setLoading(false)
