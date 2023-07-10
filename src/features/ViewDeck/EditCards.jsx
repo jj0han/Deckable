@@ -14,16 +14,17 @@ export default function EditCards({ route, navigation }) {
     const isFocused = useIsFocused()
     const [userCards, setUserCards] = useState([{}])
     const [loading, setLoading] = useState(true)
-    const { name, id, uid, createdBy, createdAt, cards } = route.params ?? {}
+    const { id } = route.params ?? {}
     const [pickerType, setPickerType] = useState("NewestDate")
     const items = {
         types: [
             { label: "Data mais recente", value: "NewestDate" },
-          { label: "Data mais antiga", value: "OldestDate" },
+            { label: "Data mais antiga", value: "OldestDate" },
         ],
-      }
+    }
 
     const handlePress = () => {
+        const cards = userCards.cards
         navigation.navigate('Criar Carta', {
             deckID: id,
             cards,
@@ -38,8 +39,8 @@ export default function EditCards({ route, navigation }) {
                 .doc(id)
                 .get()
                 .then((data) => { setUserCards(data.data().cards) })
-                .finally(() => { 
-                    setLoading(false) 
+                .finally(() => {
+                    setLoading(false)
                 })
         }
     }, [isFocused])
@@ -59,7 +60,7 @@ export default function EditCards({ route, navigation }) {
                 </SearchInput>
             </View>
             <View className="flex-1 flex-row mx-4 my-4 items-center justify-between">
-                    <PickerSelectComponent white={true} label='Ordenar' labelAtTop={false} items={items.types} setValue={setPickerType} />
+                <PickerSelectComponent white={true} label='Ordenar' labelAtTop={false} items={items.types} setValue={setPickerType} />
                 <Text className="text-white">{userCards.length} Cartas Visíveis</Text>
             </View>
             <FormLayout>

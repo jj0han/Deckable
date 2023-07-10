@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Field, useFormik } from 'formik'
 import { AuthContext } from '../../context/AuthContext'
@@ -11,6 +11,7 @@ import FormikFormField from './FormikFormField'
 
 const Form = ({ type = "login" }) => {
     const { login, signup, loginMessages, signInWithGoogle } = useContext(AuthContext)
+    const [isLoading, setIsLoading] = useState(false)
 
     const formik = useFormik({
         initialValues: {
@@ -110,7 +111,7 @@ const Form = ({ type = "login" }) => {
                             if (type === "signup") {
                                 signup(values.email, values.password, values.name)
                             } else {
-                                login(values.email, values.password)
+                                login(values.email, values.password, setIsLoading)
                             }
                             resetForm()
                         }
@@ -128,7 +129,7 @@ const Form = ({ type = "login" }) => {
                     <Field component={FormikFormField} name={'email'} placeholder={'E-mail'} />
                     <Field component={FormikFormField} name={'password'} placeholder={'Senha'} secureTextEntry />
                     {type === 'signup' && <Field component={FormikFormField} name={'confirmPassword'} placeholder={'Confirmar Senha'} secureTextEntry />}
-                    <FormikButton title={'Entrar'} EnableGlow={true} />
+                    <FormikButton title={'Entrar'} EnableGlow={true} isLoading={isLoading} />
                     <View className="w-full items-center">
                         <View className="w-full flex-row justify-center items-center my-5" >
                             <View className="border-b border-[#d7d7d7] grow" />

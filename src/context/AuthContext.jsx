@@ -36,13 +36,16 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const login = async (email, password, ...params) => {
+    const login = async (email, password, setIsLoading, ...params) => {
         try {
+            setIsLoading(true)
             if (email && password !== "") {
                 await auth().signInWithEmailAndPassword(email, password)
                 setLoginMessages("")
+                setIsLoading(false)
             } else {
                 setLoginMessages("Preencha os campos")
+                setIsLoading(false)
             }
         } catch (e) {
             setLoginMessages("Email ou senha incorretos")

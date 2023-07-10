@@ -26,6 +26,24 @@ const addUserDeck = async (name, generatedID, visibility, type) => {
         })
 }
 
+const editDeck = async (name, deckId, visibility, type) => {
+    await firestore()
+        .collection('decks')
+        .doc(deckId)
+        .update(
+            {
+                id: deckId,
+                name: name,
+                visibility: visibility,
+                type: type,
+            }
+        )
+        .then(() => {
+            console.log('Deck edited!')
+            return deckId
+        })
+}
+
 const addCard = async (question, answer, type, deckID) => {
     await firestore()
         .collection('decks')
@@ -48,7 +66,7 @@ const addCard = async (question, answer, type, deckID) => {
 }
 
 const removeUserDeck = async (id, uid) => {
-    if(uid != auth().currentUser.uid) return
+    if (uid != auth().currentUser.uid) return
     await firestore()
         .collection('decks')
         .doc(id)
@@ -58,4 +76,4 @@ const removeUserDeck = async (id, uid) => {
         })
 }
 
-export { addCard, addUserDeck, readUserData, removeUserDeck }
+export { addCard, editDeck, addUserDeck, readUserData, removeUserDeck }

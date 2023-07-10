@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { Alert, View } from 'react-native'
 import { Field } from 'formik'
 import uuid from 'react-native-uuid'
 import useHeaderRight from '../hooks/useHeaderRight'
@@ -8,9 +8,11 @@ import { AuthContext } from '../context/AuthContext'
 import { DeckFormikComponent, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../components'
 import { WHITE } from '../constants/colors/layoutColors'
 import * as Yup from 'yup'
+import { editDeck } from '../services/firestore'
 
-const Create = ({ navigation }) => {
+const Create = ({ navigation, route }) => {
   const { addUserDeck } = useContext(AuthContext)
+  const { name, visibility, type, id } = route.params?? {}
   const visibilityPlaceholder = { label: "Todos", value: "public" }
   const typePlaceholder = { label: "Genérico", value: "gn" }
 
@@ -29,6 +31,15 @@ const Create = ({ navigation }) => {
 
   useHeaderRight(navigation, "#FFF")
 
+  console.log(visibility, type)
+
+  useEffect(() => {
+    visibility && setVisibilityOptions(visibility)
+    type && setTypeOptions(type)
+
+    console.log(typeOptions)
+  }, [])
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .matches(/^[a-zA-Z0-9À-ÿ\s!@#$%^&*()_+{}|:?><~?><~,./]{1,40}$/, "O nome deve ter no máximo 40 caracteres")
@@ -40,16 +51,21 @@ const Create = ({ navigation }) => {
     <FormBackgroundLayout>
       <FormikForm
         initialValues={{
-          name: ""
+          name: name ? name : ""
         }}
         onSubmit={
           (values, { resetForm }) => {
-            const generatedID = uuid.v4()
-            addUserDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
-            navigation.navigate('Criar Carta', {
-              deckID: generatedID,
-            })
-            resetForm()
+            if (route.params) {
+              editDeck(values.name.trim(), id, visibilityOptions, typeOptions)
+              Alert.alert("Saved!")
+            } else {
+              const generatedID = uuid.v4()
+              addUserDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
+              navigation.navigate('Criar Carta', {
+                deckID: generatedID,
+              })
+              resetForm()
+            }
           }
         }
         validationSchema={validationSchema}
@@ -68,7 +84,7 @@ const Create = ({ navigation }) => {
             <View className="w-full px-4 mt-4">
               <PickerSelectComponent items={typeItems} setValue={setTypeOptions} placeholder={typePlaceholder} label={"Meu Deck vai ser sobre..."} />
             </View>
-            <FormikButton title={"Criar Deck"} EnableGlow={true} />
+            <FormikButton title={route.params ? "Salvar" : "Criar Deck"} EnableGlow={true} />
           </View>
         </FormLayout>
       </FormikForm>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import { BottomTabNavigator } from '../navigations';
-import { Settings } from '../screens';
+import { Create, Settings } from '../screens';
 import { CreateCard, EditCards, Swipe } from '../features';
 import ViewDeck from '../features/Home/ViewDeck';
 
@@ -17,7 +17,7 @@ function AppStack() {
             headerShadowVisible: false,
             headerTintColor: '#fff',
             headerStyle: {
-                backgroundColor: '#292929', 
+                backgroundColor: '#292929',
             },
             headerTitleStyle: {
                 fontWeight: '900',
@@ -43,6 +43,10 @@ function AppStack() {
                 options={{
                     ...TransitionPresets.ModalPresentationIOS,
                 }}
+            />
+            <Stack.Screen
+                name='Editar Deck'
+                component={Create}
             />
             <Stack.Screen
                 name='Criar Carta'
