@@ -45,9 +45,10 @@ export default function EditCards({ route, navigation }) {
         }
     }, [isFocused])
 
-    const render = userCards.map((card) => {
+    const render = userCards.map((card, index) => {
         // console.log(card)
-        return <EditCardComponent key={card.id} deckID={id} navigation={navigation} title={card.content ? card.content.question : ""} createdAt={card.createdAt} />
+        // console.log(card.content.question, index)
+        return <EditCardComponent key={card.id} cardID={card.id} deckID={id} content={card.content} card={card} index={index} navigation={navigation} title={card.content ? card.content.question : ""} createdAt={card.createdAt} />
     })
 
     return (

@@ -47,7 +47,7 @@ const editDeck = async (name, deckId, visibility, type) => {
 const addCard = async (question, answer, type, deckID) => {
     await firestore()
         .collection('decks')
-        .doc(`${deckID}`)
+        .doc(deckID)
         .update({
             cards: firestore.FieldValue.arrayUnion({
                 content: {
@@ -65,6 +65,46 @@ const addCard = async (question, answer, type, deckID) => {
         })
 }
 
+const editCard = async (question, answer, type, cardID, deckID, index, uid, createdAt) => {
+    const ref = firestore().collection('decks').doc(deckID)
+    const snapshot = await ref.get()
+
+    const cardsArray = snapshot.get('cards')
+
+    const updatedCard = {
+        content: {
+            question: question,
+            answer: answer,
+        },
+        id: cardID,
+        uid: uid,
+        type: type,
+        createdAt: createdAt,
+    }
+
+    cardsArray[index] = updatedCard
+
+    ref.update({cards: cardsArray})
+    .then(() => {
+        console.log('Card edited!')
+    })
+}
+
+const deleteCard = async (deckID, index) => {
+    const ref = firestore().collection('decks').doc(deckID)
+    const snapshot = await ref.get()
+
+    const cardsArray = snapshot.get('cards')
+
+    console.log(cardsArray)
+    cardsArray[index]
+
+    // ref.update({cards: cardsArray})
+    // .then(() => {
+    //     console.log('Card edited!')
+    // })
+}
+
 const removeUserDeck = async (id, uid) => {
     if (uid != auth().currentUser.uid) return
     await firestore()
@@ -76,4 +116,4 @@ const removeUserDeck = async (id, uid) => {
         })
 }
 
-export { addCard, editDeck, addUserDeck, readUserData, removeUserDeck }
+export { addCard, editCard, deleteCard, editDeck, addUserDeck, readUserData, removeUserDeck }

@@ -2,16 +2,17 @@ import React, { useState, useEffect, useContext } from 'react'
 import { View, Alert } from 'react-native'
 import { TabActions } from '@react-navigation/native'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
-import { CardGradientComponent, CardGradientSwipe, FormikButton, FormikForm, FormikFormField, PickerSelectComponent, QAComponent } from '../../components'
+import { CardGradientSwipe, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../../components'
 import { Field } from 'formik'
 import { AuthContext } from '../../context/AuthContext'
 import * as Yup from 'yup'
+import { editCard } from '../../services/firestore'
 
 const CreateCard = ({ route, navigation }) => {
-  const { deckID } = route.params
+  const { cardID, deckID, content, uid, index, type, createdAt } = route.params?? {}
   const { addCard } = useContext(AuthContext)
   const [isFlipped, setIsFlipped] = useState(false)
-  const [type, setType] = useState("BSC")
+  const [cardType, setType] = useState("BSC")
   const typePlaceholder = { label: "Básico", value: "BSC" }
   const items = {
     types: [
@@ -43,18 +44,23 @@ const CreateCard = ({ route, navigation }) => {
     <FormBackgroundLayout>
       <FormikForm
         initialValues={{
-          question: '',
-          answer: '',
+          question: content ? content.question : '',
+          answer: content ? content.answer : '',
         }}
-        validationSchema={type == "QA" ? validationQASchema : validationBasicSchema}
+        validationSchema={cardType == "QA" ? validationQASchema : validationBasicSchema}
         validateOnBlur={false}
         validateOnChange={false}
         onSubmit={
           (values, { resetForm }) => {
             // console.log(values)
-            addCard(values.question, values.answer, type, deckID)
-            resetForm()
-            Alert.alert("Card Added")
+            if (content) {
+              editCard(values.question, values.answer, cardType, cardID, deckID, index, uid, createdAt)
+              Alert.alert("Card edited")
+            } else {
+              addCard(values.question, values.answer, cardType, deckID)
+              resetForm()
+              Alert.alert("Card Added")
+            }
           }
         }
       >
@@ -68,8 +74,8 @@ const CreateCard = ({ route, navigation }) => {
         </View>
         <FormLayout>
             <Field component={FormikFormField} name={'question'} placeholder={'Digite sua pergunta'} onFocus={() => setIsFlipped(false)} />
-            {type == "QA" && <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} onFocus={() => setIsFlipped(true)} />}
-            <FormikButton title={'Adicionar carta'} EnableGlow={true} />
+            {cardType == "QA" && <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} onFocus={() => setIsFlipped(true)} />}
+            <FormikButton title={content ? 'Salvar carta' : 'Adicionar carta'} EnableGlow={true} />
         </FormLayout>
       </FormikForm>
     </FormBackgroundLayout>

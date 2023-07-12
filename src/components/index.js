@@ -12,6 +12,7 @@ export { default as QAComponent } from './cardTypes/QAComponent'
 //dialogs
 export { default as ChangeUserNameDialog } from './dialogs/ChangeUserNameDialog'
 export { default as ConfirmDialog } from './dialogs/ConfirmDialog'
+export { default as ChangeColorSchemeDialog } from './dialogs/ChangeColorSchemeDialog'
 
 //forms
 export { default as Form } from './forms/Form'

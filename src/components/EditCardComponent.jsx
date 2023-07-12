@@ -3,15 +3,23 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { DARK_BLUE, PINK, PURPLE, WHITE } from '../constants/colors/gradientColors'
 
-const EditCardComponent = ({ title, deckID, createdAt, borderColor = "", navigation }) => {
+const EditCardComponent = ({ title, cardID, deckID, content, card, index, createdAt, borderColor = "", navigation }) => {
 
     const date = new Date(createdAt)
     const handlePress = () => {
-        navigation.navigate('')
+        navigation.navigate('Editar Carta', {
+            deckID: deckID,
+            content: content,
+            cardID: cardID,
+            uid: card.uid,
+            index: index,
+            type: card.type,
+            createdAt: card.createdAt,
+        })
     }
 
     return (
-        <TouchableOpacity onPress={handlePress} className="relative w-[155px] h-[200px] mx-auto my-1">
+        <TouchableOpacity onPress={handlePress} onLongPress={() => { console.log("long press") }} className="relative w-[155px] h-[200px] mx-auto my-1">
             <LinearGradient
                 colors={[DARK_BLUE, PURPLE, PINK]}
                 className="w-full h-full rounded-3xl border-[3px]"

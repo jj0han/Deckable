@@ -4,13 +4,14 @@ import auth from '@react-native-firebase/auth'
 import { Path, Svg } from 'react-native-svg'
 import { AuthContext } from '../context/AuthContext'
 import { FormBackgroundLayout, FormLayout } from '../layouts/forms'
-import { ChangeUserNameDialog, ConfirmDialog } from '../components'
+import { ChangeColorSchemeDialog, ChangeUserNameDialog, ConfirmDialog } from '../components'
 
 const Settings = () => {
   const { logout, user } = useContext(AuthContext)
   const date = new Date(user.metadata.creationTime)
   const [visible, setVisible] = useState(false)
   const [showLogOut, setShowLogOut] = useState(false)
+  const [showColorScheme, setShowColorScheme] = useState(false)
   const [showError, setShowError] = useState(false)
   const [userName, setUserName] = useState(auth().currentUser.displayName)
   const [newUserName, setNewUserName] = useState("")
@@ -24,10 +25,15 @@ const Settings = () => {
   const handleCancel = () => {
     setVisible(false)
     setShowLogOut(false)
+    setShowColorScheme(false)
   }
 
   const logOutDialogue = () => {
     setShowLogOut(true)
+  }
+
+  const colorSchemeDialog = () => {
+    setShowColorScheme(true)
   }
 
   return (
@@ -51,6 +57,13 @@ const Settings = () => {
         visible={showLogOut}
         handleCancel={handleCancel}
         action={logout}
+      />
+      
+      <ChangeColorSchemeDialog
+        title={'Alterar esquema de cores'}
+        visible={showColorScheme}
+        handleCancel={handleCancel}
+
       />
 
       <FormBackgroundLayout>
@@ -93,7 +106,7 @@ const Settings = () => {
               </Svg>
               <Text className="text-black text-base ml-2">Alterar foto de usuário</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex flex-row items-center gap-x-10 p-5">
+            <TouchableOpacity onPress={colorSchemeDialog} className="flex flex-row items-center gap-x-10 p-5">
               <Svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={20}
@@ -102,7 +115,7 @@ const Settings = () => {
               >
                 <Path d="M41.148 36.156c-12.68 0-20.789-7.945-20.789-20.648 0-2.625.633-6.375 1.454-8.32.234-.54.257-.868.257-1.102 0-.633-.468-1.336-1.359-1.336-.281 0-.82.07-1.336.258C10.703 8.477 4.891 17.805 4.891 27.625c0 13.781 10.5 23.625 24.234 23.625 10.078 0 18.844-6.117 21.75-13.758a4.483 4.483 0 0 0 .234-1.312c0-.867-.703-1.453-1.36-1.453-.304 0-.562.07-1.007.21-1.804.586-4.71 1.22-7.593 1.22z" />
               </Svg>
-              <Text className="text-black text-base ml-2">Alternar Tema do Aplicativo</Text>
+              <Text className="text-black text-base ml-2">Alternar Esquema de Cores</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => logOutDialogue()} className="flex flex-row items-center gap-x-10 p-5" >
               <Svg

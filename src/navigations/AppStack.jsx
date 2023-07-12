@@ -61,6 +61,10 @@ function AppStack() {
                 component={EditCards}
             />
             <Stack.Screen
+                name='Editar Carta'
+                component={CreateCard}
+            />
+            <Stack.Screen
                 name='Swipe Teste'
                 component={Swipe}
             />
