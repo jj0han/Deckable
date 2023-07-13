@@ -2,7 +2,7 @@ import React from 'react'
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 import { BottomTabNavigator } from '../navigations';
 import { Create, Settings } from '../screens';
-import { CreateCard, EditCards, Swipe } from '../features';
+import { CreateCard, EditCards, Swipe, ViewOtherUserDeck } from '../features';
 import ViewDeck from '../features/Home/ViewDeck';
 
 const Stack = createStackNavigator();
@@ -55,6 +55,10 @@ function AppStack() {
             <Stack.Screen
                 name='Ver Deck'
                 component={ViewDeck}
+            />
+            <Stack.Screen
+                name='Ver Deck de Usuário'
+                component={ViewOtherUserDeck}
             />
             <Stack.Screen
                 name='Editar Cartas'

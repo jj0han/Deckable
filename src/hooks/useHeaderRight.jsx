@@ -10,7 +10,7 @@ const useHeaderRight = (navigation, color = "#292929") => {
         navigation.setOptions({
             headerRight: () => (
                 <TouchableOpacity onPress={() => navigation.navigate('Configurações')}>
-                    <View style={{backgroundColor: color}} className="p-[3px] w-[35px] h-[35px] rounded-full" >
+                    <View style={{backgroundColor: color}} className="p-[2px] w-[35px] h-[35px] rounded-full" >
                         <Image source={user.photoURL !== null ? { uri: user.photoURL } : require('../assets/images/land.jpg')} className="rounded-full w-full h-full" />
                     </View>
                 </TouchableOpacity>

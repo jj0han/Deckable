@@ -1,4 +1,4 @@
-import { Text, View, SafeAreaView, ScrollView, TextInput, ActivityIndicator } from 'react-native'
+import { Text, View, SafeAreaView, ScrollView, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import firestore from '@react-native-firebase/firestore'
@@ -26,7 +26,7 @@ const Trending = ({ navigation }) => {
     }
   }, [isFocused])
 
-  const render = userDecks.map((deck) => (<DeckComponent key={deck.id} title={deck.name} navigate={navigation.navigate} params={deck} screen={"Ver Deck"} />))
+  const render = userDecks.map((deck) => (<DeckComponent key={deck.id} title={deck.name} navigate={navigation.navigate} params={deck} screen={"Ver Deck de Usuário"} />))
 
   return (
     <SafeAreaView className="bg-white flex-1 px-6 pb-[90px]">

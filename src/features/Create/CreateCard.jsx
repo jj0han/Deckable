@@ -73,8 +73,8 @@ const CreateCard = ({ route, navigation }) => {
           </View>
         </View>
         <FormLayout>
-            <Field component={FormikFormField} name={'question'} placeholder={'Digite sua pergunta'} onFocus={() => setIsFlipped(false)} />
-            {cardType == "QA" && <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} onFocus={() => setIsFlipped(true)} />}
+            <Field component={FormikFormField} name={'question'} placeholder={'Digite sua pergunta'} onFocus={() => setIsFlipped(false)} multiline={true} />
+            {cardType == "QA" && <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} onFocus={() => setIsFlipped(true)} multiline={true} />}
             <FormikButton title={content ? 'Salvar carta' : 'Adicionar carta'} EnableGlow={true} />
         </FormLayout>
       </FormikForm>

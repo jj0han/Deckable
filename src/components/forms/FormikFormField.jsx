@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, TextInput } from 'react-native'
 
-const FormikFormField = (props) => {
+const FormikFormField = (props, {multiline = false},) => {
     const {
         placeholder,
         field: { name, onBlur, onChange, value },
@@ -25,7 +25,7 @@ const FormikFormField = (props) => {
                 autoCapitalize="none"
                 autoCorrect={false}
                 value={value}
-                multiline={true}
+                multiline={multiline}
                 {...inputProps}
             />
             {hasError && <Text className="text-red-500 ml-4">{errors[name]}</Text>}
