@@ -7,7 +7,6 @@ import { ButtonDialogueComponent, ButtonNavComponent, DeckComponent } from '../.
 import { AuthContext } from '../../context/AuthContext'
 import { WHITE } from '../../constants/colors/layoutColors';
 import firestore from '@react-native-firebase/firestore'
-import { useIsFocused } from '@react-navigation/native';
 import { PURPLE } from '../../constants/colors/gradientColors';
 
 const ViewDeck = ({ route, navigation }) => {
@@ -18,7 +17,6 @@ const ViewDeck = ({ route, navigation }) => {
     const [deckData, setDeckData] = useState([{}])
     const [cards, setCards] = useState([{}])
     const [loading, setLoading] = useState(true)
-    const isFocused = useIsFocused()
 
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -31,22 +29,17 @@ const ViewDeck = ({ route, navigation }) => {
     const formatDate = `${yyyy}-${mm}-${dd}`
 
     useEffect(() => {
-        if (isFocused) {
-            setLoading(true)
-            firestore()
-                .collection('decks')
-                .doc(id)
-                .get()
-                .then((data) => {
-                    setDeckData(data.data())
-                    setCards(data.data().cards)
-                    // console.log(cards)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
-        }
-    }, [isFocused])
+        const unsubscribe = firestore()
+            .collection('decks')
+            .doc(id)
+            .onSnapshot((querySnapshot) => {
+                setLoading(true)
+                setDeckData(querySnapshot.data())
+                setCards(querySnapshot.data().cards)
+                setLoading(false)
+            })
+        return () => unsubscribe()
+    }, [])
 
     return (
         <FormBackgroundLayout>

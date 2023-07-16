@@ -5,13 +5,11 @@ import useHeaderRight from '../../hooks/useHeaderRight'
 import { WHITE } from '../../constants/colors/layoutColors'
 import { EditCardComponent, PickerSelectComponent, SearchInput } from '../../components'
 import { CreateIcon } from '../../assets/images/svgs'
-import { useIsFocused } from '@react-navigation/native'
 import firestore from '@react-native-firebase/firestore'
 import { PURPLE } from '../../constants/colors/gradientColors'
 
 export default function EditCards({ route, navigation }) {
     useHeaderRight(navigation, "#FFF")
-    const isFocused = useIsFocused()
     const [userCards, setUserCards] = useState([{}])
     const [loading, setLoading] = useState(true)
     const { id } = route.params ?? {}
@@ -32,18 +30,17 @@ export default function EditCards({ route, navigation }) {
     }
 
     useEffect(() => {
-        if (isFocused) {
-            setLoading(true)
-            firestore()
-                .collection('decks')
-                .doc(id)
-                .get()
-                .then((data) => { setUserCards(data.data().cards) })
-                .finally(() => {
-                    setLoading(false)
-                })
-        }
-    }, [isFocused])
+        const unsubscribe = firestore()
+            .collection('decks')
+            .doc(id)
+            .onSnapshot((querySnapshot) => {
+                setLoading(true)
+                setUserCards(querySnapshot.data().cards)
+                setLoading(false)
+            })
+
+        return () => unsubscribe()
+    }, [])
 
     const render = userCards.map((card, index) => {
         // console.log(card)
