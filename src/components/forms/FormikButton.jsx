@@ -5,12 +5,16 @@ import LinearGradient from 'react-native-linear-gradient'
 import { useFormikContext } from 'formik'
 import { DARK_BLUE, PINK, PURPLE } from '../../constants/colors/gradientColors'
 
-const FormikButton = ({ title, EnableGlow = false, isLoading = false }) => {
+const FormikButton = ({ title, EnableGlow = false, isLoading = false, width = "70%", setAction, action }) => {
 
     const { handleSubmit } = useFormikContext()
 
+    if(action) {
+        setAction(action)
+    }
+
     return (
-        <TouchableOpacity onPress={handleSubmit} style={{ elevation: 5 }} disabled={isLoading} className="w-[70%] h-12 mx-auto my-4">
+        <TouchableOpacity onPress={handleSubmit} style={{ elevation: 5, width: width }} disabled={isLoading} className="h-12 mx-auto my-4">
             <Shadow disabled={!EnableGlow} distance={20} style={{ borderRadius: 15 }} stretch={true} startColor={'#A0B0FF40'} endColor='#fff0' paintInside={true} offset={[0, 5]}>
                 <Text className="text-white text-xl font-bold text-center absolute z-10 left-0 right-0 top-2">
                     {isLoading ? <ActivityIndicator color={"#FFF"} style={{zIndex: 20, margin: "auto"}} /> : title}

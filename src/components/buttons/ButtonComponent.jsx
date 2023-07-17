@@ -1,19 +1,23 @@
 import React, { useContext } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { AuthContext } from '../../context/AuthContext'
+import { Shadow } from 'react-native-shadow-2'
+import { DARK_BLUE, PINK, PURPLE } from '../../constants/colors/gradientColors'
 
-const ButtonComponent = ({ title, question, answer, type, deckID, fullWidth = false }) => {
-    const { addCard } = useContext(AuthContext)
+const ButtonComponent = ({ title, EnableGlow = false, isLoading = false, width = "70%", handlePress }) => {
     return (
-        <TouchableOpacity onPress={() => addCard(question, answer, type, deckID)} className="max-w-[232px] h-12" style={{ width: fullWidth ? "100%" : "70%" }}>
-            <Text className="text-white text-xl font-bold text-center absolute z-10 left-0 right-0 top-2">{title}</Text>
-            <LinearGradient
-                colors={['#4F6597', '#6E5DAD', '#D442EF']}
-                className="w-full h-full rounded-lg"
-                start={{ x: 0, y: 0 }}
-                end={{ x: 0.85, y: 0.85 }}
-            />
+        <TouchableOpacity onPress={() => handlePress()} style={{ elevation: 5, width: width }} disabled={isLoading} className="h-12 mx-auto my-4">
+            <Shadow disabled={!EnableGlow} distance={20} style={{ borderRadius: 15 }} stretch={true} startColor={'#A0B0FF40'} endColor='#fff0' paintInside={true} offset={[0, 5]}>
+                <Text className="text-white text-xl font-bold text-center absolute z-10 left-0 right-0 top-2">
+                    {isLoading ? <ActivityIndicator color={"#FFF"} style={{zIndex: 20, margin: "auto"}} /> : title}
+                </Text>
+                <LinearGradient
+                    colors={[DARK_BLUE, PURPLE, PINK]}
+                    className="w-full h-full rounded-lg"
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0.85, y: 0.85 }}
+                />
+            </Shadow>
         </TouchableOpacity>
     )
 }

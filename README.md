@@ -5,11 +5,9 @@ O Deckable é um aplicativo Android desenvolvido como Trabalho de Conclusão de 
 Utilizando a Técnica de Revisão Espaçada, o Deckable permite que o usuário crie seus próprios decks e cartas de revisão para praticar e memorizar aquilo que aprendeu. A Técnica de Revisão Espaçada é baseada em uma teoria do conhecimento que procura a melhor abordagem para revisar conteúdos no tempo certo, maximizando o aprendizado e a memorização.
 
 # imagens
-<img src="./src/assets/images/welcome.jpg" alt="" height="400px">
-<img src="./src/assets/images/signup.jpg" alt="" height="400px">
-<img src="./src/assets/images/home.jpeg" alt="" height="400px">
-<img src="./src/assets/images/create.jpeg" alt="" height="400px">
-<img src="./src/assets/images/settings.jpg" alt="" height="400px">
-
-![name]()
-<video src="./assets/videos/auth.gif" controls="controls" style="max-width: 730px;"></video>
+<img src="./src/assets/images/welcome.png" alt="" height="400px">
+<img src="./src/assets/images/login.png" alt="" height="400px">
+<img src="./src/assets/images/home.png" alt="" height="400px">
+<img src="./src/assets/images/create.png" alt="" height="400px">
+<img src="./src/assets/images/settings.png" alt="" height="400px">
+<img src="./src/assets/images/viewCards.png" alt="" height="400px">

@@ -2,9 +2,8 @@ import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import uuid from 'react-native-uuid'
 
-const readUserData = async () => await firestore().collection('decks').get()
-
-const addUserDeck = async (name, generatedID, visibility, type) => {
+//Decks CRUD
+const createDeck = async (name, generatedID, visibility, type) => {
     await firestore()
         .collection('decks')
         .doc(generatedID)
@@ -26,7 +25,9 @@ const addUserDeck = async (name, generatedID, visibility, type) => {
         })
 }
 
-const editDeck = async (name, deckId, visibility, type) => {
+const readDecks = async () => await firestore().collection('decks').get()
+
+const updateDeck = async (name, deckId, visibility, type) => {
     await firestore()
         .collection('decks')
         .doc(deckId)
@@ -44,7 +45,19 @@ const editDeck = async (name, deckId, visibility, type) => {
         })
 }
 
-const addCard = async (question, answer, type, deckID) => {
+const deleteDeck = async (id, uid) => {
+    if (uid != auth().currentUser.uid) return
+    await firestore()
+        .collection('decks')
+        .doc(id)
+        .delete()
+        .then(() => {
+            console.log('removeUserDeck!')
+        })
+}
+
+//Cards CRUD
+const createCard = async (question, answer, type, deckID) => {
     await firestore()
         .collection('decks')
         .doc(deckID)
@@ -65,7 +78,7 @@ const addCard = async (question, answer, type, deckID) => {
         })
 }
 
-const editCard = async (question, answer, type, cardID, deckID, index, uid, createdAt) => {
+const updateCard = async (question, answer, type, cardID, deckID, index, uid, createdAt) => {
     const ref = firestore().collection('decks').doc(deckID)
     const snapshot = await ref.get()
 
@@ -96,24 +109,14 @@ const deleteCard = async (deckID, index) => {
 
     const cardsArray = snapshot.get('cards')
 
-    console.log(cardsArray)
-    cardsArray[index]
+    cardsArray.splice(index, 1)
 
-    // ref.update({cards: cardsArray})
-    // .then(() => {
-    //     console.log('Card edited!')
-    // })
+    ref.update({cards: cardsArray})
+    .then(() => {
+        console.log('Card edited!')
+    })
 }
 
-const removeUserDeck = async (id, uid) => {
-    if (uid != auth().currentUser.uid) return
-    await firestore()
-        .collection('decks')
-        .doc(id)
-        .delete()
-        .then(() => {
-            console.log('removeUserDeck!')
-        })
-}
 
-export { addCard, editCard, deleteCard, editDeck, addUserDeck, readUserData, removeUserDeck }
+
+export { createDeck, readDecks, updateDeck, deleteDeck, createCard, updateCard, deleteCard }

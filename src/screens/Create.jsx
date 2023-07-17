@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, View } from 'react-native'
 import { Field } from 'formik'
 import uuid from 'react-native-uuid'
 import useHeaderRight from '../hooks/useHeaderRight'
 import { FormBackgroundLayout, FormLayout } from '../layouts/forms'
-import { AuthContext } from '../context/AuthContext'
 import { DeckFormikComponent, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../components'
 import { WHITE } from '../constants/colors/layoutColors'
 import * as Yup from 'yup'
-import { editDeck } from '../services/firestore'
+import { createDeck, updateDeck } from '../services/firestore'
 
 const Create = ({ navigation, route }) => {
-  const { addUserDeck } = useContext(AuthContext)
   const { name, visibility, type, id } = route.params?? {}
   const visibilityPlaceholder = { label: "Todos", value: "public" }
   const typePlaceholder = { label: "Genérico", value: "gn" }
@@ -53,11 +51,11 @@ const Create = ({ navigation, route }) => {
         onSubmit={
           (values, { resetForm }) => {
             if (route.params) {
-              editDeck(values.name.trim(), id, visibilityOptions, typeOptions)
+              updateDeck(values.name.trim(), id, visibilityOptions, typeOptions)
               Alert.alert("Saved!")
             } else {
               const generatedID = uuid.v4()
-              addUserDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
+              createDeck(values.name.trim(), generatedID, visibilityOptions, typeOptions)
               navigation.navigate('Criar Carta', {
                 deckID: generatedID,
               })

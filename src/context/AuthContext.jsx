@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react'
 import { Alert } from 'react-native'
 import auth from '@react-native-firebase/auth'
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
-import { addCard, addUserDeck, readUserData, removeUserDeck } from '../services/firestore'
+import { readUserData } from '../services/firestore'
 
 export const AuthContext = createContext()
 
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
                 setLoginMessages("")
                 setIsLoading(false)
             } else {
-                setLoginMessages("Preencha os campos")
+                // setLoginMessages("Preencha os campos")
                 setIsLoading(false)
             }
         } catch (e) {
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
                 })
                 setLoginMessages("")
             } else {
-                setLoginMessages("Preencha os campos")
+                // setLoginMessages("Preencha os campos")
             }
         } catch (e) {
             Alert.alert('Algo deu Errado', 'Por Favor, Tente novamente mais tarde', [
@@ -93,10 +93,9 @@ export const AuthProvider = ({ children }) => {
             ]);
         }
     }
-    
 
     return (
-        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages, signInWithGoogle, readUserData, addUserDeck, removeUserDeck, addCard }}>
+        <AuthContext.Provider value={{ login, signup, logout, setUser, user, isLoading, setIsLoading, loginMessages, signInWithGoogle, readUserData}}>
             {children}
         </AuthContext.Provider>
     )

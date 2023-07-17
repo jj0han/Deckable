@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Alert } from 'react-native'
 import { TabActions } from '@react-navigation/native'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
 import { CardGradientSwipe, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../../components'
 import { Field } from 'formik'
-import { AuthContext } from '../../context/AuthContext'
 import * as Yup from 'yup'
-import { editCard } from '../../services/firestore'
+import { createCard, deleteCard, updateCard } from '../../services/firestore'
 
 const CreateCard = ({ route, navigation }) => {
   const { cardID, deckID, content, uid, index, type, createdAt } = route.params?? {}
-  const { addCard } = useContext(AuthContext)
   const [isFlipped, setIsFlipped] = useState(false)
+  const [action, setAction] = useState()
   const [cardType, setType] = useState("BSC")
   const typePlaceholder = { label: "Básico", value: "BSC" }
   const items = {
@@ -53,12 +52,19 @@ const CreateCard = ({ route, navigation }) => {
         onSubmit={
           (values, { resetForm }) => {
             // console.log(values)
-            if (content) {
-              editCard(values.question, values.answer, cardType, cardID, deckID, index, uid, createdAt)
-              Alert.alert("Card edited")
+            if (action === "deleteCard") {
+              deleteCard(deckID, index)
+              .then(() => {
+                navigation.goBack()
+              })
+            } else if (content) {
+              updateCard(values.question, values.answer, cardType, cardID, deckID, index, uid, createdAt)
+              Alert.alert("Card updated")
             } else {
-              addCard(values.question, values.answer, cardType, deckID)
-              resetForm()
+              createCard(values.question, values.answer, cardType, deckID)
+              .then(() => {
+                resetForm()
+              })
               Alert.alert("Card Added")
             }
           }
@@ -69,7 +75,12 @@ const CreateCard = ({ route, navigation }) => {
             <CardGradientSwipe isFlipped={isFlipped} />
           </View>
           <View className="grow-[100] p-3">
-            <PickerSelectComponent items={items.types} setValue={setType} placeholder={typePlaceholder} label={"Tipo do Card"} white={true} />
+            <View>
+              <PickerSelectComponent items={items.types} setValue={setType} placeholder={typePlaceholder} label={"Tipo do Card"} white={true} />
+            </View>
+            <View>
+              {content && <FormikButton title={'Excluir'} width='100%' action={"deleteCard"} setAction={setAction} /> }
+            </View>
           </View>
         </View>
         <FormLayout>

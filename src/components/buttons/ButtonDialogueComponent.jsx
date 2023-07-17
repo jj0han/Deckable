@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import ConfirmDialog from '../dialogs/ConfirmDialog'
 import { View, TouchableOpacity, Text } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import { deleteDeck } from '../../services/firestore'
 
-function ButtonDialogueComponent({ title, navigation, useRemove = false, removeUserDeck, id, uid, screen, border = false, fullWidth = false, time = 0 }) {
+function ButtonDialogueComponent({ title, navigation, useRemove = false, id, uid, screen, border = false, fullWidth = false, time = 0 }) {
 
     const navigate = () => {
         if (useRemove) {
             console.log("removed")
-            removeUserDeck(id, uid)
+            deleteDeck(id, uid)
             setVisible(false)
         }
         setTimeout(() => { navigation.navigate(screen) }, time)
