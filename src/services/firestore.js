@@ -113,7 +113,7 @@ const deleteCard = async (deckID, index) => {
 
     ref.update({cards: cardsArray})
     .then(() => {
-        console.log('Card edited!')
+        console.log('Card deleted!')
     })
 }
 

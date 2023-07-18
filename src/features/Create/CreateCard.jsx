@@ -6,19 +6,21 @@ import { CardGradientSwipe, FormikButton, FormikForm, FormikFormField, PickerSel
 import { Field } from 'formik'
 import { createCard, deleteCard, updateCard } from '../../services/firestore'
 import { basicCardSchema, qaCardSchema } from '../../constants/schemas/yupSchemas'
+import { getCardType } from '../../utils/getCardType'
 
 const CreateCard = ({ route, navigation }) => {
   const { cardID, deckID, content, uid, index, type, createdAt } = route.params?? {}
   const [isFlipped, setIsFlipped] = useState(false)
-  const [action, setAction] = useState()
-  const [cardType, setType] = useState("BSC")
-  const typePlaceholder = { label: "Básico", value: "BSC" }
-  const items = {
-    types: [
-      { label: "Pergunta e Resposta", value: "QA" },
-    ],
-  }
+  
+  const cardTypes = [
+    { label: "Básico", value: "BSC" },
+    { label: "Pergunta e Resposta", value: "QA" },
+  ]
 
+  const { updatedCardTypePlaceholder, updatedCardType } = getCardType(type, cardTypes)
+  
+  const [cardType, setType] = useState(updatedCardTypePlaceholder[0].value)
+  
   // redefinindo a rota para Home
   useEffect(() => {
     navigation.dispatch(TabActions.jumpTo('Home'));
@@ -37,12 +39,7 @@ const CreateCard = ({ route, navigation }) => {
         onSubmit={
           (values, { resetForm }) => {
             // console.log(values)
-            if (action === "deleteCard") {
-              deleteCard(deckID, index)
-              .then(() => {
-                navigation.goBack()
-              })
-            } else if (content) {
+            if (content) {
               updateCard(values.question, values.answer, cardType, cardID, deckID, index, uid, createdAt)
               Alert.alert("Card updated")
             } else {
@@ -61,10 +58,20 @@ const CreateCard = ({ route, navigation }) => {
           </View>
           <View className="grow-[100] p-3">
             <View>
-              <PickerSelectComponent items={items.types} setValue={setType} placeholder={typePlaceholder} label={"Tipo do Card"} white={true} />
+              <PickerSelectComponent items={updatedCardType[0]} setValue={setType} placeholder={updatedCardTypePlaceholder[0]} label={"Tipo do Card"} white={true} />
             </View>
             <View>
-              {content && <FormikButton title={'Excluir'} width='100%' action={"deleteCard"} setAction={setAction} /> }
+              {content && 
+                <FormikButton 
+                  title={'Excluir'} 
+                  width='100%' 
+                  useFormikSubmit={false} 
+                  handleAction={() => {
+                    deleteCard(deckID, index); 
+                    navigation.goBack()}
+                  } 
+                /> 
+              }
             </View>
           </View>
         </View>
