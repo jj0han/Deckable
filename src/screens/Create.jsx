@@ -30,10 +30,8 @@ const deckVisibility = [
   const { updatedDeckPlaceholder, updatedDeckTypes } = getDeckType(type, deckTypes)
   const { updatedDeckVisibilityPlaceholder, updatedDeckVisibility } = getDeckVisibility(visibility, deckVisibility)
 
-  console.log(updatedDeckTypes)
-
-  const [visibilityOptions, setVisibilityOptions] = useState(updatedDeckVisibilityPlaceholder.value)
-  const [typeOptions, setTypeOptions] = useState(updatedDeckPlaceholder.value)
+  const [visibilityOptions, setVisibilityOptions] = useState(updatedDeckVisibilityPlaceholder[0].value)
+  const [typeOptions, setTypeOptions] = useState(updatedDeckPlaceholder[0].value)
 
   useHeaderRight(navigation, "#FFF")
 
@@ -45,6 +43,7 @@ const deckVisibility = [
         }}
         onSubmit={
           (values, { resetForm }) => {
+            console.log(visibilityOptions, typeOptions)
             if (route.params) {
               updateDeck(values.name.trim(), id, visibilityOptions, typeOptions)
               Alert.alert("Saved!")
