@@ -6,41 +6,36 @@ import useHeaderRight from '../hooks/useHeaderRight'
 import { FormBackgroundLayout, FormLayout } from '../layouts/forms'
 import { DeckFormikComponent, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../components'
 import { WHITE } from '../constants/colors/layoutColors'
-import * as Yup from 'yup'
 import { createDeck, updateDeck } from '../services/firestore'
+import { createDeckSchema } from '../constants/schemas/yupSchemas'
+import { getDeckType } from '../utils/getDeckType'
+import { getDeckVisibility } from '../utils/getDeckVisibility'
 
 const Create = ({ navigation, route }) => {
   const { name, visibility, type, id } = route.params?? {}
-  const visibilityPlaceholder = { label: "Todos", value: "public" }
-  const typePlaceholder = { label: "Genérico", value: "gn" }
 
-  const [visibilityOptions, setVisibilityOptions] = useState(visibilityPlaceholder.value)
-  const [typeOptions, setTypeOptions] = useState(typePlaceholder.value)
-
-  const visibilityItems = [
-    { label: "Somente eu", value: "private" },
-  ]
-  const typeItems = [
+  const deckTypes = [
+    { label: "Genérico", value: "gn" },
     { label: "Ciências Exatas", value: "ec" },
     { label: "Ciências da Natureza", value: "nc" },
     { label: "Linguagens", value: "lg" },
     { label: "Ciências Humanas", value: "hc" },
   ]
 
+const deckVisibility = [
+  { label: "Todos", value: "public" },
+  { label: "Somente eu", value: "private" },
+]
+
+  const { updatedDeckPlaceholder, updatedDeckTypes } = getDeckType(type, deckTypes)
+  const { updatedDeckVisibilityPlaceholder, updatedDeckVisibility } = getDeckVisibility(visibility, deckVisibility)
+
+  console.log(updatedDeckTypes)
+
+  const [visibilityOptions, setVisibilityOptions] = useState(updatedDeckVisibilityPlaceholder.value)
+  const [typeOptions, setTypeOptions] = useState(updatedDeckPlaceholder.value)
+
   useHeaderRight(navigation, "#FFF")
-
-  useEffect(() => {
-    visibility && setVisibilityOptions(visibility)
-    type && setTypeOptions(type)
-
-  }, [])
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .matches(/^[a-zA-Z0-9À-ÿ\s!@#$%^&*()_+{}|:?><~?><~,./]{1,40}$/, "O nome deve ter no máximo 40 caracteres")
-      .required("Digite um nome para o Deck")
-      .label("name"),
-  })
 
   return (
     <FormBackgroundLayout>
@@ -63,7 +58,7 @@ const Create = ({ navigation, route }) => {
             }
           }
         }
-        validationSchema={validationSchema}
+        validationSchema={createDeckSchema}
         validateOnBlur={false}
         validateOnChange={false}
       >
@@ -74,10 +69,10 @@ const Create = ({ navigation, route }) => {
           <View className="w-full mb-5">
             <Field component={FormikFormField} name={'name'} placeholder={'Digite um nome'} />
             <View className="w-full px-4 mt-4">
-              <PickerSelectComponent items={visibilityItems} setValue={setVisibilityOptions} placeholder={visibilityPlaceholder} label={"Quem vai poder ver meu Deck?"} />
+              <PickerSelectComponent items={updatedDeckVisibility[0]} setValue={setVisibilityOptions} placeholder={updatedDeckVisibilityPlaceholder[0]} label={"Quem vai poder ver meu Deck?"} />
             </View>
             <View className="w-full px-4 mt-4">
-              <PickerSelectComponent items={typeItems} setValue={setTypeOptions} placeholder={typePlaceholder} label={"Meu Deck vai ser sobre..."} />
+              <PickerSelectComponent items={updatedDeckTypes[0]} setValue={setTypeOptions} placeholder={updatedDeckPlaceholder[0]} label={"Meu Deck vai ser sobre..."} />
             </View>
             <FormikButton title={route.params ? "Salvar" : "Criar Deck"} EnableGlow={true} />
           </View>

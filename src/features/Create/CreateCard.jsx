@@ -4,8 +4,8 @@ import { TabActions } from '@react-navigation/native'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
 import { CardGradientSwipe, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../../components'
 import { Field } from 'formik'
-import * as Yup from 'yup'
 import { createCard, deleteCard, updateCard } from '../../services/firestore'
+import { basicCardSchema, qaCardSchema } from '../../constants/schemas/yupSchemas'
 
 const CreateCard = ({ route, navigation }) => {
   const { cardID, deckID, content, uid, index, type, createdAt } = route.params?? {}
@@ -24,21 +24,6 @@ const CreateCard = ({ route, navigation }) => {
     navigation.dispatch(TabActions.jumpTo('Home'));
   }, [])
 
-  const validationQASchema = Yup.object().shape({
-    question: Yup.string()
-      .required("Digite uma pergunta")
-      .label("question"),
-    answer: Yup.string()
-      .required("Digite uma resposta")
-      .label("answer"),
-  })
-
-  const validationBasicSchema = Yup.object().shape({
-    question: Yup.string()
-      .required("Digite uma pergunta")
-      .label("question"),
-  })
-
   return (
     <FormBackgroundLayout>
       <FormikForm
@@ -46,7 +31,7 @@ const CreateCard = ({ route, navigation }) => {
           question: content ? content.question : '',
           answer: content ? content.answer : '',
         }}
-        validationSchema={cardType == "QA" ? validationQASchema : validationBasicSchema}
+        validationSchema={cardType == "QA" ? qaCardSchema : basicCardSchema}
         validateOnBlur={false}
         validateOnChange={false}
         onSubmit={

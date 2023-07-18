@@ -1,95 +1,17 @@
 import React, { useContext, useState } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import { Field, useFormik } from 'formik'
+import { Field } from 'formik'
 import { AuthContext } from '../../context/AuthContext'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
 import { Google } from '../../assets/images/svgs'
-import * as Yup from 'yup'
 import FormikForm from './FormikForm'
 import FormikButton from './FormikButton'
 import FormikFormField from './FormikFormField'
+import { loginSchema, signupSchema } from '../../constants/schemas/yupSchemas'
 
 const Form = ({ type = "login" }) => {
     const { login, signup, loginMessages, signInWithGoogle } = useContext(AuthContext)
     const [isLoading, setIsLoading] = useState(false)
-
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-        },
-        onSubmit: (values) => {
-            if (type === "signup") {
-                signup(values.email, values.password, values.name)
-            } else {
-                login(values.email, values.password)
-            }
-        },
-        validateOnChange: false,
-        validateOnBlur: false,
-        validate: (values) => {
-            const errors = {}
-            if (type === 'signup') {
-                if (!values.name) {
-                    errors.name = 'Digite um nome'
-                } else if (!values.email) {
-                    errors.email = 'Digite seu email'
-                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-                    errors.email = 'Email inválido'
-                } else if (!values.password) {
-                    errors.password = 'Digite sua senha';
-                } else if (!/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/.test(values.password)) {
-                    errors.password = 'A senha deve ter de 6 a 20 caracteres'
-                } else if (!values.confirmPassword) {
-                    errors.confirmPassword = 'Digite uma senha';
-                } else if (!/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/.test(values.confirmPassword)) {
-                    errors.confirmPassword = 'A senha deve ter de 6 a 20 caracteres'
-                } else if (values.confirmPassword != values.password) {
-                    errors.confirmPassword = "As senhas não coincidem"
-                }
-
-            } else {
-                if (!values.email) {
-                    errors.email = 'Digite seu email'
-                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-                    errors.email = 'Email inválido'
-                } else if (!values.password) {
-                    errors.password = 'Digite sua senha';
-                } else if (!/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/.test(values.password)) {
-                    errors.password = 'A senha deve ter de 6 a 20 caracteres'
-                }
-            }
-            return errors
-        },
-    })
-
-    const LoginValidationSchema = Yup.object().shape({
-        email: Yup.string()
-            .required("Digite seu email")
-            .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email inválido")
-            .label("email"),
-        password: Yup.string()
-            .required("Digite sua senha")
-            .matches(/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/, 'A senha deve ter de 6 a 20 caracteres')
-            .label("password"),
-    })
-
-    const signupValidationSchema = Yup.object().shape({
-        name: Yup.string()
-            .required('Digite um nome')
-            .label('name'),
-        email: Yup.string()
-            .required("Digite seu email")
-            .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email inválido")
-            .label("email"),
-        password: Yup.string()
-            .required("Digite sua senha")
-            .matches(/^[a-zA-Z0-9!@#$%^&*()_+{}|:?><~?><~,./]{6,20}$/, 'A senha deve ter de 6 a 20 caracteres')
-            .label("password"),
-        confirmPassword: Yup.string().required('As senhas não coincidem')
-    })
 
     return (
         <FormBackgroundLayout>
@@ -116,7 +38,7 @@ const Form = ({ type = "login" }) => {
                             resetForm()
                         }
                     }
-                    validationSchema={type === 'signup' ? signupValidationSchema : LoginValidationSchema}
+                    validationSchema={type === 'signup' ? signupSchema : loginSchema}
                     validateOnChange={false}
                     validateOnBlur={false}
                 >
