@@ -2,10 +2,13 @@ import { View, Text, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import useHeaderRight from '../../hooks/useHeaderRight'
 import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
-import { ButtonNavComponent, DeckComponent } from '../../components'
+import { ButtonComponent, ButtonNavComponent, DeckComponent } from '../../components'
 import { useIsFocused } from '@react-navigation/native'
 import firestore from '@react-native-firebase/firestore'
 import { PURPLE } from '../../constants/colors/gradientColors'
+import { importDeck } from '../../services/firestore'
+import uuid from 'react-native-uuid'
+import auth from '@react-native-firebase/auth'
 
 const ViewOtherUserDeck = ({ route, navigation }) => {
     useHeaderRight(navigation, "#FFF")
@@ -37,8 +40,13 @@ const ViewOtherUserDeck = ({ route, navigation }) => {
         }
     }, [isFocused])
 
-  return (
-    <FormBackgroundLayout>
+    const handlePress = () => {
+        const generatedID = uuid.v4()
+        importDeck(name, generatedID, visibility, type, createdBy, cards)
+    }
+
+    return (
+        <FormBackgroundLayout>
             {
                 loading ?
                     <ActivityIndicator size={50} color={"#FFF"} className="p-16" /> :
@@ -57,15 +65,16 @@ const ViewOtherUserDeck = ({ route, navigation }) => {
             <FormLayout grow={1}>
                 {loading ?
                     <ActivityIndicator size={50} color={PURPLE} className="p-16" /> :
-                    <>
-                        <View className="justify-center items-center">
-                            <ButtonNavComponent title={"Importar Deck"} EnableGlow={true} navigation={navigation} screen={cards.length === 0 ? "Editar Cartas" : "Swipe Teste"} params={{ name, id, uid, createdBy, createdAt, cards }} />
-                        </View>
-                    </>
+                    uid === auth().currentUser.uid ? null :
+                        <>
+                            <View className="justify-center items-center">
+                                <ButtonComponent title={"Importar Deck"} EnableGlow={true} handlePress={handlePress} />
+                            </View>
+                        </>
                 }
             </FormLayout>
         </FormBackgroundLayout>
-  )
+    )
 }
 
 export default ViewOtherUserDeck

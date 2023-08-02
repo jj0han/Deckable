@@ -56,6 +56,28 @@ const deleteDeck = async (id, uid) => {
         })
 }
 
+const importDeck = async (name, generatedID, visibility, type, createdBy, cards) => {
+    await firestore()
+        .collection('decks')
+        .doc(generatedID)
+        .set(
+            {
+                id: generatedID,
+                uid: auth().currentUser.uid,
+                name: name,
+                visibility: visibility,
+                type: type,
+                createdBy: createdBy,
+                createdAt: Date.now(),
+                cards: cards,
+            }
+        )
+        .then(() => {
+            console.log('Deck imported!')
+            return generatedID
+        })
+}
+
 //Cards CRUD
 const createCard = async (question, answer, type, deckID) => {
     await firestore()
@@ -119,4 +141,4 @@ const deleteCard = async (deckID, index) => {
 
 
 
-export { createDeck, readDecks, updateDeck, deleteDeck, createCard, updateCard, deleteCard }
+export { createDeck, readDecks, updateDeck, deleteDeck, importDeck, createCard, updateCard, deleteCard }
