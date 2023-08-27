@@ -36,6 +36,7 @@ const ViewDeck = ({ route, navigation }) => {
                 if(data) {
                     setDeckData(querySnapshot.data())
                     setCards(querySnapshot.data().cards)
+                    // console.log(querySnapshot.data().cards)
                 }
                 setLoading(false)
             })

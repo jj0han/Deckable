@@ -50,18 +50,20 @@ export default function EditCards({ route, navigation }) {
 
     return (
         <FormBackgroundLayout>
-            <View className="px-4">
-                <SearchInput placeholder={"Pesquisar..."} dark={true}>
-                    <TouchableOpacity onPress={handlePress} className="h-full justify-center items-center px-2">
-                        <CreateIcon />
-                    </TouchableOpacity>
-                </SearchInput>
+            <View className="flex-1 h-1/5 ">
+                <View className="px-4">
+                    <SearchInput placeholder={"Pesquisar..."} dark={true}>
+                        <TouchableOpacity onPress={handlePress} className="h-full justify-center items-center px-2">
+                            <CreateIcon />
+                        </TouchableOpacity>
+                    </SearchInput>
+                </View>
+                <View className="flex-row mx-4 mt-9 items-center justify-between">
+                    <PickerSelectComponent white={true} label='Ordenar' labelAtTop={false} items={items.types} setValue={setPickerType} />
+                    <Text className="text-white">{userCards.length} Cartas Visíveis</Text>
+                </View>
             </View>
-            <View className="flex-1 flex-row mx-4 my-4 items-center justify-between">
-                <PickerSelectComponent white={true} label='Ordenar' labelAtTop={false} items={items.types} setValue={setPickerType} />
-                <Text className="text-white">{userCards.length} Cartas Visíveis</Text>
-            </View>
-            <FormLayout>
+            <FormLayout height={0.75}>
                 <View className="flex-1 flex-row flex-wrap justify-center">
                     {loading ? <ActivityIndicator size={50} color={PURPLE} /> : pickerType === "OldestDate" ? render : render.reverse()}
                 </View>

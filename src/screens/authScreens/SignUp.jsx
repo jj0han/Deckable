@@ -1,10 +1,8 @@
-import React from 'react'
-import { Form } from '../../components'
+import React from 'react';
+import {Form} from '../../components';
 
 const SignUp = () => {
-  return (
-    <Form type='signup'/>
-  )
-}
+  return <Form type="signup" />;
+};
 
-export default SignUp
+export default SignUp;

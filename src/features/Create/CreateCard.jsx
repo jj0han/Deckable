@@ -1,30 +1,43 @@
-import React, { useState, useEffect } from 'react'
-import { View, Alert } from 'react-native'
-import { TabActions } from '@react-navigation/native'
-import { FormBackgroundLayout, FormLayout } from '../../layouts/forms'
-import { CardGradientSwipe, FormikButton, FormikForm, FormikFormField, PickerSelectComponent } from '../../components'
-import { Field } from 'formik'
-import { createCard, deleteCard, updateCard } from '../../services/firestore'
-import { basicCardSchema, qaCardSchema } from '../../constants/schemas/yupSchemas'
-import { getCardType } from '../../utils/getCardType'
+import React, {useState, useEffect} from 'react';
+import {View, Alert} from 'react-native';
+import {TabActions} from '@react-navigation/native';
+import {FormBackgroundLayout, FormLayout} from '../../layouts/forms';
+import {
+  CardGradientSwipe,
+  FormikButton,
+  FormikForm,
+  FormikFormField,
+  PickerSelectComponent,
+} from '../../components';
+import {Field} from 'formik';
+import {createCard, deleteCard, updateCard} from '../../services/firestore';
+import {
+  basicCardSchema,
+  qaCardSchema,
+} from '../../constants/schemas/yupSchemas';
+import {getCardType} from '../../utils/getCardType';
 
-const CreateCard = ({ route, navigation }) => {
-  const { cardID, deckID, content, uid, index, type, createdAt } = route.params?? {}
-  const [isFlipped, setIsFlipped] = useState(false)
-  
+const CreateCard = ({route, navigation}) => {
+  const {cardID, deckID, content, uid, index, type, createdAt} =
+    route.params ?? {};
+  const [isFlipped, setIsFlipped] = useState(false);
+
   const cardTypes = [
-    { label: "Básico", value: "BSC" },
-    { label: "Pergunta e Resposta", value: "QA" },
-  ]
+    {label: 'Básico', value: 'BSC'},
+    {label: 'Pergunta e Resposta', value: 'QA'},
+  ];
 
-  const { updatedCardTypePlaceholder, updatedCardType } = getCardType(type, cardTypes)
-  
-  const [cardType, setType] = useState(updatedCardTypePlaceholder[0].value)
-  
+  const {updatedCardTypePlaceholder, updatedCardType} = getCardType(
+    type,
+    cardTypes,
+  );
+
+  const [cardType, setType] = useState(updatedCardTypePlaceholder[0].value);
+
   // redefinindo a rota para Home
   useEffect(() => {
     navigation.dispatch(TabActions.jumpTo('Home'));
-  }, [])
+  }, []);
 
   return (
     <FormBackgroundLayout>
@@ -33,56 +46,86 @@ const CreateCard = ({ route, navigation }) => {
           question: content ? content.question : '',
           answer: content ? content.answer : '',
         }}
-        validationSchema={cardType == "QA" ? qaCardSchema : basicCardSchema}
+        validationSchema={cardType == 'QA' ? qaCardSchema : basicCardSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={
-          (values, { resetForm }) => {
-            // console.log(values)
-            if (content) {
-              updateCard(values.question, values.answer, cardType, cardID, deckID, index, uid, createdAt)
-              Alert.alert("Card updated")
-            } else {
-              createCard(values.question, values.answer, cardType, deckID)
-              .then(() => {
-                resetForm()
-              })
-              Alert.alert("Card Added")
-            }
+        onSubmit={(values, {resetForm}) => {
+          // console.log(values)
+          if (content) {
+            updateCard(
+              values.question,
+              values.answer,
+              cardType,
+              cardID,
+              deckID,
+              index,
+              uid,
+              createdAt,
+            );
+            Alert.alert('Card updated');
+          } else {
+            createCard(values.question, values.answer, cardType, deckID).then(
+              () => {
+                resetForm();
+              },
+            );
+            Alert.alert('Card Added');
           }
-        }
-      >
+        }}>
         <View className="justify-center w-full flex-row p-5">
           <View className="grow">
             <CardGradientSwipe isFlipped={isFlipped} />
           </View>
           <View className="grow-[100] p-3">
             <View>
-              <PickerSelectComponent items={updatedCardType[0]} setValue={setType} placeholder={updatedCardTypePlaceholder[0]} label={"Tipo do Card"} white={true} />
+              <PickerSelectComponent
+                items={updatedCardType[0]}
+                setValue={setType}
+                placeholder={updatedCardTypePlaceholder[0]}
+                label={'Tipo do Card'}
+                white={true}
+              />
             </View>
             <View>
-              {content && 
-                <FormikButton 
-                  title={'Excluir'} 
-                  width='100%' 
-                  useFormikSubmit={false} 
+              {content && (
+                <FormikButton
+                  title={'Excluir'}
+                  width="100%"
+                  useFormikSubmit={false}
                   handleAction={() => {
-                    deleteCard(deckID, index); 
-                    navigation.goBack()}
-                  } 
-                /> 
-              }
+                    deleteCard(deckID, index);
+                    navigation.goBack();
+                  }}
+                />
+              )}
             </View>
           </View>
         </View>
         <FormLayout>
-            <Field component={FormikFormField} name={'question'} placeholder={'Digite sua pergunta'} onFocus={() => setIsFlipped(false)} multiline={true} />
-            {cardType == "QA" && <Field component={FormikFormField} name={'answer'} placeholder={'Digite sua resposta'} onFocus={() => setIsFlipped(true)} multiline={true} />}
-            <FormikButton title={content ? 'Salvar carta' : 'Adicionar carta'} EnableGlow={true} />
+          <Field
+            component={FormikFormField}
+            name={'question'}
+            placeholder={'Digite sua pergunta'}
+            onFocus={() => setIsFlipped(false)}
+            multiline={true}
+          />
+          {cardType == 'QA' && (
+            <Field
+              component={FormikFormField}
+              name={'answer'}
+              placeholder={'Digite sua resposta'}
+              onFocus={() => setIsFlipped(true)}
+              multiline={true}
+            />
+          )}
+          <FormikButton
+            title={content ? 'Salvar carta' : 'Adicionar carta'}
+            EnableGlow={true}
+          />
         </FormLayout>
       </FormikForm>
     </FormBackgroundLayout>
-  )
-}
+  );
+};
 
-export default CreateCard
+export default CreateCard;

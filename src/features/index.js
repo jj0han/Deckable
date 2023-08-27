@@ -1,5 +1,5 @@
 export { default as CreateCard } from './Create/CreateCard'
 export { default as EditCards } from './ViewDeck/EditCards'
-export { default as Swipe } from './__Tests__/Swipe'
+export { default as Swipe } from './ViewDeck/Swipe'
 export { default as ViewDeck } from './Home/ViewDeck'
 export { default as ViewOtherUserDeck } from './Trending/ViewOtherUserDeck'

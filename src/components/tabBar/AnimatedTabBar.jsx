@@ -31,8 +31,7 @@ const AnimatedTabBar = ({ state: { index: activeIndex, routes }, navigation, des
     })
 
     return (
-        <View style={{backgroundColor: LAYOUT_DARK_GRAY,}} className="absolute bottom-[10px] left-[24px] right-[24px] rounded-3xl h-[70px]">
-            {console.log(xOffSet)}
+        <View style={{ backgroundColor: LAYOUT_DARK_GRAY, }} className="absolute bottom-0 left-0 right-0 h-[70px]">
             <AnimatedSvg
                 xmlns="http://www.w3.org/2000/svg"
                 width={129}
