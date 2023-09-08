@@ -23,7 +23,9 @@ const PickerSelectComponent = ({
 
   return (
     <View
-      className={`${labelAtTop ? '' : 'flex-row text-center items-center'}`}>
+      className={`${
+        labelAtTop ? '' : 'flex-row text-center items-center'
+      } z-50`}>
       <Text
         className="font-bold text-base ml-[2px] mr-2"
         style={{color: white ? '#ffffff' : '#000000'}}>
@@ -32,6 +34,7 @@ const PickerSelectComponent = ({
       <RNPickerSelect
         onValueChange={value => setValue(value)}
         items={items}
+        fixAndroidTouchableBug
         style={{
           ...pickerSelectStyles,
           iconContainer: {
