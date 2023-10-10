@@ -20,6 +20,9 @@ const EditCardComponent = ({
   navigation,
 }) => {
   const date = new Date(createdAt);
+  const nextReview = new Date(card.nextReview);
+  const lastReviewed = new Date(card.nextReview);
+
   const handlePress = () => {
     navigation.navigate('Editar Carta', {
       deckID: deckID,
@@ -34,6 +37,7 @@ const EditCardComponent = ({
 
   return (
     <TouchableOpacity
+      key={cardID}
       onPress={handlePress}
       onLongPress={() => {
         console.log('long press');
@@ -54,6 +58,8 @@ const EditCardComponent = ({
           className="text-white font-bold text-center break-words">
           {title.length > 60 ? `${title.slice(0, 60)}...` : title}
         </Text>
+        <Text>{card.difficulty}</Text>
+        <Text>{nextReview.toLocaleDateString('pt-BR')}</Text>
         <Text className="text-white text-base font-bold text-center break-words">
           {date.toLocaleDateString('pt-BR')}
         </Text>

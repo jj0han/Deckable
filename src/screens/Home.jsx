@@ -19,6 +19,7 @@ import {handleSearch} from '../utils/handleSearch';
 
 const Home = ({navigation}) => {
   const [userDecks, setUserDecks] = useState([{}]);
+  const [userRevisions, setUserRevisions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [inputValue, setInputValue] = useState('');
@@ -37,6 +38,21 @@ const Home = ({navigation}) => {
         querySnapshot.forEach(doc => {
           decks.push(doc.data());
         });
+        const aux = [];
+        decks.forEach(deck => {
+          deck.cards.forEach(card => {
+            const currentDate = new Date().toLocaleDateString('pt-BR');
+            const nextReviewDate = new Date(card.nextReview).toLocaleDateString(
+              'pt-BR',
+            );
+            // console.log(currentDate)
+            // console.log(nextReviewDate);~
+            if (currentDate === nextReviewDate) {
+              aux.push(deck);
+            }
+          });
+        });
+        setUserRevisions(aux);
         setUserDecks(decks);
         setFilteredDecks(decks);
         setLoading(false);
@@ -45,6 +61,7 @@ const Home = ({navigation}) => {
     return () => unsubscribe();
   }, []);
 
+  // console.log(JSON.stringify(userRevisions, null, 2));
   const render = filteredDecks?.map(deck => (
     <DeckComponent
       key={deck.id}
@@ -54,6 +71,8 @@ const Home = ({navigation}) => {
       screen={'Ver Deck'}
     />
   ));
+
+  // console.log(userRevisions.length);
 
   return (
     <SafeAreaView className="bg-white flex-1 pb-[90px]">
@@ -84,53 +103,55 @@ const Home = ({navigation}) => {
           </>
         ) : (
           <>
-            <View className="w-[100%] h-[130px] px-6 overflow-hidden">
-              <Swiper
-                backgroundColor="#ffffff00"
-                animateCardOpacity={true}
-                verticalSwipe={false}
-                cardIndex={0}
-                stackSize={userDecks.length < 3 ? userDecks.length : 3}
-                cards={userDecks}
-                cardVerticalMargin={0}
-                cardHorizontalMargin={0}
-                infinite={true}
-                containerStyle={{
-                  position: 'relative',
-                  flex: 1,
-                }}
-                cardStyle={{
-                  width: '100%',
-                }}
-                renderCard={card => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate('Ver Deck', card);
-                      }}
-                      activeOpacity={0.95}
-                      className="w-full h-[85px] bg-[#292929] rounded-2xl items-center justify-between border-white border-[2px] flex-row">
-                      <View className="m-4">
-                        <Text className="text-white text-lg font-bold">
-                          {card.name}
-                        </Text>
-                        <Text className="text-white text-xs">
-                          Você tem uma revisão marcada para hoje!
-                        </Text>
-                      </View>
-                      <View className="bg-white w-[30px] h-[30px] m-4 rounded-md justify-center">
-                        <Chevron
-                          size={2}
-                          rotate={-90}
-                          color="#292929"
-                          style={{top: 5, left: 2}}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  );
-                }}
-              />
-            </View>
+            {userRevisions.length > 0 && (
+              <View className="w-[100%] h-[130px] px-6 overflow-hidden">
+                <Swiper
+                  backgroundColor="#ffffff00"
+                  animateCardOpacity={true}
+                  verticalSwipe={false}
+                  cardIndex={0}
+                  stackSize={userRevisions?.length}
+                  cards={userRevisions}
+                  cardVerticalMargin={0}
+                  cardHorizontalMargin={0}
+                  infinite={true}
+                  containerStyle={{
+                    position: 'relative',
+                    flex: 1,
+                  }}
+                  cardStyle={{
+                    width: '100%',
+                  }}
+                  renderCard={card => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('Ver Deck', card);
+                        }}
+                        activeOpacity={0.95}
+                        className="w-full h-[85px] bg-[#292929] rounded-2xl items-center justify-between border-white border-[2px] flex-row">
+                        <View className="m-4">
+                          <Text className="text-white text-lg font-bold">
+                            {card?.name}
+                          </Text>
+                          <Text className="text-white text-xs">
+                            Você tem uma revisão marcada para hoje!
+                          </Text>
+                        </View>
+                        <View className="bg-white w-[30px] h-[30px] m-4 rounded-md justify-center">
+                          <Chevron
+                            size={2}
+                            rotate={-90}
+                            color="#292929"
+                            style={{top: 5, left: 2}}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </View>
+            )}
             <View className="flex-wrap flex-row px-6">{render}</View>
           </>
         )}

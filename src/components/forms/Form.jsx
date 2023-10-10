@@ -16,13 +16,13 @@ const Form = ({type = 'login'}) => {
 
   return (
     <FormBackgroundLayout>
-      <View className="items-center justify-center py-16">
+      <View className="items-center justify-center h-[30%]">
         <Text className="text-white text-5xl font-bold">Deckable</Text>
         <Text className="text-white text-xl font-extralight">
           Seu app de revisões
         </Text>
       </View>
-      <FormLayout>
+      <FormLayout height={0.7}>
         <FormikForm
           initialValues={{
             name: '',

@@ -52,7 +52,7 @@ function AppStack() {
       <Stack.Screen name="Ver Deck de Usuário" component={ViewOtherUserDeck} />
       <Stack.Screen name="Editar Cartas" component={EditCards} />
       <Stack.Screen name="Editar Carta" component={CreateCard} />
-      <Stack.Screen name="Swipe Teste" component={Swipe} />
+      <Stack.Screen name="Swipe" component={Swipe} />
     </Stack.Navigator>
   );
 }

@@ -19,6 +19,7 @@ const ViewDeck = ({route, navigation}) => {
   const [deckData, setDeckData] = useState([{}]);
   const [cards, setCards] = useState([{}]);
   const [loading, setLoading] = useState(true);
+  const [markedDates, setMarkedDates] = useState({});
 
   const today = new Date();
   const date = new Date(createdAt);
@@ -41,12 +42,52 @@ const ViewDeck = ({route, navigation}) => {
         if (data) {
           setDeckData(querySnapshot.data());
           setCards(querySnapshot.data().cards);
-          // console.log(querySnapshot.data().cards)
+          // console.log(querySnapshot.data().cards);
+          getCalendar(querySnapshot.data());
         }
         setLoading(false);
       });
     return () => unsubscribe();
   }, []);
+
+  const getCalendar = deckData => {
+    // Format and mark the dates
+    const formattedDates = {};
+    deckData?.cards?.map(card => {
+      const nextReviewDate = new Date(card.nextReview);
+      const nextReviewYear = new Date(card.nextReview).getFullYear().toString();
+      const nextReviewMonth = (
+        new Date(card.nextReview).getMonth() + 1
+      ).toString();
+      const nextReviewDay = new Date(card.nextReview).getDate().toString();
+      const date = `${nextReviewYear}-${nextReviewMonth}-${nextReviewDay}`;
+
+      const formattedDate = formatDateWithLeadingZeros(date); // Format the date as needed
+      formattedDates[formattedDate] =
+        nextReviewDate.toLocaleDateString() === today.toLocaleDateString()
+          ? {
+              selected: true,
+              selectedColor: '#ff00ed',
+            }
+          : {
+              selected: true,
+              selectedColor: '#292929',
+            };
+    });
+
+    setMarkedDates(formattedDates);
+  };
+
+  // Function to format dates with leading zeros
+  function formatDateWithLeadingZeros(date) {
+    const parts = date.split('-');
+    const year = parts[0];
+    const month = parts[1].length === 1 ? `0${parts[1]}` : parts[1];
+    const day = parts[2].length === 1 ? `0${parts[2]}` : parts[2];
+    return `${year}-${month}-${day}`;
+  }
+
+  // console.log(JSON.stringify(markedDates, null, 2));
 
   return (
     <FormBackgroundLayout>
@@ -102,31 +143,26 @@ const ViewDeck = ({route, navigation}) => {
           <ActivityIndicator size={50} color={PURPLE} className="p-16" />
         ) : (
           <>
-            <Calendar
-              style={{
-                marginBottom: 30,
-              }}
-              current={formatDate}
-              onDayPress={day => {
-                setSelected(day.dateString);
-              }}
-              hideArrows={true}
-              markedDates={{
-                [selected]: {marked: true},
-                '2023-05-31': {selected: true, selectedColor: '#292929'},
-                '2023-06-01': {selected: true, selectedColor: '#292929'},
-                '2023-06-02': {selected: true, selectedColor: '#292929'},
-                '2023-06-03': {selected: true, selectedColor: '#292929'},
-                '2023-06-04': {selected: true, selectedColor: '#292929'},
-              }}
-            />
+            {markedDates && (
+              <Calendar
+                style={{
+                  marginBottom: 30,
+                }}
+                current={formatDate}
+                onDayPress={day => {
+                  setSelected(day.dateString);
+                }}
+                hideArrows={true}
+                markedDates={markedDates}
+              />
+            )}
 
-            <View className="justify-center items-center">
+            <View className="justify-center items-center mb-40">
               <ButtonNavComponent
                 title={cards.length === 0 ? 'Adicione Cartas' : 'Revisar'}
                 EnableGlow={true}
                 navigation={navigation}
-                screen={cards.length === 0 ? 'Editar Cartas' : 'Swipe Teste'}
+                screen={cards.length === 0 ? 'Editar Cartas' : 'Swipe'}
                 params={{name, id, uid, createdBy, createdAt, cards}}
               />
             </View>

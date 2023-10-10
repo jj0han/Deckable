@@ -98,7 +98,7 @@ export default function EditCards({route, navigation}) {
         </View>
       </View>
       <FormLayout height={0.75}>
-        <View className="flex-1 flex-row flex-wrap justify-center">
+        <View className="flex-1 flex-row flex-wrap justify-center mb-40">
           {loading ? (
             <ActivityIndicator size={50} color={PURPLE} />
           ) : pickerType === 'OldestDate' ? (
