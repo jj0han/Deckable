@@ -1,13 +1,13 @@
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import uuid from 'react-native-uuid';
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
+import uuid from "react-native-uuid";
 
-const deckRef = async deckID => {
-  const ref = firestore().collection('decks').doc(deckID);
+const deckRef = async (deckID) => {
+  const ref = firestore().collection("decks").doc(deckID);
   return ref;
 };
 
-const snapshot = async ref => {
+const snapshot = async (ref) => {
   const snp = await ref.get();
   return snp;
 };
@@ -15,7 +15,7 @@ const snapshot = async ref => {
 //Decks CRUD
 const createDeck = async (name, generatedID, visibility, type) => {
   await firestore()
-    .collection('decks')
+    .collection("decks")
     .doc(generatedID)
     .set({
       id: generatedID,
@@ -28,16 +28,16 @@ const createDeck = async (name, generatedID, visibility, type) => {
       cards: [],
     })
     .then(() => {
-      console.log('Deck added!');
+      console.log("Deck added!");
       return generatedID;
     });
 };
 
-const readDecks = async () => await firestore().collection('decks').get();
+const readDecks = async () => await firestore().collection("decks").get();
 
 const updateDeck = async (name, deckId, visibility, type) => {
   await firestore()
-    .collection('decks')
+    .collection("decks")
     .doc(deckId)
     .update({
       id: deckId,
@@ -46,7 +46,7 @@ const updateDeck = async (name, deckId, visibility, type) => {
       type: type,
     })
     .then(() => {
-      console.log('Deck edited!');
+      console.log("Deck edited!");
       return deckId;
     });
 };
@@ -54,11 +54,11 @@ const updateDeck = async (name, deckId, visibility, type) => {
 const deleteDeck = async (id, uid) => {
   if (uid != auth().currentUser.uid) return;
   await firestore()
-    .collection('decks')
+    .collection("decks")
     .doc(id)
     .delete()
     .then(() => {
-      console.log('removeUserDeck!');
+      console.log("removeUserDeck!");
     });
 };
 
@@ -68,10 +68,10 @@ const importDeck = async (
   visibility,
   type,
   createdBy,
-  cards,
+  cards
 ) => {
   await firestore()
-    .collection('decks')
+    .collection("decks")
     .doc(generatedID)
     .set({
       id: generatedID,
@@ -84,7 +84,7 @@ const importDeck = async (
       cards: cards,
     })
     .then(() => {
-      console.log('Deck imported!');
+      console.log("Deck imported!");
       return generatedID;
     });
 };
@@ -92,7 +92,7 @@ const importDeck = async (
 //Cards CRUD
 const createCard = async (question, answer, type, deckID) => {
   await firestore()
-    .collection('decks')
+    .collection("decks")
     .doc(deckID)
     .update({
       cards: firestore.FieldValue.arrayUnion({
@@ -110,7 +110,7 @@ const createCard = async (question, answer, type, deckID) => {
       }),
     })
     .then(() => {
-      console.log('Card added!');
+      console.log("Card added!");
     });
 };
 
@@ -125,12 +125,12 @@ const updateCard = async (
   createdAt,
   lastReviewed,
   nextReview,
-  difficulty,
+  difficulty
 ) => {
-  const ref = firestore().collection('decks').doc(deckID);
+  const ref = firestore().collection("decks").doc(deckID);
   const snapshot = await ref.get();
 
-  const cardsArray = snapshot.get('cards');
+  const cardsArray = snapshot.get("cards");
 
   const updatedCard = {
     content: {
@@ -149,25 +149,25 @@ const updateCard = async (
   cardsArray[index] = updatedCard;
 
   ref
-    .update({cards: cardsArray})
+    .update({ cards: cardsArray })
     .then(() => {
-      console.log('Card edited!');
+      console.log("Card edited!");
     })
-    .catch(e => {
-      console.log(e + 'erro');
+    .catch((e) => {
+      console.log(e + "erro");
     });
 };
 
 const deleteCard = async (deckID, index) => {
-  const ref = firestore().collection('decks').doc(deckID);
+  const ref = firestore().collection("decks").doc(deckID);
   const snapshot = await ref.get();
 
-  const cardsArray = snapshot.get('cards');
+  const cardsArray = snapshot.get("cards");
 
   cardsArray.splice(index, 1);
 
-  ref.update({cards: cardsArray}).then(() => {
-    console.log('Card deleted!');
+  ref.update({ cards: cardsArray }).then(() => {
+    console.log("Card deleted!");
   });
 };
 

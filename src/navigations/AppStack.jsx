@@ -1,9 +1,12 @@
-import React from 'react';
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import {BottomTabNavigator} from '../navigations';
-import {Create, Settings} from '../screens';
-import {CreateCard, EditCards, Swipe, ViewOtherUserDeck} from '../features';
-import ViewDeck from '../features/Home/ViewDeck';
+import React from "react";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
+import { BottomTabNavigator } from "../navigations";
+import { Create, Settings } from "../screens";
+import { CreateCard, EditCards, Swipe, ViewOtherUserDeck } from "../features";
+import ViewDeck from "../features/Home/ViewDeck";
 
 const Stack = createStackNavigator();
 
@@ -16,22 +19,23 @@ function AppStack() {
         gestureEnabled: true,
         headerTransparent: false,
         headerShadowVisible: false,
-        headerTintColor: '#fff',
+        headerTintColor: "#fff",
         headerStyle: {
-          backgroundColor: '#292929',
+          backgroundColor: "#292929",
         },
         headerTitleStyle: {
-          fontWeight: '900',
-          color: 'white',
+          fontWeight: "900",
+          color: "white",
         },
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         headerTitleContainerStyle: {
           marginLeft: 40,
         },
         headerRightContainerStyle: {
           marginRight: 25,
         },
-      }}>
+      }}
+    >
       <Stack.Screen
         name="BottomTabNavigator"
         component={BottomTabNavigator}

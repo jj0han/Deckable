@@ -1,14 +1,14 @@
-import React, {useContext, useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
-import {NavigationContainer} from '@react-navigation/native';
-import {AuthContext} from '../context/AuthContext';
-import {View, ActivityIndicator} from 'react-native';
-import {AppStack, AuthStack} from '../navigations';
+import React, { useContext, useEffect } from "react";
+import auth from "@react-native-firebase/auth";
+import { NavigationContainer } from "@react-navigation/native";
+import { AuthContext } from "../context/AuthContext";
+import { View, ActivityIndicator } from "react-native";
+import { AppStack, AuthStack } from "../navigations";
 
 const AppNav = () => {
-  const {user, setUser, isLoading, setIsLoading} = useContext(AuthContext);
+  const { user, setUser, isLoading, setIsLoading } = useContext(AuthContext);
 
-  const onAuthStateChanged = user => {
+  const onAuthStateChanged = (user) => {
     setUser(user);
     if (isLoading) setIsLoading(false);
   };

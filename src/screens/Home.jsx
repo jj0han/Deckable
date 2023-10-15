@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,44 +6,45 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
-} from 'react-native';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import useHeaderRight from '../hooks/useHeaderRight';
-import {DeckComponent, SearchInput} from '../components';
-import {DARK_GRAY} from '../constants/colors/layoutColors';
-import {PURPLE} from '../constants/colors/gradientColors';
-import Swiper from 'react-native-deck-swiper';
-import {Chevron} from 'react-native-shapes';
-import {handleSearch} from '../utils/handleSearch';
+} from "react-native";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
+import useHeaderRight from "../hooks/useHeaderRight";
+import { DeckComponent, SearchInput } from "../components";
+import { DARK_GRAY } from "../constants/colors/layoutColors";
+import { PURPLE } from "../constants/colors/gradientColors";
+import Swiper from "react-native-deck-swiper";
+import { Chevron } from "react-native-shapes";
+import { handleSearch } from "../utils/handleSearch";
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   const [userDecks, setUserDecks] = useState([{}]);
   const [userRevisions, setUserRevisions] = useState([]);
+  const [render, setRender] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [filteredDecks, setFilteredDecks] = useState();
 
   useHeaderRight(navigation, DARK_GRAY);
 
   useEffect(() => {
     const unsubscribe = firestore()
-      .collection('decks')
-      .where('uid', '==', auth().currentUser.uid)
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(querySnapshot => {
+      .collection("decks")
+      .where("uid", "==", auth().currentUser.uid)
+      .orderBy("createdAt", "desc")
+      .onSnapshot((querySnapshot) => {
         setLoading(true);
         const decks = [];
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc) => {
           decks.push(doc.data());
         });
         const aux = [];
-        decks.forEach(deck => {
-          deck.cards.forEach(card => {
-            const currentDate = new Date().toLocaleDateString('pt-BR');
+        decks.forEach((deck) => {
+          deck.cards.forEach((card) => {
+            const currentDate = new Date().toLocaleDateString("pt-BR");
             const nextReviewDate = new Date(card.nextReview).toLocaleDateString(
-              'pt-BR',
+              "pt-BR"
             );
             // console.log(currentDate)
             // console.log(nextReviewDate);~
@@ -61,26 +62,32 @@ const Home = ({navigation}) => {
     return () => unsubscribe();
   }, []);
 
-  // console.log(JSON.stringify(userRevisions, null, 2));
-  const render = filteredDecks?.map(deck => (
-    <DeckComponent
-      key={deck.id}
-      title={deck.name}
-      navigate={navigation.navigate}
-      params={deck}
-      screen={'Ver Deck'}
-    />
-  ));
+  useEffect(() => {
+    setRender(
+      filteredDecks?.map((deck) => (
+        <DeckComponent
+          key={deck.id}
+          title={deck.name}
+          navigate={navigation.navigate}
+          params={deck}
+          screen={"Ver Deck"}
+          isMarked={userRevisions?.some((rev) => rev?.id === deck.id)}
+        />
+      ))
+    );
+  }, [userRevisions, userDecks, filteredDecks]);
 
-  // console.log(userRevisions.length);
+  // console.log(JSON.stringify(userRevisions, null, 2));
+
+  // console.log(userRevisions);
 
   return (
-    <SafeAreaView className="bg-white flex-1 pb-[90px]">
+    <SafeAreaView className="flex-1 bg-white pb-[90px]">
       <ScrollView>
         <View className="px-6">
           <SearchInput
-            placeholder={'Pesquisar...'}
-            onChange={e =>
+            placeholder={"Pesquisar..."}
+            onChange={(e) =>
               handleSearch(e, setInputValue, setFilteredDecks, userDecks)
             }
             value={inputValue}
@@ -89,61 +96,64 @@ const Home = ({navigation}) => {
 
         {loading ? (
           <ActivityIndicator size={50} color={PURPLE} />
-        ) : render.length === 0 ? (
+        ) : render?.length === 0 ? (
           <>
-            <Text className="text-black text-lg font-bold text-center p-6">
+            <Text className="p-6 text-center text-lg font-bold text-black">
               Parece que não tem nenhum Deck aqui...
             </Text>
             <DeckComponent
-              title={'Comece criando um novo Deck!'}
+              title={"Comece criando um novo Deck!"}
               navigate={navigation.navigate}
-              screen={'Criar'}
+              screen={"Criar"}
               params={null}
             />
           </>
         ) : (
           <>
             {userRevisions.length > 0 && (
-              <View className="w-[100%] h-[130px] px-6 overflow-hidden">
+              <View className="h-[130px] w-[100%] overflow-hidden px-6">
                 <Swiper
                   backgroundColor="#ffffff00"
                   animateCardOpacity={true}
                   verticalSwipe={false}
                   cardIndex={0}
-                  stackSize={userRevisions?.length}
+                  stackSize={
+                    userRevisions?.length <= 3 ? userRevisions?.length : 3
+                  }
                   cards={userRevisions}
                   cardVerticalMargin={0}
                   cardHorizontalMargin={0}
                   infinite={true}
                   containerStyle={{
-                    position: 'relative',
+                    position: "relative",
                     flex: 1,
                   }}
                   cardStyle={{
-                    width: '100%',
+                    width: "100%",
                   }}
-                  renderCard={card => {
+                  renderCard={(card) => {
                     return (
                       <TouchableOpacity
                         onPress={() => {
-                          navigation.navigate('Ver Deck', card);
+                          navigation.navigate("Ver Deck", card);
                         }}
                         activeOpacity={0.95}
-                        className="w-full h-[85px] bg-[#292929] rounded-2xl items-center justify-between border-white border-[2px] flex-row">
+                        className="h-[85px] w-full flex-row items-center justify-between rounded-2xl border-[2px] border-white bg-[#292929]"
+                      >
                         <View className="m-4">
-                          <Text className="text-white text-lg font-bold">
+                          <Text className="text-lg font-bold text-white">
                             {card?.name}
                           </Text>
-                          <Text className="text-white text-xs">
+                          <Text className="text-xs text-white">
                             Você tem uma revisão marcada para hoje!
                           </Text>
                         </View>
-                        <View className="bg-white w-[30px] h-[30px] m-4 rounded-md justify-center">
+                        <View className="m-4 h-[30px] w-[30px] justify-center rounded-md bg-white">
                           <Chevron
                             size={2}
                             rotate={-90}
                             color="#292929"
-                            style={{top: 5, left: 2}}
+                            style={{ top: 5, left: 2 }}
                           />
                         </View>
                       </TouchableOpacity>
@@ -152,7 +162,7 @@ const Home = ({navigation}) => {
                 />
               </View>
             )}
-            <View className="flex-wrap flex-row px-6">{render}</View>
+            <View className="flex-row flex-wrap px-6">{render}</View>
           </>
         )}
       </ScrollView>

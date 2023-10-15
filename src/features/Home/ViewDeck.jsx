@@ -1,21 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
-import {Calendar} from 'react-native-calendars';
-import {FormBackgroundLayout, FormLayout} from '../../layouts/forms';
-import useHeaderRight from '../../hooks/useHeaderRight';
+import React, { useState, useEffect } from "react";
+import { View, Text, ActivityIndicator } from "react-native";
+import { Calendar } from "react-native-calendars";
+import { FormBackgroundLayout, FormLayout } from "../../layouts/forms";
+import useHeaderRight from "../../hooks/useHeaderRight";
 import {
   ButtonDialogueComponent,
   ButtonNavComponent,
   DeckComponent,
-} from '../../components';
-import {WHITE} from '../../constants/colors/layoutColors';
-import firestore from '@react-native-firebase/firestore';
-import {PURPLE} from '../../constants/colors/gradientColors';
+} from "../../components";
+import { WHITE } from "../../constants/colors/layoutColors";
+import firestore from "@react-native-firebase/firestore";
+import { PURPLE } from "../../constants/colors/gradientColors";
+import { deleteDeck } from "../../services/firestore";
 
-const ViewDeck = ({route, navigation}) => {
-  useHeaderRight(navigation, '#FFF');
-  const {name, id, uid, createdBy, createdAt, visibility, type} = route.params;
-  const [selected, setSelected] = useState('');
+const ViewDeck = ({ route, navigation }) => {
+  useHeaderRight(navigation, "#FFF");
+  const { name, id, uid, createdBy, createdAt, visibility, type } =
+    route.params;
+  const [selected, setSelected] = useState("");
   const [deckData, setDeckData] = useState([{}]);
   const [cards, setCards] = useState([{}]);
   const [loading, setLoading] = useState(true);
@@ -27,16 +29,16 @@ const ViewDeck = ({route, navigation}) => {
   let mm = today.getMonth() + 1; // Months start at 0!
   let dd = today.getDate();
 
-  if (dd < 10) dd = '0' + dd;
-  if (mm < 10) mm = '0' + mm;
+  if (dd < 10) dd = "0" + dd;
+  if (mm < 10) mm = "0" + mm;
 
   const formatDate = `${yyyy}-${mm}-${dd}`;
 
   useEffect(() => {
     const unsubscribe = firestore()
-      .collection('decks')
+      .collection("decks")
       .doc(id)
-      .onSnapshot(querySnapshot => {
+      .onSnapshot((querySnapshot) => {
         setLoading(true);
         const data = querySnapshot.data();
         if (data) {
@@ -50,10 +52,10 @@ const ViewDeck = ({route, navigation}) => {
     return () => unsubscribe();
   }, []);
 
-  const getCalendar = deckData => {
+  const getCalendar = (deckData) => {
     // Format and mark the dates
     const formattedDates = {};
-    deckData?.cards?.map(card => {
+    deckData?.cards?.map((card) => {
       const nextReviewDate = new Date(card.nextReview);
       const nextReviewYear = new Date(card.nextReview).getFullYear().toString();
       const nextReviewMonth = (
@@ -67,11 +69,11 @@ const ViewDeck = ({route, navigation}) => {
         nextReviewDate.toLocaleDateString() === today.toLocaleDateString()
           ? {
               selected: true,
-              selectedColor: '#ff00ed',
+              selectedColor: "#ff00ed",
             }
           : {
               selected: true,
-              selectedColor: '#292929',
+              selectedColor: "#292929",
             };
     });
 
@@ -80,7 +82,7 @@ const ViewDeck = ({route, navigation}) => {
 
   // Function to format dates with leading zeros
   function formatDateWithLeadingZeros(date) {
-    const parts = date.split('-');
+    const parts = date.split("-");
     const year = parts[0];
     const month = parts[1].length === 1 ? `0${parts[1]}` : parts[1];
     const day = parts[2].length === 1 ? `0${parts[2]}` : parts[2];
@@ -92,18 +94,18 @@ const ViewDeck = ({route, navigation}) => {
   return (
     <FormBackgroundLayout>
       {loading ? (
-        <ActivityIndicator size={50} color={'#FFF'} className="p-16" />
+        <ActivityIndicator size={50} color={"#FFF"} className="p-16" />
       ) : (
         <>
-          <View className="px-6 py-2 flex flex-row justify-between">
-            <Text className="text-white text-base font-bold">
+          <View className="flex flex-row justify-between px-6 py-2">
+            <Text className="text-base font-bold text-white">
               Por: {createdBy}
             </Text>
-            <Text className="text-white text-base font-bold">
+            <Text className="text-base font-bold text-white">
               Criado em: {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
             </Text>
           </View>
-          <View className="flex flex-row justify-center items-center w-full px-5 pt-5 pb-10">
+          <View className="flex w-full flex-row items-center justify-center px-5 pb-10 pt-5">
             <DeckComponent
               viewOnly={true}
               title={deckData.name}
@@ -111,28 +113,27 @@ const ViewDeck = ({route, navigation}) => {
             />
             <View className="grow px-5">
               <ButtonNavComponent
-                fullWidth={true}
-                title={'Cartas'}
+                title={"Cartas"}
                 navigation={navigation}
-                screen={'Editar Cartas'}
-                params={{id}}
+                screen={"Editar Cartas"}
+                params={{ id, uid }}
+                fullWidth={true}
               />
               <ButtonNavComponent
-                fullWidth={true}
-                title={'Editar Deck'}
+                title={"Editar Deck"}
                 navigation={navigation}
-                screen={'Editar Deck'}
-                params={{name, visibility, type, id}}
+                screen={"Editar Deck"}
+                params={{ name, visibility, type, id }}
+                fullWidth={true}
               />
               <ButtonDialogueComponent
-                time={300}
-                id={id}
+                title={"Excluir Deck"}
+                dialogText={"Deseja apagar este deck?"}
+                navigateFn={() => navigation.navigate("Home")}
                 useRemove={true}
-                uid={uid}
-                screen={'Home'}
-                navigation={navigation}
+                removeFn={() => deleteDeck(id, uid)}
+                time={300}
                 fullWidth={true}
-                title={'Excluir Deck'}
               />
             </View>
           </View>
@@ -149,7 +150,7 @@ const ViewDeck = ({route, navigation}) => {
                   marginBottom: 30,
                 }}
                 current={formatDate}
-                onDayPress={day => {
+                onDayPress={(day) => {
                   setSelected(day.dateString);
                 }}
                 hideArrows={true}
@@ -157,13 +158,13 @@ const ViewDeck = ({route, navigation}) => {
               />
             )}
 
-            <View className="justify-center items-center mb-40">
+            <View className="mb-40 items-center justify-center">
               <ButtonNavComponent
-                title={cards.length === 0 ? 'Adicione Cartas' : 'Revisar'}
+                title={cards.length === 0 ? "Adicione Cartas" : "Revisar"}
                 EnableGlow={true}
                 navigation={navigation}
-                screen={cards.length === 0 ? 'Editar Cartas' : 'Swipe'}
-                params={{name, id, uid, createdBy, createdAt, cards}}
+                screen={cards.length === 0 ? "Editar Cartas" : "Swipe"}
+                params={{ name, id, uid, createdBy, createdAt, cards }}
               />
             </View>
           </>
