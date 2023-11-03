@@ -6,7 +6,7 @@ import FlipCard from "react-native-flip-card";
 import { DARK_BLUE, PINK, PURPLE } from "../../constants/colors/gradientColors";
 import { FeedbackEasy, FeedbackHard } from "../../assets/images/svgs";
 import ProgressBar from "react-native-progress/Bar";
-import { updateCard } from "../../services/firestore";
+import { updateCard, updateCardsGroup } from "../../services/firestore";
 import { spacedRepetition } from "../../utils/spacedRepetition";
 
 const Swipe = ({ route, navigation }) => {
@@ -15,27 +15,29 @@ const Swipe = ({ route, navigation }) => {
   const [swipedAll, setSwipedAll] = useState(false);
   const [cardsToUpdate, setCardsToUpdate] = useState([]);
 
-  function batchUpdateCards() {
+  // console.log(cards);
+
+  function cardStreak(updatedCards, prevDifficulty) {
+    console.log(prevDifficulty);
+    if (
+      updatedCards.difficulty === prevDifficulty &&
+      !isNaN(updatedCards.difficultyStreak)
+    ) {
+      updatedCards.difficultyStreak += 1;
+    } else {
+      updatedCards.difficultyStreak = 0;
+    }
+  }
+
+  async function batchUpdateCards() {
     if (cardsToUpdate.length === 0) {
       return;
     }
-
-    cardsToUpdate.forEach(async (card) => {
-      console.log(card);
-      await updateCard(
-        card.content.question,
-        card.content.answer,
-        card.type,
-        card.id,
-        id,
-        card.cardIndex,
-        card.uid,
-        card.createdAt,
-        card.lastReviewed,
-        card.nextReview,
-        card.difficulty
-      );
-    });
+    try {
+      await updateCardsGroup(id, cardsToUpdate);
+    } catch (error) {
+      console.error("Error updating cards:", error);
+    }
   }
 
   useEffect(() => {
@@ -76,41 +78,37 @@ const Swipe = ({ route, navigation }) => {
         }}
         onSwipedRight={(cardIndex) => {
           // Define a dificuldade da carta como "fácil"
-          const updatedCards = [...cards];
+          const updatedCards = cards;
           updatedCards[cardIndex].difficulty = "easy";
           updatedCards[cardIndex].lastReviewed = Date.now();
-          updatedCards[cardIndex].nextReview = spacedRepetition("easy");
+          cardStreak(updatedCards[cardIndex], cards[cardIndex].difficulty);
+          updatedCards[cardIndex].nextReview = spacedRepetition(
+            "easy",
+            cards[cardIndex],
+            updatedCards[cardIndex].difficultyStreak
+          );
 
-          const cardToUpdate = updatedCards[cardIndex];
+          console.log(updatedCards[cardIndex]);
+
           // Atualize a lista de cartas no estado
-          setCardsToUpdate((prevState) => {
-            // Clone the existing array and append the new card object
-            const updatedCardsArray = [
-              ...prevState,
-              { ...cardToUpdate, cardIndex: cardIndex },
-            ];
-            return updatedCardsArray;
-          });
+          setCardsToUpdate(updatedCards);
 
           // console.log(updatedCards[cardIndex]);
         }}
         onSwipedLeft={(cardIndex) => {
           // Define a dificuldade da carta como "difícil"
-          const updatedCards = [...cards];
+          const updatedCards = cards;
           updatedCards[cardIndex].difficulty = "hard";
           updatedCards[cardIndex].lastReviewed = Date.now();
-          updatedCards[cardIndex].nextReview = spacedRepetition("hard");
+          cardStreak(updatedCards[cardIndex], cards[cardIndex].difficulty);
+          updatedCards[cardIndex].nextReview = spacedRepetition(
+            "hard",
+            cards[cardIndex],
+            updatedCards[cardIndex].difficultyStreak
+          );
+          console.log(updatedCards[cardIndex]);
           // Atualize a lista de cartas no estado
-          const cardToUpdate = updatedCards[cardIndex];
-          // Atualize a lista de cartas no estado
-          setCardsToUpdate((prevState) => {
-            // Clone the existing array and append the new card object
-            const updatedCardsArray = [
-              ...prevState,
-              { ...cardToUpdate, cardIndex: cardIndex },
-            ];
-            return updatedCardsArray;
-          });
+          setCardsToUpdate(updatedCards);
         }}
         renderCard={(card) => {
           return (

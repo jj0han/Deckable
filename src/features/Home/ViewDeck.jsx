@@ -8,7 +8,6 @@ import {
   ButtonNavComponent,
   DeckComponent,
 } from "../../components";
-import { WHITE } from "../../constants/colors/layoutColors";
 import firestore from "@react-native-firebase/firestore";
 import { PURPLE } from "../../constants/colors/gradientColors";
 import { deleteDeck } from "../../services/firestore";

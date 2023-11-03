@@ -107,6 +107,7 @@ const createCard = async (question, answer, type, deckID) => {
         lastReviewed: null,
         nextReview: null,
         difficulty: null,
+        difficultyStreak: 0,
       }),
     })
     .then(() => {
@@ -125,7 +126,8 @@ const updateCard = async (
   createdAt,
   lastReviewed,
   nextReview,
-  difficulty
+  difficulty,
+  difficultyStreak = 0
 ) => {
   const ref = firestore().collection("decks").doc(deckID);
   const snapshot = await ref.get();
@@ -144,12 +146,27 @@ const updateCard = async (
     lastReviewed: lastReviewed,
     nextReview: nextReview,
     difficulty: difficulty,
+    difficultyStreak: difficultyStreak,
   };
 
   cardsArray[index] = updatedCard;
 
   ref
     .update({ cards: cardsArray })
+    .then(() => {
+      console.log("Card edited!");
+    })
+    .catch((e) => {
+      console.log(e + "erro");
+    });
+};
+
+const updateCardsGroup = async (deckID, newCards) => {
+  const ref = firestore().collection("decks").doc(deckID);
+  // console.log(newCards);
+
+  ref
+    .update({ cards: newCards })
     .then(() => {
       console.log("Card edited!");
     })
@@ -179,5 +196,6 @@ export {
   importDeck,
   createCard,
   updateCard,
+  updateCardsGroup,
   deleteCard,
 };
