@@ -1,7 +1,7 @@
 import { View, Text, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import useHeaderRight from "../../hooks/useHeaderRight";
-import { FormBackgroundLayout, FormLayout } from "../../layouts/forms";
+import { FormBackgroundLayout, FormLayout } from "../../layouts";
 import {
   ButtonComponent,
   ButtonNavComponent,
@@ -28,8 +28,24 @@ const ViewOtherUserDeck = ({ route, navigation }) => {
 
   const date = new Date(createdAt);
 
+  function LogoTitle() {
+    return (
+      <View>
+        <Text className={"text-center text-lg font-bold text-white"}>
+          {name} de {createdBy}
+        </Text>
+        <Text className={"text-center text-xs font-medium text-white"}>
+          criado em {date.toLocaleDateString("pt-BR")}
+        </Text>
+      </View>
+    );
+  }
+
   useEffect(() => {
-    navigation.setOptions({ title: `Deck de ${createdBy}` });
+    navigation.setOptions({ headerTitle: (props) => <LogoTitle {...props} /> });
+  }, []);
+
+  useEffect(() => {
     if (isFocused) {
       setLoading(true);
       firestore()
@@ -76,26 +92,6 @@ const ViewOtherUserDeck = ({ route, navigation }) => {
               title={deckData.name}
               borderColor="#292929"
             />
-            <View className="grow justify-between px-5">
-              <View className="gap-2">
-                <Text className="text-base font-bold text-white">
-                  Por: {createdBy}
-                </Text>
-                <Text className="text-base font-bold text-white">
-                  Tipo: {deckData.type}
-                </Text>
-                <Text className="text-base font-bold text-white">
-                  Criado em: {date.toLocaleDateString("pt-BR")}
-                </Text>
-              </View>
-              <ButtonNavComponent
-                fullWidth={true}
-                title={"Cartas"}
-                navigation={navigation}
-                screen={"Editar Cartas"}
-                params={{ id, uid }}
-              />
-            </View>
           </View>
         )}
         <FormLayout grow={1}>
@@ -104,9 +100,16 @@ const ViewOtherUserDeck = ({ route, navigation }) => {
           ) : uid === auth().currentUser.uid ? null : (
             <>
               <View className="items-center justify-center">
+                <ButtonNavComponent
+                  title={"Ver Cartas"}
+                  EnableGlow
+                  navigation={navigation}
+                  screen={"Editar Cartas"}
+                  params={{ name, id, uid }}
+                />
                 <ButtonComponent
                   title={"Importar Deck"}
-                  EnableGlow={true}
+                  EnableGlow
                   handlePress={handlePress}
                 />
               </View>

@@ -46,8 +46,6 @@ const Home = ({ navigation }) => {
             const nextReviewDate = new Date(card.nextReview).toLocaleDateString(
               "pt-BR"
             );
-            // console.log(currentDate)
-            // console.log(nextReviewDate);~
             if (currentDate === nextReviewDate) {
               aux.push(deck);
             }
@@ -76,10 +74,6 @@ const Home = ({ navigation }) => {
       ))
     );
   }, [userRevisions, userDecks, filteredDecks]);
-
-  // console.log(JSON.stringify(userRevisions, null, 2));
-
-  // console.log(userRevisions);
 
   return (
     <SafeAreaView className="flex-1 bg-white pb-[90px]">

@@ -1,16 +1,9 @@
 import { BlurView } from "@react-native-community/blur";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Text, View, StyleSheet } from "react-native";
 import Dialog from "react-native-dialog";
 
-const ConfirmDialog = ({
-  title,
-  action,
-  handleCancel,
-  visible,
-  onlyConfirm = false,
-  labels = ["Cancelar", "Confirmar"],
-}) => {
+export default function LoadingDialog({ title, visible }) {
   return (
     visible && (
       <View
@@ -26,7 +19,6 @@ const ConfirmDialog = ({
         />
         <Dialog.Container
           visible={visible}
-          onBackdropPress={handleCancel}
           headerStyle={{ alignItems: "center" }}
           contentStyle={{ borderRadius: 15, backgroundColor: "#292929" }}
           footerStyle={{ justifyContent: "space-around" }}
@@ -34,26 +26,14 @@ const ConfirmDialog = ({
           <Dialog.Title>
             <Text className="font-semibold text-white">{title}</Text>
           </Dialog.Title>
-          {!onlyConfirm && (
-            <Dialog.Button
-              label={labels[0]}
-              onPress={handleCancel}
-              bold={true}
-              color={"#6E5DAD"}
-            />
-          )}
-          <Dialog.Button
-            label={labels[1]}
-            style={{ backgroundColor: "#6E5DAD", borderRadius: 7 }}
-            onPress={() => action()}
-            bold={true}
-            color={"#FFFFFF"}
-          />
+          <Dialog.Description>
+            <ActivityIndicator size={"large"} color={"#FFF"} />
+          </Dialog.Description>
         </Dialog.Container>
       </View>
     )
   );
-};
+}
 
 const styles = StyleSheet.create({
   absolute: {
@@ -64,5 +44,3 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
-
-export default ConfirmDialog;

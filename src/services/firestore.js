@@ -163,7 +163,7 @@ const updateCard = async (
 
 const updateCardsGroup = async (deckID, newCards) => {
   const ref = firestore().collection("decks").doc(deckID);
-  // console.log(newCards);
+  console.log(newCards);
 
   ref
     .update({ cards: newCards })

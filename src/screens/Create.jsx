@@ -3,8 +3,9 @@ import { Alert, View } from "react-native";
 import { Field } from "formik";
 import uuid from "react-native-uuid";
 import useHeaderRight from "../hooks/useHeaderRight";
-import { FormBackgroundLayout, FormLayout } from "../layouts/forms";
+import { FormBackgroundLayout, FormLayout } from "../layouts";
 import {
+  ConfirmDialog,
   DeckFormikComponent,
   FormikButton,
   FormikForm,
@@ -19,6 +20,7 @@ import { getDeckVisibility } from "../utils/getDeckVisibility";
 
 const Create = ({ navigation, route }) => {
   const { name, visibility, type, id } = route.params ?? {};
+  const [modalVisible, setModalVisible] = useState(false);
 
   const deckTypes = [
     { label: "Genérico", value: "gn" },
@@ -49,80 +51,102 @@ const Create = ({ navigation, route }) => {
 
   useHeaderRight(navigation, "#FFF");
 
+  const handleConfirm = () => {
+    setModalVisible(false);
+  };
+
+  const handlePress = () => {
+    setModalVisible(true);
+  };
+
   return (
-    <FormBackgroundLayout>
-      <FormikForm
-        initialValues={{
-          name: name ? name : "",
-        }}
-        onSubmit={(values, { resetForm }) => {
-          console.log(visibilityOptions, typeOptions);
-          if (route.params) {
-            updateDeck(values.name.trim(), id, visibilityOptions, typeOptions);
-            Alert.alert("Saved!");
-          } else {
-            const generatedID = uuid.v4();
-            createDeck(
-              values.name.trim(),
-              generatedID,
-              visibilityOptions,
-              typeOptions
-            );
-            navigation.navigate("Criar Carta", {
-              deckID: generatedID,
-            });
-            resetForm();
-          }
-        }}
-        validationSchema={createDeckSchema}
-        validateOnBlur={false}
-        validateOnChange={false}
-      >
-        <View className="h-2/5 items-center justify-center py-5">
-          <DeckFormikComponent
-            placeholder={"Digite um nome"}
-            borderColor="#292929"
-          />
-        </View>
-        <FormLayout height={0.6}>
-          <View className="mb-5 w-full">
-            <Field
-              component={FormikFormField}
-              name={"name"}
+    <>
+      <ConfirmDialog
+        title={"Deck salvo com sucesso!"}
+        visible={modalVisible}
+        onlyConfirm
+        action={handleConfirm}
+        labels={["OK", "OK"]}
+      />
+      <FormBackgroundLayout>
+        <FormikForm
+          initialValues={{
+            name: name ? name : "",
+          }}
+          onSubmit={(values, { resetForm }) => {
+            console.log(visibilityOptions, typeOptions);
+            if (route.params) {
+              updateDeck(
+                values.name.trim(),
+                id,
+                visibilityOptions,
+                typeOptions
+              );
+              handlePress();
+            } else {
+              const generatedID = uuid.v4();
+              createDeck(
+                values.name.trim(),
+                generatedID,
+                visibilityOptions,
+                typeOptions
+              );
+              navigation.navigate("Criar Carta", {
+                deckID: generatedID,
+              });
+              resetForm();
+            }
+          }}
+          validationSchema={createDeckSchema}
+          validateOnBlur={false}
+          validateOnChange={false}
+        >
+          <View className="h-2/5 items-center justify-center py-5">
+            <DeckFormikComponent
               placeholder={"Digite um nome"}
-            />
-            <View className="mt-4 w-full px-4">
-              <PickerSelectComponent
-                items={updatedDeckVisibility[0]}
-                setValue={setVisibilityOptions}
-                placeholder={
-                  updatedDeckVisibilityPlaceholder.length >= 1
-                    ? updatedDeckVisibilityPlaceholder[0]
-                    : updatedDeckVisibilityPlaceholder
-                }
-                label={"Quem vai poder ver meu Deck?"}
-              />
-            </View>
-            <View className="mt-4 w-full px-4">
-              <PickerSelectComponent
-                items={updatedDeckTypes[0]}
-                setValue={setTypeOptions}
-                placeholder={
-                  updatedDeckPlaceholder.length >= 1
-                    ? updatedDeckPlaceholder[0]
-                    : updatedDeckPlaceholder
-                }
-                label={"Meu Deck vai ser sobre..."}
-              />
-            </View>
-            <FormikButton
-              title={route.params ? "Salvar" : "Criar Deck"}
-              EnableGlow={true}
+              borderColor="#292929"
             />
           </View>
-        </FormLayout>
-      </FormikForm>
-    </FormBackgroundLayout>
+          <FormLayout height={0.6}>
+            <View className="mb-5 w-full">
+              <Field
+                component={FormikFormField}
+                name={"name"}
+                placeholder={"Digite um nome"}
+              />
+              <View className="mt-4 w-full px-4">
+                <PickerSelectComponent
+                  items={updatedDeckVisibility[0]}
+                  setValue={setVisibilityOptions}
+                  placeholder={
+                    updatedDeckVisibilityPlaceholder.length >= 1
+                      ? updatedDeckVisibilityPlaceholder[0]
+                      : updatedDeckVisibilityPlaceholder
+                  }
+                  label={"Quem vai poder ver meu Deck?"}
+                />
+              </View>
+              <View className="mt-4 w-full px-4">
+                <PickerSelectComponent
+                  items={updatedDeckTypes[0]}
+                  setValue={setTypeOptions}
+                  placeholder={
+                    updatedDeckPlaceholder.length >= 1
+                      ? updatedDeckPlaceholder[0]
+                      : updatedDeckPlaceholder
+                  }
+                  label={"Meu Deck vai ser sobre..."}
+                />
+              </View>
+              <FormikButton
+                title={route.params ? "Salvar" : "Criar Deck"}
+                EnableGlow={true}
+              />
+            </View>
+          </FormLayout>
+        </FormikForm>
+      </FormBackgroundLayout>
+    </>
   );
 };
 

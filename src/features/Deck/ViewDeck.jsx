@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { Calendar } from "react-native-calendars";
-import { FormBackgroundLayout, FormLayout } from "../../layouts/forms";
+import { FormBackgroundLayout, FormLayout } from "../../layouts";
 import useHeaderRight from "../../hooks/useHeaderRight";
 import {
   ButtonDialogueComponent,
@@ -32,6 +32,23 @@ const ViewDeck = ({ route, navigation }) => {
   if (mm < 10) mm = "0" + mm;
 
   const formatDate = `${yyyy}-${mm}-${dd}`;
+
+  function LogoTitle() {
+    return (
+      <View>
+        <Text className={"text-center text-lg font-bold text-white"}>
+          {name} de {createdBy}
+        </Text>
+        <Text className={"text-center text-xs font-medium text-white"}>
+          criado em {date.toLocaleDateString("pt-BR")}
+        </Text>
+      </View>
+    );
+  }
+
+  useEffect(() => {
+    navigation.setOptions({ headerTitle: (props) => <LogoTitle {...props} /> });
+  }, []);
 
   useEffect(() => {
     const unsubscribe = firestore()
@@ -89,6 +106,7 @@ const ViewDeck = ({ route, navigation }) => {
   }
 
   // console.log(JSON.stringify(markedDates, null, 2));
+  // console.log(cards);
 
   return (
     <FormBackgroundLayout>
@@ -96,14 +114,6 @@ const ViewDeck = ({ route, navigation }) => {
         <ActivityIndicator size={50} color={"#FFF"} className="p-16" />
       ) : (
         <>
-          <View className="flex flex-row justify-between px-6 py-2">
-            <Text className="text-base font-bold text-white">
-              Por: {createdBy}
-            </Text>
-            <Text className="text-base font-bold text-white">
-              Criado em: {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
-            </Text>
-          </View>
           <View className="flex w-full flex-row items-center justify-center px-5 pb-10 pt-5">
             <DeckComponent
               viewOnly={true}
@@ -115,7 +125,7 @@ const ViewDeck = ({ route, navigation }) => {
                 title={"Cartas"}
                 navigation={navigation}
                 screen={"Editar Cartas"}
-                params={{ id, uid }}
+                params={{ name, id, uid }}
                 fullWidth={true}
               />
               <ButtonNavComponent
@@ -138,7 +148,7 @@ const ViewDeck = ({ route, navigation }) => {
           </View>
         </>
       )}
-      <FormLayout grow={1} height={0.55}>
+      <FormLayout grow={1} height={0.65}>
         {loading ? (
           <ActivityIndicator size={50} color={PURPLE} className="p-16" />
         ) : (
@@ -163,7 +173,7 @@ const ViewDeck = ({ route, navigation }) => {
                 EnableGlow={true}
                 navigation={navigation}
                 screen={cards.length === 0 ? "Editar Cartas" : "Swipe"}
-                params={{ name, id, uid, createdBy, createdAt, cards }}
+                params={{ name, id, uid, cards }}
               />
             </View>
           </>

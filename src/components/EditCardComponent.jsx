@@ -27,13 +27,12 @@ const EditCardComponent = ({
   const handlePress = () => {
     !viewOnly &&
       navigation.navigate("Editar Carta", {
+        card: card,
         deckID: deckID,
         content: content,
         cardID: cardID,
         uid: card.uid,
         index: index,
-        type: card.type,
-        createdAt: card.createdAt,
       });
   };
 
@@ -62,10 +61,8 @@ const EditCardComponent = ({
         >
           {title.length > 60 ? `${title.slice(0, 60)}...` : title}
         </Text>
-        <Text>{card.difficulty}</Text>
-        <Text>{nextReview.toLocaleDateString("pt-BR")}</Text>
-        <Text className="break-words text-center text-base font-bold text-white">
-          {date.toLocaleDateString("pt-BR")}
+        <Text className="break-words text-center text-xs font-bold text-white">
+          data de revisão {nextReview.toLocaleDateString("pt-BR")}
         </Text>
       </View>
     </TouchableOpacity>

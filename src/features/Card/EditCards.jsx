@@ -1,8 +1,7 @@
 import { Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
-import { FormBackgroundLayout, FormLayout } from "../../layouts/forms";
+import { FormBackgroundLayout, FormLayout } from "../../layouts";
 import useHeaderRight from "../../hooks/useHeaderRight";
-import { WHITE } from "../../constants/colors/layoutColors";
 import {
   EditCardComponent,
   PickerSelectComponent,
@@ -18,12 +17,12 @@ export default function EditCards({ route, navigation }) {
   useHeaderRight(navigation, "#FFF");
   const [userCards, setUserCards] = useState([{}]);
   const [loading, setLoading] = useState(true);
-  const { id, uid } = route.params ?? {};
+  const { name, id, uid } = route.params ?? {};
   const [pickerType, setPickerType] = useState("NewestDate");
   const items = {
     types: [
-      { label: "Data mais recente", value: "NewestDate" },
-      { label: "Data mais antiga", value: "OldestDate" },
+      { label: "Data de criação mais recente", value: "NewestDate" },
+      { label: "Data de criação mais antiga", value: "OldestDate" },
     ],
   };
   const [inputValue, setInputValue] = useState("");
@@ -37,6 +36,10 @@ export default function EditCards({ route, navigation }) {
       cards,
     });
   };
+
+  useEffect(() => {
+    navigation.setOptions({ title: `Cartas de ${name}` });
+  }, []);
 
   useEffect(() => {
     const unsubscribe = firestore()
@@ -53,8 +56,6 @@ export default function EditCards({ route, navigation }) {
   }, []);
 
   const render = filteredCards?.map((card, index) => {
-    // console.log(card)
-    // console.log(card.content.question, index)
     const blocker = card.uid !== currentUser;
     return (
       <EditCardComponent
@@ -74,7 +75,7 @@ export default function EditCards({ route, navigation }) {
 
   return (
     <FormBackgroundLayout>
-      <View className="h-1/5 flex-1 ">
+      <View className="h-1/5 flex-1">
         <View className="px-6">
           <SearchInput
             placeholder={"Pesquisar..."}
@@ -94,7 +95,7 @@ export default function EditCards({ route, navigation }) {
             )}
           </SearchInput>
         </View>
-        <View className="mx-4 mt-9 flex-row items-center justify-between">
+        <View className="mx-4 mt-9 flex-row flex-wrap items-center justify-between">
           <PickerSelectComponent
             white={true}
             label="Ordenar"

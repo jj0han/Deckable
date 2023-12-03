@@ -6,7 +6,7 @@ import {
 import { BottomTabNavigator } from "../navigations";
 import { Create, Settings } from "../screens";
 import { CreateCard, EditCards, Swipe, ViewOtherUserDeck } from "../features";
-import ViewDeck from "../features/Home/ViewDeck";
+import ViewDeck from "../features/Deck/ViewDeck";
 
 const Stack = createStackNavigator();
 
@@ -48,6 +48,7 @@ function AppStack() {
         component={Settings}
         options={{
           ...TransitionPresets.ModalPresentationIOS,
+          headerTransparent: true,
         }}
       />
       <Stack.Screen name="Editar Deck" component={Create} />
@@ -56,7 +57,14 @@ function AppStack() {
       <Stack.Screen name="Ver Deck de Usuário" component={ViewOtherUserDeck} />
       <Stack.Screen name="Editar Cartas" component={EditCards} />
       <Stack.Screen name="Editar Carta" component={CreateCard} />
-      <Stack.Screen name="Swipe" component={Swipe} />
+      <Stack.Screen
+        name="Swipe"
+        component={Swipe}
+        options={{
+          headerTransparent: true,
+          headerLeft: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
