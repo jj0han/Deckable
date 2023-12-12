@@ -90,15 +90,15 @@ const importDeck = async (
 };
 
 //Cards CRUD
-const createCard = async (question, answer, type, deckID) => {
+const createCard = async (content, type, deckID) => {
   await firestore()
     .collection("decks")
     .doc(deckID)
     .update({
       cards: firestore.FieldValue.arrayUnion({
         content: {
-          question: question,
-          answer: answer,
+          question: content.question,
+          answer: content.answer,
         },
         id: uuid.v4(),
         uid: auth().currentUser.uid,
@@ -115,38 +115,25 @@ const createCard = async (question, answer, type, deckID) => {
     });
 };
 
-const updateCard = async (
-  question,
-  answer,
-  type,
-  cardID,
-  deckID,
-  index,
-  uid,
-  createdAt,
-  lastReviewed,
-  nextReview,
-  difficulty,
-  difficultyStreak = 0
-) => {
+const updateCard = async (cardID, deckID, index, content, type, card) => {
   const ref = firestore().collection("decks").doc(deckID);
   const snapshot = await ref.get();
 
-  const cardsArray = snapshot.get("cards");
+  let cardsArray = snapshot.get("cards");
 
   const updatedCard = {
     content: {
-      question: question,
-      answer: answer,
+      question: content.question,
+      answer: content.answer,
     },
     id: cardID,
-    uid: uid,
+    uid: card.uid,
     type: type,
-    createdAt: createdAt,
-    lastReviewed: lastReviewed,
-    nextReview: nextReview,
-    difficulty: difficulty,
-    difficultyStreak: difficultyStreak,
+    createdAt: card.createdAt,
+    lastReviewed: card.lastReviewed,
+    nextReview: card.nextReview,
+    difficulty: card.difficulty,
+    difficultyStreak: card.difficultyStreak,
   };
 
   cardsArray[index] = updatedCard;

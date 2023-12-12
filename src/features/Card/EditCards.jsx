@@ -56,7 +56,7 @@ export default function EditCards({ route, navigation }) {
   }, []);
 
   const render = filteredCards?.map((card, index) => {
-    const blocker = card.uid !== currentUser;
+    const blocker = uid !== currentUser;
     return (
       <EditCardComponent
         key={card?.id}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Alert } from "react-native";
+import { View } from "react-native";
 import { TabActions } from "@react-navigation/native";
 import { FormBackgroundLayout, FormLayout } from "../../layouts";
 import {
@@ -34,11 +34,6 @@ const CreateCard = ({ route, navigation }) => {
 
   const [cardType, setType] = useState(updatedCardTypePlaceholder[0].value);
 
-  // redefinindo a rota para Home
-  useEffect(() => {
-    navigation.dispatch(TabActions.jumpTo("Home"));
-  }, []);
-
   const handleConfirm = () => {
     setModalVisible(false);
   };
@@ -46,6 +41,11 @@ const CreateCard = ({ route, navigation }) => {
   const handlePress = () => {
     setModalVisible(true);
   };
+
+  // redefinindo a rota para Home
+  useEffect(() => {
+    navigation.dispatch(TabActions.jumpTo("Home"));
+  }, []);
 
   return (
     <>
@@ -68,29 +68,14 @@ const CreateCard = ({ route, navigation }) => {
           validateOnBlur={false}
           validateOnChange={false}
           onSubmit={(values, { resetForm }) => {
-            // console.log(values)
+            console.log(values);
             if (content) {
-              updateCard(
-                values.question,
-                values.answer,
-                card.type,
-                cardID,
-                deckID,
-                index,
-                card.uid,
-                card.createdAt,
-                card.lastReviewed,
-                card.nextReview,
-                card.difficulty,
-                card.difficultyStreak
-              );
+              updateCard(cardID, deckID, index, values, cardType, card);
               handlePress();
             } else {
-              createCard(values.question, values.answer, cardType, deckID).then(
-                () => {
-                  resetForm();
-                }
-              );
+              createCard(values, cardType, deckID).then(() => {
+                resetForm();
+              });
               handlePress();
             }
           }}
